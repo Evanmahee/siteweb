@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Nefelie — coach fitness et musculation. Coaching sur mesure en présentiel et en ligne pour sculpter ton corps et dépasser tes limites."
+    />
+    <title>Nefelie — Coach Fitness & Musculation</title>
+    <link rel="stylesheet" href="src/style.css" />
+    <meta name="color-scheme" content="light" />
+  </head>
+  <body class="page-home">
+    <div class="grain" aria-hidden="true"></div>
+
+    <main>
+      <section class="hero hero--immersive" id="top" aria-label="Accueil">
+        <div class="hero-im__visual" aria-hidden="true">
+          <div class="hero-im__photo"></div>
+          <div class="hero-im__readability"></div>
+          <div class="hero-im__shade"></div>
+        </div>
+
+        <div class="hero-im__shell">
+          <nav class="nav hero-im__nav" aria-label="Navigation principale">
+            <a class="hero-im__logo" href="index.html" aria-label="NC Coaching — accueil">
+              <img
+                class="hero-im__logo-img"
+                src="./assets/logo-nc-coaching.png"
+                width="571"
+                height="397"
+                alt="NC Coaching"
+                decoding="async"
+                fetchpriority="high"
+              />
+            </a>
+
+            <div class="hero-im__pill">
+              <ul class="hero-im__pill-links">
+                <li><a href="#a-propos">À propos</a></li>
+                <li><a href="#formules">Services</a></li>
+                <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
+              </ul>
+            </div>
+
+            <div class="hero-im__nav-actions">
+              <a
+                class="hero-btn hero-btn--secondary hero-im__nav-cta"
+                href="https://wa.me/33786810251"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="hero-btn__label">Contact</span>
+                <span class="hero-btn__arrow" aria-hidden="true"></span>
+              </a>
+              <button
+                class="nav__toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+                aria-label="Ouvrir le menu"
+              >
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+              </button>
+            </div>
+
+            <div id="nav-menu" class="nav__menu hero-im__drawer">
+              <ul class="nav__links">
+                <li><a href="#a-propos">À propos</a></li>
+                <li><a href="#formules">Services</a></li>
+                <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
+              </ul>
+              <a
+                class="hero-btn hero-btn--secondary hero-im__nav-cta"
+                href="https://wa.me/33786810251"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span class="hero-btn__label">Contact</span>
+                <span class="hero-btn__arrow" aria-hidden="true"></span>
+              </a>
+            </div>
+          </nav>
+
+          <div class="hero-im__main">
+            <div class="hero-im__copy">
+              <p class="hero-im__tag">Coach Fitness &amp; Musculation</p>
+              <div class="hero-im__headline">
+                <div class="hero-im__headline-title">
+                  <h1 class="hero-im__title">
+                    <span class="hero-im__title-line">Sculpte ton corps,</span>
+                    <span class="hero-im__title-line hero-im__title-line--gold">dépasse tes limites.</span>
+                  </h1>
+                </div>
+                <p class="hero-im__subtitle">
+                  Coaching sur mesure, en présentiel ou en ligne — technique, nutrition et suivi humain pour des résultats
+                  durables.
+                </p>
+              </div>
+              <div class="hero-im__ctas">
+                <a
+                  class="hero-btn hero-btn--primary"
+                  href="https://wa.me/33786810251"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <span class="hero-btn__label">Prendre rendez-vous</span>
+                  <span class="hero-btn__arrow" aria-hidden="true"></span>
+                </a>
+                <a class="hero-btn hero-btn--secondary" href="#formules">
+                  <span class="hero-btn__label">Découvrir</span>
+                  <span class="hero-btn__arrow" aria-hidden="true"></span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-im__social-proof" aria-label="Preuve sociale">
+            <div class="hero-im__social-proof-avatars" role="presentation">
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=5"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=9"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=12"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=15"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+            <p class="hero-im__social-proof-label">+200 personnes accompagnées</p>
+          </aside>
+        </div>
+      </section>
+
+      <section class="mes-services" aria-labelledby="mes-services-title">
+        <div class="mes-services__inner">
+          <h2 id="mes-services-title" class="mes-services__title">Mes Services</h2>
+          <div class="mes-services__grid" aria-label="Détail des prestations">
+            <article class="mes-services__card">
+              <h3 class="mes-services__card-title">Coaching individuel</h3>
+              <p class="mes-services__card-desc">Séances en présentiel, technique affinée et progression suivie de près.</p>
+            </article>
+            <article class="mes-services__card">
+              <h3 class="mes-services__card-title">Coaching en ligne</h3>
+              <p class="mes-services__card-desc">Programmes à distance, feedback vidéo et ajustements selon ton rythme.</p>
+            </article>
+            <article class="mes-services__card">
+              <h3 class="mes-services__card-title">Nutrition</h3>
+              <p class="mes-services__card-desc">Habitudes alimentaires alignées sur tes objectifs et ton quotidien.</p>
+            </article>
+            <article class="mes-services__card">
+              <h3 class="mes-services__card-title">Suivi premium</h3>
+              <p class="mes-services__card-desc">Accompagnement renforcé, priorité aux questions et objectifs ambitieux.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="about-editorial" id="a-propos" aria-label="À propos de Néfélie Courraud">
+        <div class="about-ed__photo-left">
+          <img src="assets/nefelie-editorial.png" alt="Néfélie" loading="lazy" decoding="async" />
+        </div>
+        <div class="about-ed__content reveal">
+          <h2 class="about-ed__title">Résultats durables, coaching sur-mesure</h2>
+          <div class="about-ed__cols">
+            <p>
+              J'accompagne mes clients vers une progression durable, construite sur des bases solides et une méthode
+              éprouvée. Mon approche mêle technique, nutrition et suivi humain — parce qu'un corps se transforme quand
+              tout est aligné.
+            </p>
+          </div>
+          <a
+            href="https://wa.me/33786810251"
+            class="hero-btn hero-btn--secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span class="hero-btn__label">Découvrir ma méthode</span>
+            <span class="hero-btn__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+      </section>
+
+      <section class="formules" id="formules" aria-labelledby="formules-title">
+        <div class="formules__inner reveal">
+          <div class="formules__text-block" aria-live="polite">
+            <h2 id="formules-title" class="formules__title">Mes accompagnements</h2>
+            <p id="formules-intro" class="formules__intro">
+              Un coaching qui s’adapte à ta vie — en salle ou à distance, au rythme qu’il te faut.
+            </p>
+            <div class="formules__segments" role="radiogroup" aria-label="Suivis ou autre">
+              <button
+                type="button"
+                role="radio"
+                class="formules__segment is-selected"
+                aria-checked="true"
+                data-mode="distance"
+              >
+                Suivis
+              </button>
+              <button type="button" role="radio" class="formules__segment" aria-checked="false" data-mode="autre">
+                Autre
+              </button>
+            </div>
+          </div>
+
+        <div id="formules-grid" class="formules__grid formules__grid--cols-2" data-formules-mode="distance">
+          <article class="formule-card reveal">
+            <header class="formule-card__head">
+              <span class="formule-card__badge" hidden>Populaire</span>
+              <div class="formule-card__head-text">
+                <h3 class="formule-card__duration">Suivi en distanciel</h3>
+                <p class="formule-card__tagline">3, 6 ou 12 mois · options à la carte</p>
+                <p class="formule-card__price" hidden></p>
+              </div>
+            </header>
+            <div class="formule-card__body">
+              <ul class="formule-card__list">
+                <li>Bilans à distance, ajustements du programme</li>
+                <li>Plan perso&nbsp;* (application)</li>
+                <li>Suivi nutritionnel</li>
+                <li>Analyse de vidéos</li>
+                <li>Adaptation selon tes retours</li>
+                <li>WhatsApp 5j/7 ou 7j/7 selon formule</li>
+                <li>Contenus d’accompagnement</li>
+                <li>Séances à la carte, cartes 5 ou 10</li>
+                <li>Bilan Inbody inclus selon l’offre</li>
+              </ul>
+            </div>
+          </article>
+
+          <article class="formule-card reveal">
+            <header class="formule-card__head">
+              <span class="formule-card__badge" hidden>Populaire</span>
+              <div class="formule-card__head-text">
+                <h3 class="formule-card__duration">Suivi en présentiel</h3>
+                <p class="formule-card__tagline">3, 6 ou 12 mois</p>
+                <p class="formule-card__price" hidden></p>
+              </div>
+            </header>
+            <div class="formule-card__body">
+              <ul class="formule-card__list">
+                <li>Bilans hebdomadaires</li>
+                <li>Plan perso&nbsp;*</li>
+                <li>Suivi nutritionnel</li>
+                <li>Ajustements via bilans</li>
+                <li>Analyse de vidéos</li>
+                <li>WhatsApp 7j/7</li>
+                <li>Contenus partagés</li>
+              </ul>
+            </div>
+          </article>
+        </div>
+
+        <p id="formules-note" class="formules__note">
+          *&nbsp;Bilan sans engagement avant lancement. Présentiel : volume, fréquence et priorités ajustés au premier bilan.
+        </p>
+
+        <div
+          class="formules-presentiel reveal"
+          id="coaching-presentiel-salle"
+          aria-labelledby="formules-presentiel-title"
+        >
+          <div class="formules-presentiel__split">
+            <div class="formules-presentiel__content">
+              <h2 id="formules-presentiel-title" class="formules-presentiel__title">
+                Suivi en présentiel, carte de séances ou encore séances ponctuelles en salle de sport (sans frais
+                supplémentaires même sans abonnement)
+              </h2>
+              <p class="formules-presentiel__desc">Veuillez me contacter</p>
+              <div class="formules-presentiel__address">
+                <p class="formules-presentiel__address-label">Adresse :</p>
+                <p class="formules-presentiel__address-name">L’Appart Fitness Vannes Ouest</p>
+                <p class="formules-presentiel__address-detail">53 Route Sainte Anne 56000 Vannes</p>
+                <p class="formules-presentiel__address-detail">Ouvert de 6h jusqu’à 23h00</p>
+              </div>
+            </div>
+            <figure class="formules-presentiel__media">
+              <img
+                class="formules-presentiel__img"
+                src="assets/coaching-presentiel.png"
+                width="576"
+                height="1024"
+                alt="Portrait en salle de sport — coaching en présentiel"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+
+        </div>
+      </section>
+
+      <section class="avis" id="temoignages" aria-labelledby="avis-title" aria-describedby="avis-count">
+        <div class="avis__inner reveal">
+          <h2 id="avis-title" class="avis__title">Témoignages</h2>
+          <p id="avis-count" class="avis__count">26 avis au total présents sur Google</p>
+
+          <div class="avis__grid" aria-label="Avis clients">
+            <div class="avis__col">
+              <article class="avis__card">
+                <header class="avis__card-head">
+                  <span class="avis__avatar avis__avatar--initial avis__avatar--tone-chestnut" aria-hidden="true">C</span>
+                  <div class="avis__card-meta">
+                    <p class="avis__name">Chistelle Becel</p>
+                    <p class="avis__tagline">il y a 3 semaines</p>
+                  </div>
+                  <span class="avis__g-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                </header>
+                <div class="avis__card-stars" aria-hidden="true">
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__verified" title="Avis Google vérifié"></span>
+                </div>
+                <div class="avis__quote">
+                  <p class="avis__text" id="avis-quote-1">
+                    Je ne peux que recommander Néfélie comme coach ! Passionnée, souriante et très professionnelle, elle a
+                    su répondre à mes attentes. Etant une femme de 55 ans avec beaucoup de douleurs, elle a su s’adapter et
+                    me soulager grâce à des exercices précis ! Elle est de très bon conseil, vous pouvez y aller les yeux
+                    fermés .
+                  </p>
+                  <button
+                    type="button"
+                    class="avis__toggle"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="avis-quote-1"
+                  >
+                    Voir plus
+                  </button>
+                </div>
+              </article>
+
+              <article class="avis__card">
+                <header class="avis__card-head">
+                  <span class="avis__avatar avis__avatar--initial avis__avatar--tone-forest" aria-hidden="true">J</span>
+                  <div class="avis__card-meta">
+                    <p class="avis__name">Julia Chassing</p>
+                    <p class="avis__tagline">il y a 1 mois</p>
+                  </div>
+                  <span class="avis__g-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                </header>
+                <div class="avis__card-stars" aria-hidden="true">
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__verified" title="Avis Google vérifié"></span>
+                </div>
+                <div class="avis__quote">
+                  <p class="avis__text" id="avis-quote-2">
+                    J’ai adoré être accompagnée par Nefelie. Elle est à l’écoute, compréhensible. Elle a beaucoup de
+                    maîtrise et est très claire dans les explications. Je la conseille sans aucun doute ☺️
+                  </p>
+                  <button
+                    type="button"
+                    class="avis__toggle"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="avis-quote-2"
+                  >
+                    Voir plus
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="avis__col">
+              <article class="avis__card">
+                <header class="avis__card-head">
+                  <span class="avis__avatar avis__avatar--initial avis__avatar--tone-brown" aria-hidden="true">J</span>
+                  <div class="avis__card-meta">
+                    <p class="avis__name">Jérémie c.</p>
+                    <p class="avis__tagline">il y a 1 mois</p>
+                  </div>
+                  <span class="avis__g-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                </header>
+                <div class="avis__card-stars" aria-hidden="true">
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__verified" title="Avis Google vérifié"></span>
+                </div>
+                <div class="avis__quote">
+                  <p class="avis__text" id="avis-quote-3">
+                    Je suis en suivi distanciel avec Néfélie depuis le Canada. Néfélie sait s’adapter et optimiser son
+                    coaching en fonction des besoins, des capacités et des problématiques. Passionnée et très investie, je
+                    vous recommande chaudement de la contacter !
+                  </p>
+                  <button
+                    type="button"
+                    class="avis__toggle"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="avis-quote-3"
+                  >
+                    Voir plus
+                  </button>
+                </div>
+              </article>
+
+              <article class="avis__card">
+                <header class="avis__card-head">
+                  <span class="avis__avatar avis__avatar--initial avis__avatar--tone-dark" aria-hidden="true">D</span>
+                  <div class="avis__card-meta">
+                    <p class="avis__name">Davy Ricaud</p>
+                    <p class="avis__tagline">il y a 5 mois</p>
+                  </div>
+                  <span class="avis__g-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                </header>
+                <div class="avis__card-stars" aria-hidden="true">
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__verified" title="Avis Google vérifié"></span>
+                </div>
+                <div class="avis__quote">
+                  <p class="avis__text" id="avis-quote-4">
+                    Néfélie est très à l’écoute, sait de quoi elle parle et est toujours souriante Un grand merci à elle de
+                    m’avoir accompagné durant 3 mois
+                  </p>
+                  <button
+                    type="button"
+                    class="avis__toggle"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="avis-quote-4"
+                  >
+                    Voir plus
+                  </button>
+                </div>
+              </article>
+            </div>
+
+            <div class="avis__col">
+              <article class="avis__card">
+                <header class="avis__card-head">
+                  <span class="avis__avatar avis__avatar--initial avis__avatar--tone-violet" aria-hidden="true">E</span>
+                  <div class="avis__card-meta">
+                    <p class="avis__name">Elif Tfkci</p>
+                    <p class="avis__tagline">il y a 6 mois</p>
+                  </div>
+                  <span class="avis__g-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                </header>
+                <div class="avis__card-stars" aria-hidden="true">
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__verified" title="Avis Google vérifié"></span>
+                </div>
+                <div class="avis__quote">
+                  <p class="avis__text" id="avis-quote-5">
+                    Je recommande vivement Néfélie ! Bienveillante et toujours à l’écoute, elle prend vraiment le temps
+                    d’expliquer chaque exercice et de montrer les mouvements pour que je progresse en toute sécurité.
+                    Grâce à son accompagnement motivant et professionnel, je me sens plus en confiance et j’avance à mon
+                    rythme. Une coach passionnée et investie comme on en trouve rarement ! 💪
+                  </p>
+                  <button
+                    type="button"
+                    class="avis__toggle"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="avis-quote-5"
+                  >
+                    Voir plus
+                  </button>
+                </div>
+              </article>
+
+              <article class="avis__card">
+                <header class="avis__card-head">
+                  <span
+                    class="avis__avatar avis__avatar--initial avis__avatar--tone-teal avis__avatar--lower"
+                    aria-hidden="true"
+                  >r</span>
+                  <div class="avis__card-meta">
+                    <p class="avis__name">redha boulfoul</p>
+                    <p class="avis__tagline">il y a 6 mois</p>
+                  </div>
+                  <span class="avis__g-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                      <path
+                        fill="#4285F4"
+                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                      />
+                      <path
+                        fill="#34A853"
+                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                      />
+                      <path
+                        fill="#FBBC05"
+                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                      />
+                      <path
+                        fill="#EA4335"
+                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                      />
+                    </svg>
+                  </span>
+                </header>
+                <div class="avis__card-stars" aria-hidden="true">
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__star avis__star--sm"></span>
+                  <span class="avis__verified" title="Avis Google vérifié"></span>
+                </div>
+                <div class="avis__quote">
+                  <p class="avis__text" id="avis-quote-6">
+                    J’ai la chance d’être accompagnée à distance par Nefelie, alors que je vis à Abu Dhabi, et c’est de
+                    loin l’un des meilleurs investissements que j’ai faits pour mon bien être. Grâce à son suivi sérieux et
+                    personnalisé, j’ai pu adopter un nouveau régime alimentaire sain, sans aucune sensation de privation,
+                    et j’ai réussi à perdre près de 8kg en seulement trois mois. Dès le début, elle m’a donné des exercices
+                    adaptés à ma salle de sport, et nous entamons maintenant la phase de construction musculaire avec un
+                    programme sur mesure pour moi. Néfélie est très professionnelle : bilan hebdomadaire, toujours
+                    disponible pour répondre à mes questions, et elle prend même le temps de corriger ma technique à
+                    distance grâce aux vidéos que je lui transmets. Cet accompagnement a vraiment changé ma manière de
+                    m’alimenter et de m’entraîner. Je recommande Néfélie sans hésitation !
+                  </p>
+                  <button
+                    type="button"
+                    class="avis__toggle"
+                    hidden
+                    aria-expanded="false"
+                    aria-controls="avis-quote-6"
+                  >
+                    Voir plus
+                  </button>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <div
+      class="sticky-cta-home"
+      id="sticky-cta-home"
+      role="navigation"
+      aria-label="Navigation"
+      aria-hidden="true"
+    >
+      <div class="sticky-cta-home__inner">
+        <a class="sticky-cta-home__brand" href="index.html" aria-label="NC Coaching — accueil" tabindex="-1">
+          <img
+            class="sticky-cta-home__brand-logo"
+            src="./assets/logo-nc-footer.png"
+            width="477"
+            height="399"
+            alt="NC Coaching"
+            decoding="async"
+          />
+        </a>
+        <ul class="sticky-cta-home__links">
+          <li><a href="#a-propos" tabindex="-1">À propos</a></li>
+          <li><a href="#formules" tabindex="-1">Services</a></li>
+          <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
+        </ul>
+        <div class="sticky-cta-home__actions">
+          <a
+            class="hero-btn hero-btn--secondary sticky-cta-home__contact"
+            href="https://wa.me/33786810251"
+            target="_blank"
+            rel="noopener noreferrer"
+            tabindex="-1"
+          >
+            <span class="hero-btn__label">Contact</span>
+            <span class="hero-btn__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer footer--nc">
+      <div class="footer__inner">
+        <div class="footer__social" aria-label="Réseaux sociaux">
+          <a
+            class="footer__social-link"
+            href="https://www.instagram.com/nefelie_cd/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram — @nefelie_cd"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4.25" />
+              <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a
+            class="footer__social-link"
+            href="https://www.youtube.com/watch?v=NzWhNgRpdrM"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube — Nefelie"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.07 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              />
+            </svg>
+          </a>
+        </div>
+        <hr class="footer__rule" />
+        <p class="footer__legal">
+          <span class="footer__legal-txt">Copyright ©<span data-year></span> – </span>
+          <a class="footer__legal-link footer__legal-link--gold" href="mentions-legales.html">Mentions légales</a>
+          <span class="footer__legal-txt"> – Tous droits réservés – Site réalisé par </span>
+          <a class="footer__legal-link" href="https://wemanagewp.com/" target="_blank" rel="noopener noreferrer">We Manage WP</a>
+        </p>
+      </div>
+    </footer>
+
+    <script src="src/main.js" defer></script>
+  </body>
+</html>
