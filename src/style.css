@@ -932,6 +932,27 @@ main {
   font-size: 15px;
 }
 
+.hero-im__ctas .hero-btn--secondary .hero-btn__label {
+  height: 46px;
+}
+
+/* CTA principal : « Contact » (mobile) / « Prendre rendez-vous » (≥901px, aligné nav drawer) */
+.hero--immersive .hero-im__cta-primary-label--lg {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .hero--immersive .hero-im__cta-primary-label--sm {
+    display: none !important;
+  }
+
+  .hero--immersive .hero-im__cta-primary-label--lg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
 /* ——— Hero CTAs (pilule + disque flèche, ref) ——— */
 .hero-btn {
   display: inline-flex;
