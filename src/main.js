@@ -105,8 +105,10 @@
         },
         {
           root: null,
-          threshold: 0.12,
-          rootMargin: "0px 0px -40px 0px",
+          /* 0 : déclenche dès qu’un pixel est visible — les blocs très hauts (ex. formules)
+             ne atteignent pas toujours 12 % de ratio d’intersection selon les navigateurs. */
+          threshold: 0,
+          rootMargin: "0px 0px -24px 0px",
         }
       );
 
