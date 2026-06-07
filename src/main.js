@@ -160,10 +160,26 @@
     });
   }
 
-  /* Témoignages — aperçu + Voir plus / Cacher */
+  /* Témoignages — aperçu + Voir plus / Cacher (délégation : un seul listener, fiable après resize/fonts) */
   function initAvisToggles() {
     var section = document.querySelector("#temoignages");
     if (!section) return;
+
+    if (!section.dataset.avisDelegated) {
+      section.dataset.avisDelegated = "1";
+      section.addEventListener("click", function (e) {
+        var t = e.target;
+        if (!t || !t.closest) return;
+        var btn = t.closest(".avis__toggle");
+        if (!btn || !section.contains(btn) || btn.hidden) return;
+        e.preventDefault();
+        var card = btn.closest(".avis__card");
+        if (!card || !section.contains(card)) return;
+        var on = card.classList.toggle("avis__card--expanded");
+        btn.setAttribute("aria-expanded", on ? "true" : "false");
+        btn.textContent = on ? "Cacher" : "Voir plus";
+      });
+    }
 
     function measureOne(card) {
       var text = card.querySelector(".avis__text");
@@ -190,17 +206,6 @@
         btn.hidden = true;
       }
     }
-
-    section.querySelectorAll(".avis__card").forEach(function (card) {
-      var btn = card.querySelector(".avis__toggle");
-      if (!btn || card.dataset.avisToggleBound) return;
-      card.dataset.avisToggleBound = "1";
-      btn.addEventListener("click", function () {
-        var on = card.classList.toggle("avis__card--expanded");
-        btn.setAttribute("aria-expanded", on ? "true" : "false");
-        btn.textContent = on ? "Cacher" : "Voir plus";
-      });
-    });
 
     section.querySelectorAll(".avis__card").forEach(measureOne);
   }
