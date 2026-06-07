@@ -6,87 +6,173 @@
     <meta name="description" content="Contact — Nefelie, coach fitness et musculation. Écrivez-nous pour votre projet." />
     <title>Contact — Nefelie</title>
     <link rel="stylesheet" href="src/style.css" />
-    <meta name="color-scheme" content="light" />
+    <link rel="stylesheet" href="src/contact-dark.css" />
+    <meta name="color-scheme" content="dark light" />
   </head>
-  <body>
+  <body class="page-contact">
     <div class="grain" aria-hidden="true"></div>
 
     <header class="site-header" id="top">
-      <nav class="nav" aria-label="Navigation principale">
-        <a class="nav__logo" href="index.html">NEFELIE</a>
-        <div class="nav__spacer" aria-hidden="true"></div>
+      <nav class="nav hero-im__nav" aria-label="Navigation principale">
+        <a class="hero-im__logo" href="index.html" aria-label="NC Coaching — accueil">
+          <img
+            class="hero-im__logo-img"
+            src="./assets/logo-nc-coaching.png"
+            width="571"
+            height="397"
+            alt="NC Coaching"
+            decoding="async"
+          />
+        </a>
 
-        <div class="nav__menu" id="nav-menu">
-          <ul class="nav__links">
-            <li><a href="index.html#a-propos">À propos</a></li>
-            <li><a href="index.html#formules">Services</a></li>
+        <div class="hero-im__pill">
+          <ul class="hero-im__pill-links">
+            <li><a href="a-propos.html">À propos</a></li>
+            <li><a href="index.html#formules">Programmes</a></li>
             <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
           </ul>
-          <a class="btn btn--nav" href="contact.html">Nous contacter</a>
         </div>
 
-        <button
-          class="nav__toggle"
-          type="button"
-          aria-expanded="false"
-          aria-controls="nav-menu"
-          aria-label="Ouvrir le menu"
-        >
-          <span class="nav__toggle-bar"></span>
-          <span class="nav__toggle-bar"></span>
-          <span class="nav__toggle-bar"></span>
-        </button>
+        <div class="hero-im__nav-actions">
+          <button
+            class="nav__toggle"
+            type="button"
+            aria-expanded="false"
+            aria-controls="nav-menu"
+            aria-label="Ouvrir le menu"
+          >
+            <span class="nav__toggle-bar"></span>
+            <span class="nav__toggle-bar"></span>
+            <span class="nav__toggle-bar"></span>
+          </button>
+        </div>
+
+        <div id="nav-menu" class="nav__menu hero-im__drawer">
+          <button type="button" class="nav__drawer-close" aria-label="Fermer le menu">
+            <svg class="nav__drawer-close-icon" width="22" height="22" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path
+                d="M6 6l12 12M18 6L6 18"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+          <ul class="nav__links">
+            <li><a href="a-propos.html">À propos</a></li>
+            <li><a href="index.html#formules">Programmes</a></li>
+            <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
+          </ul>
+          <a
+            class="hero-btn hero-btn--secondary hero-im__nav-cta"
+            href="contact.html"
+            aria-current="page"
+          >
+            <span class="hero-btn__label">Contact</span>
+            <span class="hero-btn__arrow" aria-hidden="true"></span>
+          </a>
+        </div>
       </nav>
     </header>
 
-    <main>
-      <section class="section contact">
-        <div class="contact__glow" aria-hidden="true"></div>
-        <div class="contact__layout">
-          <div class="contact__intro reveal">
-            <p class="eyebrow">Contact</p>
-            <h1 class="section__title">Parlons de ton prochain palier</h1>
-            <p>
-              Décris-moi ton contexte et l'objectif que tu veux atteindre dans les trois prochains mois.
-              Je te réponds personnellement avec la formule la plus adaptée — et les prochaines étapes
-              si on décide de travailler ensemble.
-            </p>
-            <p class="contact__note">
-              Réponse sous 48&nbsp;h ouvrées. Aucun engagement avant notre premier échange.
-            </p>
+    <main id="contenu-principal">
+      <section class="contact-dark" aria-labelledby="contact-dark-title">
+        <div class="contact-dark__inner">
+          <div class="contact-dark__grid">
+            <div class="contact-dark__intro reveal">
+              <img
+                class="contact-dark__avatar"
+                src="assets/nefelie-editorial.png"
+                alt=""
+                width="112"
+                height="112"
+                loading="eager"
+                decoding="async"
+              />
+              <h1 id="contact-dark-title" class="contact-dark__title">Prenons<br />contact</h1>
+              <p class="contact-dark__lead">
+                Prêt à passer au niveau suivant&nbsp;? Écris-moi aujourd’hui et construisons ensemble un plan
+                d’entraînement et de suivi adapté à ton quotidien.
+              </p>
+              <hr class="contact-dark__rule" />
+              <div class="contact-dark__channels">
+                <p class="contact-dark__channel contact-dark__channel--static">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.44 12.44 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.44 12.44 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                  <span>Téléphone : indique-le en option dans le formulaire si tu souhaites un rappel.</span>
+                </p>
+                <a class="contact-dark__channel" href="mailto:contact@nefelie.fr">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                    <path d="m22 6-10 7L2 6" />
+                  </svg>
+                  <span>contact@nefelie.fr</span>
+                </a>
+                <a class="contact-dark__channel" href="https://www.instagram.com/nefelie_cd/" target="_blank" rel="noopener noreferrer">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+                    <rect x="3" y="3" width="18" height="18" rx="5" />
+                    <circle cx="12" cy="12" r="4.25" />
+                    <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none" />
+                  </svg>
+                  <span>@nefelie_cd sur Instagram</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="contact-dark__form-wrap reveal">
+              <div class="contact-dark__card">
+                <form id="contact-form" class="contact-form contact-form--dark" action="#" method="post" novalidate>
+                  <div class="contact-form__grid2">
+                    <div class="field">
+                      <label for="nom">Nom *</label>
+                      <input id="nom" name="nom" type="text" autocomplete="name" placeholder="Marie Dupont" required />
+                    </div>
+                    <div class="field">
+                      <label for="email">E-mail *</label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autocomplete="email"
+                        placeholder="exemple@email.com"
+                        required
+                      />
+                    </div>
+                    <div class="field">
+                      <label for="telephone">Téléphone <span class="contact-dark__optional">(optionnel)</span></label>
+                      <input id="telephone" name="telephone" type="tel" autocomplete="tel" placeholder="+33 6 00 00 00 00" />
+                    </div>
+                    <div class="field">
+                      <label for="programme">Formule <span class="contact-dark__optional">(optionnel)</span></label>
+                      <select id="programme" name="programme">
+                        <option value="" selected>Sélectionner…</option>
+                        <option value="individuel">Coaching individuel</option>
+                        <option value="ligne">Coaching en ligne</option>
+                        <option value="nutrition">Plan nutrition</option>
+                        <option value="combo">Pack complet</option>
+                        <option value="inconnu">Je ne sais pas encore</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="field field--full">
+                    <label for="message">Message *</label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows="5"
+                      placeholder="Décris ton objectif, ton niveau, tes contraintes…"
+                      required
+                    ></textarea>
+                  </div>
+                  <button class="contact-dark__submit" type="submit">
+                    Envoyer le formulaire
+                  </button>
+                </form>
+              </div>
+            </div>
           </div>
-          <form class="contact-form reveal" action="#" method="post" novalidate>
-            <div class="field">
-              <label for="prenom">Prénom</label>
-              <input id="prenom" name="prenom" type="text" autocomplete="given-name" required />
-            </div>
-            <div class="field">
-              <label for="email">Email</label>
-              <input id="email" name="email" type="email" autocomplete="email" required />
-            </div>
-            <div class="field">
-              <label for="programme">Programme souhaité</label>
-              <select id="programme" name="programme" required>
-                <option value="" disabled selected hidden>Choisis une option</option>
-                <option value="individuel">Coaching individuel</option>
-                <option value="ligne">Coaching en ligne</option>
-                <option value="nutrition">Plan nutrition</option>
-                <option value="combo">Pack complet (entraînement + nutrition)</option>
-                <option value="inconnu">Je ne sais pas encore — conseille-moi</option>
-              </select>
-            </div>
-            <div class="field field--full">
-              <label for="message">Ton message</label>
-              <textarea
-                id="message"
-                name="message"
-                rows="5"
-                placeholder="Âge, expérience en salle, objectif, contraintes horaires…"
-                required
-              ></textarea>
-            </div>
-            <button class="btn btn--primary btn--block" type="submit">Envoyer ma demande</button>
-          </form>
         </div>
       </section>
     </main>
