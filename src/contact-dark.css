@@ -117,7 +117,7 @@ body.page-apropos .nav__links a[aria-current="page"] {
 
   :is(body.page-contact, body.page-apropos) .site-header .hero-im__nav {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
     align-items: center;
     justify-content: normal;
     column-gap: 16px;
@@ -127,16 +127,23 @@ body.page-apropos .nav__links a[aria-current="page"] {
     justify-self: start;
   }
 
+  :is(body.page-contact, body.page-apropos) .site-header .hero-im__nav-end {
+    justify-self: end;
+    margin-left: 0;
+    gap: clamp(0.85rem, 2.2vw, 1.5rem);
+  }
+
   :is(body.page-contact, body.page-apropos) .site-header .hero-im__pill {
     position: static;
     left: auto;
     top: auto;
     transform: none;
-    justify-self: end;
   }
 
   :is(body.page-contact, body.page-apropos) .site-header .hero-im__nav-actions {
-    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
     margin-left: 0;
   }
 

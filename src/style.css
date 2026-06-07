@@ -779,12 +779,23 @@ main {
   color: var(--gold);
 }
 
+/* Groupe desktop : liens pilule + Contact (mobile : burger seul à droite) */
+.hero-im__nav-end {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: clamp(0.75rem, 2vw, 1.35rem);
+  margin-left: auto;
+  min-width: 0;
+}
+
 .hero-im__nav-actions {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  margin-left: auto;
+  margin-left: 0;
   font-size: 14px;
 }
 
@@ -1201,12 +1212,14 @@ main {
     display: none !important;
   }
 
-  /* Barre droite : uniquement burger (masqué ici) — Contact est dans le drawer mobile */
+  /* Logo | (pilule + Contact côte à côte à droite) */
   .hero--immersive .hero-im__nav-actions {
-    display: none;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-left: 0;
   }
 
-  /* Logo | liens (alignés vers la droite) */
   .hero--immersive .hero-im__nav {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -1219,16 +1232,27 @@ main {
     justify-self: start;
   }
 
+  .hero--immersive .hero-im__nav-end {
+    justify-self: end;
+    margin-left: 0;
+    gap: clamp(0.85rem, 2.2vw, 1.5rem);
+  }
+
   .hero--immersive .hero-im__pill {
     position: static;
     left: auto;
     top: auto;
     transform: none;
-    justify-self: end;
   }
 }
 
 @media (max-width: 900px) {
+  /* Bouton Contact header desktop : doublon avec le drawer mobile (accueil + Contact + À propos) */
+  .hero--immersive .hero-im__nav-cta--desktop,
+  :is(body.page-contact, body.page-apropos) .hero-im__nav-cta--desktop {
+    display: none !important;
+  }
+
   .hero-im__pill {
     display: none;
   }
@@ -1278,7 +1302,6 @@ main {
     justify-content: center;
     align-self: center;
     gap: 0.45rem;
-    margin-left: auto;
   }
 
   /* Contact / À propos : header sticky, burger 44px — aligner la zone logo */
@@ -1454,6 +1477,13 @@ main {
 /* Page À propos : léger retrait sous le header (le <main> est déjà sous la nav en flux) */
 .page-apropos .apropos-hero-grid {
   padding-top: clamp(0.35rem, 1.2vw, 0.85rem);
+}
+
+/* Pages Contact & À propos : pas d’animation reveal — contenu lisible sans JS ou si l’IO échoue (prod). */
+:is(body.page-contact, body.page-apropos) .reveal {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
 /* Hero « About me » — image + cartes */
@@ -2328,6 +2358,9 @@ main {
   margin-inline: auto;
   margin-block: 0;
   padding-bottom: clamp(3rem, 10vh, 7rem);
+  /* Les slots ont z-index : sans isolation, la couche sticky peut peindre au-dessus
+     des frères suivants (.formules-presentiel, puis #temoignages). */
+  isolation: isolate;
 }
 
 .formules-stack__slot {
@@ -2761,6 +2794,8 @@ main {
 
 /* Bloc présentiel / salle (sous les cartes formules) */
 .formules-presentiel {
+  position: relative;
+  z-index: 1;
   margin-top: clamp(2.25rem, 5vw, 3.25rem);
   padding-top: clamp(1.75rem, 4vw, 2.5rem);
   border-top: 1px solid var(--hairline);
@@ -3349,6 +3384,8 @@ main {
 
 /* ——— Témoignages / avis (accueil, avant footer) ——— */
 .avis {
+  position: relative;
+  z-index: 2;
   padding: 0 var(--page-gutter-x);
   background: var(--bg);
   color: var(--text);

@@ -91,30 +91,44 @@
   /* IntersectionObserver — fadeUp */
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  function revealAllNow() {
+    document.querySelectorAll(".reveal").forEach(function (el) {
+      el.classList.add("is-visible");
+    });
+  }
+
   if (!reduceMotion) {
     var revealEls = document.querySelectorAll(".reveal");
     if (revealEls.length) {
-      var io = new IntersectionObserver(
-        function (entries) {
-          entries.forEach(function (entry) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              io.unobserve(entry.target);
+      if (typeof IntersectionObserver === "undefined") {
+        revealAllNow();
+      } else {
+        try {
+          var io = new IntersectionObserver(
+            function (entries) {
+              entries.forEach(function (entry) {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("is-visible");
+                  io.unobserve(entry.target);
+                }
+              });
+            },
+            {
+              root: null,
+              /* 0 : déclenche dès qu’un pixel est visible — les blocs très hauts (ex. formules)
+                 ne atteignent pas toujours 12 % de ratio d’intersection selon les navigateurs. */
+              threshold: 0,
+              rootMargin: "0px 0px -24px 0px",
             }
-          });
-        },
-        {
-          root: null,
-          /* 0 : déclenche dès qu’un pixel est visible — les blocs très hauts (ex. formules)
-             ne atteignent pas toujours 12 % de ratio d’intersection selon les navigateurs. */
-          threshold: 0,
-          rootMargin: "0px 0px -24px 0px",
-        }
-      );
+          );
 
-      revealEls.forEach(function (el) {
-        io.observe(el);
-      });
+          revealEls.forEach(function (el) {
+            io.observe(el);
+          });
+        } catch (err) {
+          revealAllNow();
+        }
+      }
     }
   } else {
     document.querySelectorAll(".reveal").forEach(function (el) {
