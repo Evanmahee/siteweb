@@ -91,27 +91,20 @@
         <div class="contact-dark__inner">
           <div class="contact-dark__grid">
             <div class="contact-dark__intro reveal">
-              <img
-                class="contact-dark__avatar"
-                src="assets/nefelie-editorial.png"
-                alt=""
-                width="112"
-                height="112"
-                loading="eager"
-                decoding="async"
-              />
-              <h1 id="contact-dark-title" class="contact-dark__title">Prenons<br />contact</h1>
-              <p class="contact-dark__lead">
-                Prêt à passer au niveau suivant&nbsp;? Écris-moi aujourd’hui et construisons ensemble un plan
-                d’entraînement et de suivi adapté à ton quotidien.
-              </p>
+              <div class="contact-dark__intro-copy">
+                <h1 id="contact-dark-title" class="contact-dark__title">Prenons contact</h1>
+                <p class="contact-dark__lead">
+                  Prêt à passer au niveau suivant&nbsp;? Écris-moi aujourd’hui et construisons ensemble un plan
+                  d’entraînement et de suivi adapté à ton quotidien.
+                </p>
+              </div>
               <hr class="contact-dark__rule" />
               <div class="contact-dark__channels">
                 <p class="contact-dark__channel contact-dark__channel--static">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.44 12.44 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.44 12.44 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
-                  <span>Téléphone : indique-le en option dans le formulaire si tu souhaites un rappel.</span>
+                  <span>Indique-le en option dans le formulaire.</span>
                 </p>
                 <a class="contact-dark__channel" href="mailto:contact@nefelie.fr">
                   <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
@@ -136,8 +129,26 @@
                 <form id="contact-form" class="contact-form contact-form--dark" action="#" method="post" novalidate>
                   <div class="contact-form__grid2">
                     <div class="field">
+                      <label for="prenom">Prénom *</label>
+                      <input
+                        id="prenom"
+                        name="prenom"
+                        type="text"
+                        autocomplete="given-name"
+                        placeholder="Prénom"
+                        required
+                      />
+                    </div>
+                    <div class="field">
                       <label for="nom">Nom *</label>
-                      <input id="nom" name="nom" type="text" autocomplete="name" placeholder="Marie Dupont" required />
+                      <input
+                        id="nom"
+                        name="nom"
+                        type="text"
+                        autocomplete="family-name"
+                        placeholder="Nom de famille"
+                        required
+                      />
                     </div>
                     <div class="field">
                       <label for="email">E-mail *</label>
@@ -146,26 +157,173 @@
                         name="email"
                         type="email"
                         autocomplete="email"
-                        placeholder="exemple@email.com"
+                        placeholder="ton@email.com"
                         required
                       />
                     </div>
                     <div class="field">
                       <label for="telephone">Téléphone <span class="contact-dark__optional">(optionnel)</span></label>
-                      <input id="telephone" name="telephone" type="tel" autocomplete="tel" placeholder="+33 6 00 00 00 00" />
+                      <input id="telephone" name="telephone" type="tel" autocomplete="tel" placeholder="+33 6…" />
                     </div>
                     <div class="field">
-                      <label for="programme">Formule <span class="contact-dark__optional">(optionnel)</span></label>
-                      <select id="programme" name="programme">
-                        <option value="" selected>Sélectionner…</option>
-                        <option value="individuel">Coaching individuel</option>
-                        <option value="ligne">Coaching en ligne</option>
-                        <option value="nutrition">Plan nutrition</option>
-                        <option value="combo">Pack complet</option>
-                        <option value="inconnu">Je ne sais pas encore</option>
+                      <label for="age">Âge <span class="contact-dark__optional">(optionnel)</span></label>
+                      <input
+                        id="age"
+                        name="age"
+                        type="number"
+                        inputmode="numeric"
+                        min="12"
+                        max="120"
+                        placeholder="Ex : 28"
+                      />
+                    </div>
+                    <div class="field">
+                      <label for="genre">Genre <span class="contact-dark__optional">(optionnel)</span></label>
+                      <select id="genre" name="genre">
+                        <option value="" selected>Choisir…</option>
+                        <option value="femme">Femme</option>
+                        <option value="homme">Homme</option>
+                        <option value="non-binaire">Non-binaire</option>
+                        <option value="autre">Autre</option>
+                        <option value="prefere-ne-pas-dire">Préfère ne pas dire</option>
                       </select>
                     </div>
+                    <div class="field">
+                      <label for="taille">Taille (cm) <span class="contact-dark__optional">(optionnel)</span></label>
+                      <input
+                        id="taille"
+                        name="taille_cm"
+                        type="number"
+                        inputmode="numeric"
+                        min="120"
+                        max="230"
+                        placeholder="Ex : 165"
+                      />
+                    </div>
+                    <div class="field">
+                      <label for="poids">Poids actuel (kg) <span class="contact-dark__optional">(optionnel)</span></label>
+                      <input
+                        id="poids"
+                        name="poids_kg"
+                        type="number"
+                        inputmode="decimal"
+                        min="30"
+                        max="250"
+                        step="0.1"
+                        placeholder="Ex : 62"
+                      />
+                    </div>
                   </div>
+
+                  <div class="field field--full">
+                    <label for="metier">Métier <span class="contact-dark__optional">(optionnel)</span></label>
+                    <span class="contact-dark__hint">Général suffit : étudiant, manager, travail physique…</span>
+                    <input
+                      id="metier"
+                      name="metier"
+                      type="text"
+                      autocomplete="organization-title"
+                      placeholder="Ex : infirmière, commercial, étudiante…"
+                    />
+                  </div>
+
+                  <div class="contact-dark__pill-block" role="group" aria-labelledby="label-jours-travail">
+                    <p id="label-jours-travail" class="contact-dark__block-title">Jours travaillés par semaine</p>
+                    <div class="contact-pills" role="radiogroup" aria-labelledby="label-jours-travail">
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-1" value="1" />
+                        <label class="contact-pill__label" for="jours-1">1j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-2" value="2" />
+                        <label class="contact-pill__label" for="jours-2">2j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-3" value="3" />
+                        <label class="contact-pill__label" for="jours-3">3j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-4" value="4" />
+                        <label class="contact-pill__label" for="jours-4">4j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-5" value="5" />
+                        <label class="contact-pill__label" for="jours-5">5j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-6" value="6" />
+                        <label class="contact-pill__label" for="jours-6">6j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-7" value="7" />
+                        <label class="contact-pill__label" for="jours-7">7j</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="jours_travail" id="jours-irreg" value="irregulier" />
+                        <label class="contact-pill__label" for="jours-irreg">Irrégulier</label>
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr class="contact-dark__form-rule" aria-hidden="true" />
+
+                  <div class="contact-dark__pill-block" role="group" aria-labelledby="label-source">
+                    <p id="label-source" class="contact-dark__block-title">Où m’as-tu trouvée&nbsp;?</p>
+                    <p class="contact-dark__block-desc">Pour mieux comprendre comment tu es arrivée ici</p>
+                    <div class="contact-pills" role="radiogroup" aria-labelledby="label-source">
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-instagram" value="instagram" />
+                        <label class="contact-pill__label" for="source-instagram">Instagram</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-bouche" value="bouche-a-oreille" />
+                        <label class="contact-pill__label" for="source-bouche">Bouche à oreille</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-google" value="google" />
+                        <label class="contact-pill__label" for="source-google">Google</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-podcast" value="podcast-youtube" />
+                        <label class="contact-pill__label" for="source-podcast">Podcast / YouTube</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-tiktok" value="tiktok" />
+                        <label class="contact-pill__label" for="source-tiktok">TikTok</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-salle" value="salle-appart-fitness-vannes-ouest" />
+                        <label class="contact-pill__label" for="source-salle">Salle de sport / Appart Fitness Vannes Ouest</label>
+                      </div>
+                      <div class="contact-pill">
+                        <input class="contact-pill__input" type="radio" name="source" id="source-autre" value="autre" />
+                        <label class="contact-pill__label" for="source-autre">Autre</label>
+                      </div>
+                    </div>
+                    <div class="field field--full contact-dark__field-source-autre" hidden>
+                      <label for="source_autre_detail">Précise si «&nbsp;Autre&nbsp;» <span class="contact-dark__optional">(optionnel)</span></label>
+                      <input
+                        id="source_autre_detail"
+                        name="source_autre_detail"
+                        type="text"
+                        placeholder="Dis-moi où tu m’as trouvée…"
+                        autocomplete="off"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="field field--full">
+                    <label for="programme">Formule <span class="contact-dark__optional">(optionnel)</span></label>
+                    <select id="programme" name="programme">
+                      <option value="" selected>Sélectionner…</option>
+                      <option value="individuel">Coaching individuel</option>
+                      <option value="ligne">Coaching en ligne</option>
+                      <option value="nutrition">Plan nutrition</option>
+                      <option value="combo">Pack complet</option>
+                      <option value="inconnu">Je ne sais pas encore</option>
+                    </select>
+                  </div>
+
                   <div class="field field--full">
                     <label for="message">Message *</label>
                     <textarea
@@ -179,6 +337,7 @@
                   <button class="contact-dark__submit" type="submit">
                     Envoyer le formulaire
                   </button>
+                  <p id="contact-form-feedback" class="contact-dark__form-feedback" role="status" aria-live="polite" hidden></p>
                 </form>
               </div>
             </div>

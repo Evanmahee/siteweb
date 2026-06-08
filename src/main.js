@@ -136,27 +136,77 @@
     });
   }
 
-  /* Formulaire de contact — démonstration côté navigateur uniquement */
-  var form = document.querySelector(".contact-form");
-  if (form) {
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var btn = form.querySelector('button[type="submit"]');
-      var original = btn ? btn.textContent : "";
-      if (btn) {
-        btn.disabled = true;
-        btn.textContent = "Envoi en cours…";
+  /* Contact : champ « Précise si Autre » + envoi (démo navigateur) */
+  var contactForm = document.getElementById("contact-form");
+  if (contactForm) {
+    var sourceAutreRow = contactForm.querySelector(".contact-dark__field-source-autre");
+    function syncSourceAutreField() {
+      if (!sourceAutreRow) return;
+      var checked = contactForm.querySelector('input[name="source"]:checked');
+      var show = checked && checked.value === "autre";
+      sourceAutreRow.toggleAttribute("hidden", !show);
+      if (!show) {
+        var inp = sourceAutreRow.querySelector("input");
+        if (inp) inp.value = "";
       }
+    }
+    contactForm.querySelectorAll('input[name="source"]').forEach(function (r) {
+      r.addEventListener("change", syncSourceAutreField);
+    });
+    contactForm.addEventListener("reset", syncSourceAutreField);
+    syncSourceAutreField();
+
+    var submitBtn = contactForm.querySelector(".contact-dark__submit");
+    var feedbackEl = document.getElementById("contact-form-feedback");
+    var submitDefaultHtml = submitBtn ? submitBtn.innerHTML.trim() : "Envoyer le formulaire";
+    var reduceMotion =
+      typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var demoSendMs = reduceMotion ? 400 : 900;
+    var successHoldMs = reduceMotion ? 2200 : 3800;
+
+    contactForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!submitBtn || submitBtn.classList.contains("is-sending")) return;
+
+      submitBtn.classList.remove("is-success");
+      submitBtn.classList.add("is-sending");
+      submitBtn.disabled = true;
+      submitBtn.setAttribute("aria-busy", "true");
+      submitBtn.innerHTML =
+        '<span class="contact-dark__submit-spinner" aria-hidden="true"></span>' +
+        '<span class="contact-dark__submit-label">Envoi en cours…</span>';
+
+      if (feedbackEl) {
+        feedbackEl.setAttribute("hidden", "");
+        feedbackEl.textContent = "";
+      }
+
       window.setTimeout(function () {
-        if (btn) {
-          btn.disabled = false;
-          btn.textContent = original;
+        submitBtn.classList.remove("is-sending");
+        submitBtn.classList.add("is-success");
+        submitBtn.removeAttribute("aria-busy");
+        submitBtn.innerHTML =
+          '<span class="contact-dark__submit-check" aria-hidden="true">✓</span>' +
+          '<span class="contact-dark__submit-label">Message envoyé</span>';
+
+        if (feedbackEl) {
+          feedbackEl.textContent =
+            "Merci ! Ton message a bien été pris en compte. (Version démo : relie ce formulaire à ton backend ou à un outil pour recevoir les demandes.)";
+          feedbackEl.removeAttribute("hidden");
         }
-        alert(
-          "Merci pour ton message. Version démo : connecte ce formulaire à ton serveur ou à un service tiers (formulaire hébergé, automatisation, etc.) pour recevoir les demandes par email."
-        );
-        form.reset();
-      }, 650);
+
+        window.setTimeout(function () {
+          submitBtn.classList.remove("is-success");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitDefaultHtml;
+          if (feedbackEl) {
+            feedbackEl.setAttribute("hidden", "");
+            feedbackEl.textContent = "";
+          }
+          contactForm.reset();
+          syncSourceAutreField();
+        }, successHoldMs);
+      }, demoSendMs);
     });
   }
 
