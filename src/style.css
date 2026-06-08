@@ -133,6 +133,8 @@
   /* Espace sous le bloc titre + CTA (aligné preuve sociale, coin bas hero) */
   --hero-im-main-edge: 32px;
   --site-title-size: 40px;
+  /* Corps & sous-titres (titres : garder leurs règles dédiées) */
+  --text-body: 17px;
   --hero-radius: 16px;
   --glass-bg: rgba(255, 255, 255, 0.58);
   --glass-bg-scrolled: rgba(255, 255, 255, 0.78);
@@ -163,7 +165,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-ui);
-  font-size: 1.0625rem;
+  font-size: var(--text-body);
   font-weight: 400;
   letter-spacing: -0.011em;
   line-height: 1.55;
@@ -346,7 +348,7 @@ main {
 }
 
 .nav__links a {
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 400;
   letter-spacing: -0.01em;
   text-transform: none;
@@ -372,7 +374,7 @@ main {
 }
 
 .hero-im__pill-links .nav-link--soon {
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -381,7 +383,7 @@ main {
 }
 
 .nav__links .nav-link--soon {
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 400;
   letter-spacing: -0.01em;
   text-transform: none;
@@ -396,7 +398,7 @@ main {
   justify-content: center;
   gap: 0.5rem;
   padding: 0.75rem 2rem;
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 500;
   letter-spacing: -0.015em;
   text-transform: none;
@@ -418,7 +420,7 @@ main {
 
 .btn--nav {
   padding: 0.5rem 1.35rem;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   font-weight: 600;
   background: var(--color-action-primary);
   color: var(--color-action-primary-ink);
@@ -468,7 +470,7 @@ main {
 .eyebrow {
   margin: 0 0 0.75rem;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -494,7 +496,7 @@ main {
   margin: 0;
   max-width: 52ch;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: var(--text-body);
   letter-spacing: -0.01em;
 }
 
@@ -654,7 +656,7 @@ main {
 .hero-im__social-proof-label {
   margin: 0;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 600;
   letter-spacing: 0.02em;
   line-height: 1.25;
@@ -765,7 +767,7 @@ main {
 }
 
 .hero-im__pill-links a {
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
@@ -796,7 +798,7 @@ main {
   align-items: center;
   gap: 0.65rem;
   margin-left: 0;
-  font-size: 14px;
+  font-size: var(--text-body);
 }
 
 .hero-im__nav-actions .hero-im__nav-cta {
@@ -828,7 +830,7 @@ main {
 .hero-im__tag {
   margin: 0 0 calc(0.5rem + 3px);
   font-family: var(--font-ui);
-  font-size: clamp(0.8125rem, 1.5vw, 0.9375rem);
+  font-size: var(--text-body);
   font-weight: 500;
   letter-spacing: 0.04em;
   color: rgba(255, 255, 255, 0.82);
@@ -896,7 +898,7 @@ main {
   box-sizing: border-box;
   margin: clamp(0.6rem, 1.4vw, 0.85rem) 0 0;
   font-family: var(--font-ui);
-  font-size: clamp(0.9375rem, 1.85vw, 1.0625rem);
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.012em;
@@ -929,7 +931,7 @@ main {
 }
 
 .hero-im__ctas .hero-btn__label {
-  font-size: 15px;
+  font-size: var(--text-body);
 }
 
 .hero-im__ctas .hero-btn--secondary .hero-btn__label {
@@ -1021,7 +1023,7 @@ main {
 
 .hero-btn__label {
   padding: 0.75rem 1.25rem;
-  font-size: 15px;
+  font-size: var(--text-body);
   font-weight: 500;
   display: flex;
   align-items: center;
@@ -1127,7 +1129,7 @@ main {
 
 .impact-stats__label {
   margin: 0;
-  font-size: clamp(0.875rem, 1.1vw, 0.9375rem);
+  font-size: var(--text-body);
   line-height: 1.45;
   font-weight: 500;
   color: var(--text);
@@ -1204,7 +1206,7 @@ main {
 
 .mes-services__card-desc {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   line-height: 1.5;
   color: var(--text-muted);
   font-weight: 400;
@@ -1342,7 +1344,7 @@ main {
 
   .hero-im__nav-actions .hero-im__nav-cta .hero-btn__label {
     padding: 0.5rem 0.85rem;
-    font-size: 0.8125rem;
+    font-size: var(--text-body);
   }
 
   .hero-im__main {
@@ -1382,7 +1384,7 @@ main {
 
   .hero-im__subtitle {
     margin-top: clamp(0.45rem, 1.8vw, 0.65rem);
-    font-size: clamp(0.875rem, 3.6vw, 1rem);
+    font-size: var(--text-body);
   }
 
   .hero-im__tag {
@@ -1637,7 +1639,7 @@ main {
 .apropos-hero-card__text {
   margin: 0;
   font-family: var(--font-ui);
-  font-size: clamp(0.875rem, 1.05vw, 0.9375rem);
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.55;
   color: #444;
@@ -1676,7 +1678,7 @@ main {
 .apropos-bio__col p {
   margin: 0 0 1rem;
   font-family: var(--font-ui);
-  font-size: clamp(0.9375rem, 1.1vw, 1rem);
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.65;
   color: #4a4a4a;
@@ -1692,7 +1694,7 @@ main {
   padding: 0;
   border: none;
   font-family: var(--font-ui);
-  font-size: clamp(1.05rem, 2vw, 1.2rem);
+  font-size: var(--text-body);
   font-weight: 700;
   font-style: italic;
   line-height: 1.45;
@@ -1712,7 +1714,7 @@ main {
   padding: 0.85rem 1.5rem;
   min-height: 2.75rem;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 700;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1768,7 +1770,7 @@ main {
 .apropos-joy__kicker {
   margin: 0 0 clamp(1.5rem, 3vw, 2rem);
   font-family: var(--font-ui);
-  font-size: clamp(0.75rem, 1.2vw, 0.8125rem);
+  font-size: var(--text-body);
   font-weight: 600;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1782,7 +1784,7 @@ main {
 .apropos-joy__body p {
   margin: 0 0 1.1rem;
   font-family: var(--font-ui);
-  font-size: clamp(0.9375rem, 1.15vw, 1.0625rem);
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.68;
   color: rgba(255, 255, 255, 0.96);
@@ -1849,7 +1851,7 @@ main {
   min-height: 0;
   margin: 0;
   max-width: min(36rem, 100%);
-  font-size: 0.95rem;
+  font-size: var(--text-body);
   color: #555;
   line-height: 1.65;
 }
@@ -1906,7 +1908,7 @@ main {
 }
 
 .products__eyebrow {
-  font-size: 12px;
+  font-size: var(--text-body);
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: #888;
@@ -2012,7 +2014,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.15rem;
+  font-size: var(--text-body);
   line-height: 1;
   font-weight: 600;
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -2023,7 +2025,7 @@ main {
   border: 1px solid rgba(255, 255, 255, 0.95);
   box-shadow: none;
   font-weight: 400;
-  font-size: 1.05rem;
+  font-size: var(--text-body);
 }
 
 .product-card h3 {
@@ -2037,7 +2039,7 @@ main {
 
 .product-card p {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   line-height: 1.55;
   color: #5a5650;
   min-height: 4.65em;
@@ -2054,7 +2056,7 @@ main {
 
 .product-card--featured p {
   margin: 0 0 1.75rem;
-  font-size: 1rem;
+  font-size: var(--text-body);
   line-height: 1.5;
   font-weight: 400;
   color: #fff;
@@ -2155,7 +2157,7 @@ main {
   border-radius: 2px;
 }
 .online__text {
-  font-size: 1.05rem;
+  font-size: var(--text-body);
   color: #555;
   line-height: 1.75;
   flex: 1;
@@ -2231,7 +2233,7 @@ main {
   justify-content: flex-start;
   padding: 1.25rem;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: var(--text-body);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   border: 1px solid var(--about-placeholder-border);
@@ -2308,7 +2310,7 @@ main {
 .service-card__desc {
   margin: 0 0 1.25rem;
   color: var(--text-muted);
-  font-size: 1rem;
+  font-size: var(--text-body);
   flex-grow: 0;
 }
 
@@ -2316,7 +2318,7 @@ main {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 0.95rem;
+  font-size: var(--text-body);
   color: var(--text-muted);
 }
 
@@ -2364,7 +2366,7 @@ main {
 .formules__intro {
   margin: 0 0 clamp(1.25rem, 2.5vw, 1.85rem);
   max-width: min(36rem, 100%);
-  font-size: 0.95rem;
+  font-size: var(--text-body);
   color: #555;
   line-height: 1.65;
 }
@@ -2526,7 +2528,7 @@ main {
 
 .formule-card--split .formule-card__price:not([hidden]) {
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 600;
   color: #7a756c;
   letter-spacing: 0.01em;
@@ -2534,7 +2536,7 @@ main {
 
 .formule-card--split .formule-card__tagline {
   margin: 0;
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 500;
   color: #7a756c;
   letter-spacing: 0.01em;
@@ -2553,7 +2555,7 @@ main {
 }
 
 .formule-card--split .formule-card__list {
-  font-size: 0.875rem;
+  font-size: var(--text-body);
 }
 
 .formule-card--split .formule-card__list li::before {
@@ -2579,7 +2581,7 @@ main {
   color: var(--text);
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: var(--text-body);
   letter-spacing: -0.01em;
   transition:
     background 0.2s var(--ease-out),
@@ -2666,7 +2668,7 @@ main {
 }
 
 .formule-card--gold-head .formule-card__tagline {
-  font-size: clamp(0.68rem, 1.15vw, 0.78rem);
+  font-size: var(--text-body);
   line-height: 1.35;
 }
 
@@ -2694,7 +2696,7 @@ main {
 .formule-card__tagline {
   margin: 0.35rem 0 0;
   font-family: var(--font-ui);
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.5;
   letter-spacing: -0.01em;
@@ -2725,7 +2727,7 @@ main {
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   line-height: 1.5;
   color: var(--text);
 }
@@ -2872,7 +2874,7 @@ main {
   margin: 0 0 clamp(0.85rem, 2vw, 1.15rem);
   max-width: 52ch;
   font-family: var(--font-display);
-  font-size: clamp(1rem, 1.65vw, 1.2rem);
+  font-size: var(--text-body);
   font-weight: 600;
   letter-spacing: -0.02em;
   line-height: 1.35;
@@ -2883,7 +2885,7 @@ main {
   margin: 0 0 clamp(1.1rem, 2.5vw, 1.5rem);
   max-width: 42ch;
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 400;
   line-height: 1.55;
   color: var(--text-muted);
@@ -2892,7 +2894,7 @@ main {
 .formules-presentiel__address-label {
   margin: 0 0 0.35rem;
   font-family: var(--font-ui);
-  font-size: 0.75rem;
+  font-size: var(--text-body);
   font-weight: 500;
   color: #9ca3af;
 }
@@ -2900,7 +2902,7 @@ main {
 .formules-presentiel__address-name {
   margin: 0 0 0.45rem;
   font-family: var(--font-display);
-  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-size: var(--text-body);
   font-weight: 700;
   letter-spacing: -0.02em;
   line-height: 1.25;
@@ -2910,7 +2912,7 @@ main {
 .formules-presentiel__address-detail {
   margin: 0;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-style: italic;
   line-height: 1.5;
   color: #9ca3af;
@@ -3005,7 +3007,7 @@ main {
 .quote-card__text {
   margin: 0 0 1.5rem;
   font-family: var(--font-display);
-  font-size: 1.0625rem;
+  font-size: var(--text-body);
   font-style: normal;
   font-weight: 400;
   letter-spacing: -0.015em;
@@ -3024,7 +3026,7 @@ main {
 
 .quote-card__name {
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 600;
   font-style: normal;
   letter-spacing: -0.01em;
@@ -3033,7 +3035,7 @@ main {
 }
 
 .quote-card__result {
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 500;
   color: var(--gold);
   letter-spacing: 0.02em;
@@ -3092,14 +3094,14 @@ main {
 
 .contact-page__subtitle {
   margin: 0;
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   color: #6b7280;
   line-height: 1.5;
 }
 
 .contact-page__footnote {
   margin: 1.25rem 0 0;
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   line-height: 1.5;
   color: #9ca3af;
 }
@@ -3161,7 +3163,7 @@ main {
 
 .contact-card__label {
   display: block;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   font-weight: 700;
   color: #111;
   margin-bottom: 0.2rem;
@@ -3169,14 +3171,14 @@ main {
 
 .contact-card__value {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   line-height: 1.5;
   color: #6b7280;
 }
 
 .contact-card__desc {
   margin: 0 0 1.1rem;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   line-height: 1.55;
   color: #6b7280;
 }
@@ -3191,7 +3193,7 @@ main {
   color: #fff;
   text-decoration: none;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   letter-spacing: -0.01em;
   transition: background 0.2s var(--ease-out), transform 0.2s var(--ease-out);
 }
@@ -3250,7 +3252,7 @@ main {
 }
 
 .contact-form.contact-form--page .field label {
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   font-weight: 600;
   letter-spacing: -0.01em;
   text-transform: none;
@@ -3265,7 +3267,7 @@ main {
   border-radius: 10px;
   background: #f9fafb;
   color: #111;
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
 }
 
 .contact-form.contact-form--page .field input::placeholder,
@@ -3290,7 +3292,7 @@ main {
   background: #e5e7eb;
   color: #374151;
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s var(--ease-out), color 0.2s var(--ease-out);
@@ -3348,7 +3350,7 @@ main {
 
 .contact__note {
   margin: 0;
-  font-size: 0.95rem;
+  font-size: var(--text-body);
   color: var(--gold);
   letter-spacing: 0.04em;
 }
@@ -3373,7 +3375,7 @@ main {
 }
 
 .field label {
-  font-size: 0.75rem;
+  font-size: var(--text-body);
   font-weight: 500;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -3434,7 +3436,7 @@ main {
   margin: 0 0 clamp(1.5rem, 3vw, 2.25rem);
   max-width: min(40rem, 100%);
   font-family: var(--font-ui);
-  font-size: 0.9375rem;
+  font-size: var(--text-body);
   color: var(--text-muted);
   line-height: 1.45;
 }
@@ -3449,13 +3451,13 @@ main {
 
 .avis__star::before {
   content: "★";
-  font-size: 0.95rem;
+  font-size: var(--text-body);
   line-height: 1;
   color: #fbbc04;
 }
 
 .avis__star--sm::before {
-  font-size: 0.9rem;
+  font-size: var(--text-body);
 }
 
 .avis__grid {
@@ -3513,7 +3515,7 @@ main {
   align-items: center;
   justify-content: center;
   font-family: var(--font-display);
-  font-size: 1.05rem;
+  font-size: var(--text-body);
   font-weight: 700;
   color: #fff;
   background: linear-gradient(145deg, #3d6b47, #2e5a38);
@@ -3545,7 +3547,7 @@ main {
 
 .avis__avatar--initial.avis__avatar--lower {
   text-transform: none;
-  font-size: 1rem;
+  font-size: var(--text-body);
   font-weight: 600;
 }
 
@@ -3556,7 +3558,7 @@ main {
 .avis__name {
   margin: 0;
   font-family: var(--font-display);
-  font-size: 0.97rem;
+  font-size: var(--text-body);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -3564,7 +3566,7 @@ main {
 
 .avis__tagline {
   margin: 0.2rem 0 0;
-  font-size: 0.78rem;
+  font-size: var(--text-body);
   font-weight: 500;
   color: #7a756c;
   line-height: 1.35;
@@ -3610,7 +3612,7 @@ main {
 
 .avis__text {
   margin: 0;
-  font-size: 0.875rem;
+  font-size: var(--text-body);
   line-height: 1.58;
   color: #3a3834;
 }
@@ -3637,7 +3639,7 @@ main {
   background: none;
   cursor: pointer;
   font-family: var(--font-ui);
-  font-size: 0.8125rem;
+  font-size: var(--text-body);
   font-weight: 600;
   line-height: 1.35;
   color: #2e5a38;
@@ -3733,7 +3735,7 @@ main {
 
 .footer__legal {
   margin: 0;
-  font-size: clamp(0.6875rem, 1.85vw, 0.8125rem);
+  font-size: var(--text-body);
   line-height: 1.6;
   color: var(--text-muted);
   max-width: 38rem;
@@ -3958,13 +3960,13 @@ main {
   .nav__links a {
     display: block;
     padding: 1rem 0;
-    font-size: 1.05rem;
+    font-size: var(--text-body);
   }
 
   .nav__links .nav-link--soon {
     display: block;
     padding: 1rem 0;
-    font-size: 1.05rem;
+    font-size: var(--text-body);
   }
 
   .nav__menu .btn--nav,
