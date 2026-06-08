@@ -1179,6 +1179,8 @@ main {
 }
 
 .mes-services__card {
+  position: relative;
+  isolation: isolate;
   margin: 0;
   box-sizing: border-box;
   min-width: 0;
@@ -1189,8 +1191,118 @@ main {
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.9) inset;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+.mes-services__card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+.mes-services__card-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0;
+  transform: scale(1.06);
+  transition:
+    opacity 0.45s var(--ease-out),
+    transform 0.55s var(--ease-out);
+  pointer-events: none;
+}
+
+.mes-services__card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.mes-services__card-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  background: linear-gradient(
+    165deg,
+    rgba(10, 10, 10, 0.1) 0%,
+    rgba(10, 10, 10, 0.55) 45%,
+    rgba(10, 10, 10, 0.88) 100%
+  );
+  transition: opacity 0.45s var(--ease-out);
+  pointer-events: none;
+}
+
+.mes-services__card-body {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
+  min-height: 0;
+}
+
+.mes-services__card-arrow {
+  position: absolute;
+  right: clamp(0.85rem, 2.2vw, 1.2rem);
+  bottom: clamp(0.85rem, 2.2vw, 1.2rem);
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--gold);
+  opacity: 0;
+  transform: translate(-6px, 0);
+  transition:
+    opacity 0.3s var(--ease-out),
+    transform 0.35s var(--ease-out),
+    color 0.3s var(--ease-out);
+  pointer-events: none;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.12));
+}
+
+.mes-services__card-arrow svg {
+  display: block;
+}
+
+.mes-services__card:hover .mes-services__card-media,
+.mes-services__card:focus-visible .mes-services__card-media {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.mes-services__card:hover .mes-services__card-scrim,
+.mes-services__card:focus-visible .mes-services__card-scrim {
+  opacity: 1;
+}
+
+.mes-services__card:hover .mes-services__card-title,
+.mes-services__card:focus-visible .mes-services__card-title {
+  color: #fff;
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.45);
+}
+
+.mes-services__card:hover .mes-services__card-desc,
+.mes-services__card:focus-visible .mes-services__card-desc {
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+}
+
+.mes-services__card:hover .mes-services__card-arrow,
+.mes-services__card:focus-visible .mes-services__card-arrow {
+  opacity: 1;
+  transform: translate(0, 0);
+  color: #fff;
+  filter: drop-shadow(0 1px 8px rgba(0, 0, 0, 0.45));
 }
 
 .mes-services__card-title {
@@ -1202,6 +1314,7 @@ main {
   line-height: 1.25;
   letter-spacing: -0.02em;
   color: var(--text);
+  transition: color 0.35s var(--ease-out), text-shadow 0.35s var(--ease-out);
 }
 
 .mes-services__card-desc {
@@ -1210,6 +1323,28 @@ main {
   line-height: 1.5;
   color: var(--text-muted);
   font-weight: 400;
+  transition: color 0.35s var(--ease-out), text-shadow 0.35s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mes-services__card,
+  .mes-services__card-media,
+  .mes-services__card-scrim,
+  .mes-services__card-title,
+  .mes-services__card-desc,
+  .mes-services__card-arrow {
+    transition: none !important;
+  }
+
+  .mes-services__card:hover .mes-services__card-media,
+  .mes-services__card:focus-visible .mes-services__card-media {
+    transform: none;
+  }
+
+  .mes-services__card:hover .mes-services__card-arrow,
+  .mes-services__card:focus-visible .mes-services__card-arrow {
+    transform: none;
+  }
 }
 
 /* Mobile / tablette : cartes empilées, même largeur et même hauteur minimale */
@@ -1222,6 +1357,11 @@ main {
   .mes-services__card {
     width: 100%;
     min-height: clamp(11rem, 38vw, 13rem);
+  }
+
+  .mes-services__card-body {
+    flex: 1 1 auto;
+    min-height: 0;
   }
 
   .mes-services__card-desc {
