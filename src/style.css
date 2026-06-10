@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /* ——— Nefelie — premium landing (clair) ——— */
 
 @font-face {
@@ -119,7 +121,7 @@
   --btn-dark: #0a0a0a;
   --btn-dark-hover: #1f1f1f;
   --max: 1120px;
-  --nav-h: 72px;
+  --nav-h: 85px;
   --nav-links-offset: 48px;
   --header-inset: 16px;
   /* Retrait horizontal à l'intérieur du hero immersif (nav, colonne texte, preuve sociale) */
@@ -186,6 +188,60 @@ main {
 
 .page-home main {
   padding-top: 0;
+  /* Pas de gap flex (trou transparent sur le hero fixed) */
+  gap: 0;
+}
+
+/* Après `main + .footer` : pas de marge (évite bande transparente sur le hero) ; z-index au-dessus du hero */
+body.page-home main + footer.footer--nc {
+  margin-top: 0;
+  position: relative;
+  z-index: 3;
+}
+
+/* Ancres (#formules, etc.) : barre fixe + 16px sous la nav */
+.page-home {
+  /* Hauteur barre nav fixe accueil (= height sur .hero-im__nav--above-stage) */
+  --hero-nav-stack-h: 85px;
+  scroll-padding-top: calc(var(--hero-nav-stack-h) + 16px);
+}
+
+/* Accueil : carte hero (photo + contenu) figée ; le contenu suivant défile par-dessus.
+   La nav reste au-dessus (z-index élevé) car elle n’est pas dans le calque z-index bas du stage. */
+.page-home #top.hero.hero--immersive {
+  min-height: 0;
+  margin-bottom: 0;
+}
+
+.page-home .hero.hero--immersive .hero-im__stage {
+  position: fixed;
+  z-index: 0;
+  top: calc(var(--hero-nav-stack-h, 85px) + var(--hero-nav-gap-above-stage, 16px));
+  left: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
+  right: max(var(--hero-frame-gutter-x), env(safe-area-inset-right, 0px));
+  width: auto;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.page-home .hero-im__scroll-spacer {
+  min-height: max(
+    calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)),
+    calc(var(--hero-nav-stack-h, 85px) + 16px + 85vh)
+  );
+  min-height: max(
+    calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)),
+    calc(var(--hero-nav-stack-h, 85px) + 16px + 85dvh)
+  );
+  margin-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  flex-shrink: 0;
+  pointer-events: none;
+}
+
+.page-home main > .hero-im__scroll-spacer ~ * {
+  position: relative;
+  z-index: 1;
 }
 
 main + .footer {
@@ -511,35 +567,74 @@ main {
 
 /* ——— Hero (accueil immersif) ——— */
 .hero.hero--immersive {
-  --hero-frame-top: 24px;
+  --hero-frame-top: 0px;
   --hero-nav-below-frame: 0.65rem;
-  margin-left: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
-  margin-right: max(var(--hero-frame-gutter-x), env(safe-area-inset-right, 0px));
-  margin-top: calc(var(--hero-frame-top) + env(safe-area-inset-top, 0px));
+  --hero-nav-gap-above-stage: 16px;
+  /* Alignement nav (logo / Contact) sur la colonne .hero-im__main */
+  --hero-im-view-l: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
+  --hero-im-view-r: max(var(--hero-frame-gutter-x), env(safe-area-inset-right, 0px));
+  --hero-im-shell-inner-w: calc(100vw - var(--hero-im-view-l) - var(--hero-im-view-r));
+  --hero-im-col-w: min(
+    var(--max),
+    max(0px, calc(var(--hero-im-shell-inner-w) - 2 * var(--section-pad-x)))
+  );
+  --hero-im-col-side: max(0px, calc((var(--hero-im-shell-inner-w) - var(--hero-im-col-w)) / 2));
+  /* Réserve verticale = hauteur réelle de la nav fixe (85px) */
+  --hero-nav-bar-h: var(--hero-nav-stack-h, 85px);
+  /* Pleine largeur : la nav touche les bords ; le cadre photo reste sur .hero-im__stage */
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 0;
+  /* Réserve = hauteur nav + 16px jusqu’au haut de la carte hero */
+  padding-top: calc(var(--hero-nav-bar-h) + var(--hero-nav-gap-above-stage));
   margin-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   width: auto;
   max-width: none;
-  border-radius: 24px;
+  border-radius: 0;
   box-sizing: border-box;
   overflow: visible;
 }
 
 .hero--immersive {
   position: relative;
-  z-index: 0;
   flex-shrink: 0;
-  min-height: calc(100vh - 48px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
-  min-height: calc(100dvh - 48px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  min-height: calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  min-height: calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
   margin: 0;
   padding: 0;
   overflow: visible;
-  background-color: var(--black);
+  background-color: transparent;
   color: var(--white);
   display: flex;
   flex-direction: column;
 }
 
-/* Fond hero découpé aux coins (le bloc section reste overflow: visible pour la nav sticky) */
+/* Accueil immersif : carte photo (stage) = 85 % de la hauteur viewport (0,85 × fenêtre) */
+.hero.hero--immersive .hero-im__stage {
+  margin-top: 0;
+  min-height: 85vh;
+  min-height: 85dvh;
+  max-height: 85vh;
+  max-height: 85dvh;
+  flex: 0 0 auto;
+}
+
+/* Bloc photo + contenu (coins arrondis) sous la nav claire */
+.hero-im__stage {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  margin-top: var(--hero-nav-gap-above-stage);
+  margin-left: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
+  margin-right: max(var(--hero-frame-gutter-x), env(safe-area-inset-right, 0px));
+  border-radius: 24px;
+  overflow: hidden;
+  background-color: var(--black);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Fond hero découpé aux coins (section overflow: visible pour la nav fixe) */
 .hero-im__visual {
   position: absolute;
   inset: 0;
@@ -615,7 +710,7 @@ main {
   padding-top: var(--hero-nav-below-frame, 0.65rem);
 }
 
-/* Preuve sociale — coin bas-droit (même retrait que .hero-im__main) */
+/* Preuve sociale — coin bas-droit (même retrait que la colonne .hero-im__main centrée) */
 .hero-im__social-proof {
   position: absolute;
   right: max(
@@ -695,6 +790,106 @@ main {
     backdrop-filter 0.35s var(--ease-out);
 }
 
+/* Nav sur fond clair, au-dessus de la carte hero — fixe au scroll (réserve : --hero-nav-bar-h + gap sur la section) */
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage {
+  flex-shrink: 0;
+  height: var(--hero-nav-stack-h, 85px);
+  /* Flex > grid ici : 2 blocs (logo | droite), centrage vertical homogène */
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+  color: var(--text);
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin-left: 0;
+  margin-right: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  /* Au-dessus du hero / contenu ; sous le drawer mobile ouvert (1100–1210) */
+  z-index: 1000;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px) saturate(1.35);
+  -webkit-backdrop-filter: blur(16px) saturate(1.35);
+  border-bottom: 1px solid var(--glass-edge);
+  box-shadow:
+    inset 0 1px 0 var(--glass-border),
+    0 1px 0 rgba(22, 20, 17, 0.04);
+  padding-top: calc(env(safe-area-inset-top, 0px) + var(--header-inset) + 0.5rem);
+  padding-bottom: calc(var(--header-inset) + 0.5rem);
+  padding-left: calc(var(--hero-im-view-l) + var(--hero-im-col-side));
+  padding-right: calc(var(--hero-im-view-r) + var(--hero-im-col-side));
+}
+
+/* Logo + bloc droite : même axe vertical (évite le décalage padding / min-height du lien logo) */
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__logo,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__logo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  padding-block: 0;
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__nav-end,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__nav-end {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  margin-left: auto;
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__logo-img,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__logo-img {
+  mix-blend-mode: normal;
+  height: clamp(2.2rem, 4.2vw, 2.65rem);
+  width: auto;
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links li + li::before,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links li + li::before {
+  background: rgba(22, 20, 17, 0.22);
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a {
+  display: inline-block;
+  color: var(--text);
+  text-shadow: none;
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links .nav-link--soon,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links .nav-link--soon {
+  color: var(--text-muted);
+  text-shadow: none;
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:hover,
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:focus-visible,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:hover,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:focus-visible {
+  color: var(--text);
+  transform: translateY(-3px);
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__nav-cta.hero-btn--secondary.hero-im__nav-cta--desktop,
+.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__nav-cta.hero-btn--secondary.hero-im__nav-cta--desktop {
+  color: var(--white);
+  background: var(--btn-dark);
+  border-color: var(--btn-dark);
+}
+
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__nav-cta.hero-btn--secondary.hero-im__nav-cta--desktop:hover,
+.hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__nav-cta.hero-btn--secondary.hero-im__nav-cta--desktop:focus-visible {
+  background: var(--btn-dark-hover);
+  border-color: var(--btn-dark-hover);
+}
+
 .hero-im__logo {
   flex-shrink: 0;
   display: inline-flex;
@@ -719,7 +914,7 @@ main {
   display: block;
   max-width: none;
   width: auto;
-  height: clamp(2.65rem, 6.5vw, 3.35rem);
+  height: clamp(2.65rem, 6.5vw, 51px);
   object-fit: contain;
   flex-shrink: 0;
   mix-blend-mode: lighten;
@@ -760,25 +955,51 @@ main {
 }
 
 .hero-im__pill-links li + li::before {
-  content: "·";
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.35);
+  /* Séparateur sans caractère UTF-8 (évite Â· si charset CSS mal servi) */
+  content: "";
+  display: block;
+  width: 0.2rem;
+  height: 0.2rem;
+  margin-inline-end: 0.12rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+  flex-shrink: 0;
+  align-self: center;
   pointer-events: none;
 }
 
 .hero-im__pill-links a {
+  display: inline-block;
   font-size: var(--text-body);
   font-weight: 500;
   line-height: 1.2;
   letter-spacing: -0.01em;
   color: rgba(255, 255, 255, 0.88);
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.55);
-  transition: color 0.25s var(--ease-out);
+  transition:
+    color 0.25s var(--ease-out),
+    transform 0.28s var(--ease-out);
 }
 
 .hero-im__pill-links a:hover,
 .hero-im__pill-links a:focus-visible {
-  color: var(--gold);
+  color: rgba(255, 255, 255, 0.88);
+  transform: translateY(-3px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-im__pill-links a {
+    transition: none;
+  }
+
+  .hero-im__pill-links a:hover,
+  .hero-im__pill-links a:focus-visible,
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:hover,
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:focus-visible,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:hover,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links a:focus-visible {
+    transform: none;
+  }
 }
 
 /* Groupe desktop : liens pilule + Contact (mobile : burger seul à droite) */
@@ -1170,6 +1391,20 @@ main {
   color: var(--text);
 }
 
+.mes-services__title {
+  margin-bottom: clamp(0.35rem, 1vw, 0.55rem);
+}
+
+.mes-services__subtitle {
+  margin: 0 0 clamp(1.25rem, 3vw, 1.85rem);
+  max-width: min(40rem, 100%);
+  font-size: var(--text-body);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--text-muted);
+}
+
 .mes-services__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -1249,12 +1484,19 @@ main {
   min-height: 0;
 }
 
-.mes-services__card-arrow {
-  position: absolute;
-  right: clamp(0.85rem, 2.2vw, 1.2rem);
-  bottom: clamp(0.85rem, 2.2vw, 1.2rem);
-  z-index: 3;
+.mes-services__card-desc-row {
   display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  align-items: last baseline;
+  gap: 0.45rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.mes-services__card-arrow {
+  flex-shrink: 0;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 2.25rem;
@@ -1319,6 +1561,8 @@ main {
 
 .mes-services__card-desc {
   margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   font-size: var(--text-body);
   line-height: 1.5;
   color: var(--text-muted);
@@ -1364,8 +1608,9 @@ main {
     min-height: 0;
   }
 
-  .mes-services__card-desc {
-    flex: 1 1 auto;
+  .mes-services__card-desc-row {
+    margin-top: auto;
+    width: 100%;
   }
 }
 
@@ -1406,6 +1651,19 @@ main {
     left: auto;
     top: auto;
     transform: none;
+  }
+
+  /* Nav fixe accueil : lien logo sans min-height global (aligné sur l’image) */
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__logo,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__logo {
+    min-height: 0;
+  }
+
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.875rem;
   }
 }
 
@@ -1618,6 +1876,18 @@ main {
   .hero--immersive .hero-im__logo-img {
     max-height: 36px;
   }
+
+  /* Burger lisible sur bandeau clair (nav au-dessus du stage) */
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle {
+    border-color: rgba(22, 20, 17, 0.14);
+    background: rgba(22, 20, 17, 0.04);
+  }
+
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle-bar,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle-bar {
+    background: var(--text);
+  }
 }
 
 /* ——— Accueil : éditorial sous le hero ——— */
@@ -1631,10 +1901,29 @@ main {
   grid-template-areas: "text photo";
   gap: clamp(2rem, 4vw, 3.5rem);
   align-items: start;
-  padding: 0 var(--page-gutter-x);
+  padding-inline: var(--page-gutter-x);
   background: #fff;
   color: #111;
   overflow: visible;
+}
+
+/* Accueil : 64px entre sections, rempli en blanc (padding / border — pas de marge transparente sur le hero) */
+.page-home main > .hero-im__scroll-spacer + section {
+  padding-top: 64px;
+}
+
+.page-home main > section + section {
+  border-top: 64px solid var(--bg);
+}
+
+/* 64px sous la grille de cartes jusqu’au titre #formules (fond blanc, un seul créneau) */
+body.page-home .mes-services + #formules.formules {
+  border-top: none;
+}
+
+body.page-home .mes-services .mes-services__grid {
+  padding-bottom: 64px;
+  background: var(--bg);
 }
 
 /* Page À propos : léger retrait sous le header (le <main> est déjà sous la nav en flux) */
@@ -1998,32 +2287,6 @@ main {
 
 .about-ed__cols p {
   margin: 0;
-}
-
-.about-ed__content .hero-btn {
-  flex-shrink: 0;
-  margin-top: 0;
-}
-
-/* Secondaire sur fond clair (éditorial — pas le hero immersif) */
-.about-ed__content .hero-btn--secondary {
-  background: transparent;
-  color: #111;
-  border-color: rgba(22, 20, 17, 0.2);
-  box-shadow: none;
-}
-
-.about-ed__content .hero-btn--secondary:hover,
-.about-ed__content .hero-btn--secondary:focus-visible {
-  background: transparent;
-  border-color: rgba(22, 20, 17, 0.38);
-  box-shadow: none;
-}
-
-@media (max-width: 1024px) {
-  .about-ed__content > a.hero-btn {
-    display: none;
-  }
 }
 
 /* ——— Programmes & outils (carrousel, type “best sellers”) ——— */
@@ -2526,6 +2789,47 @@ main {
   isolation: isolate;
 }
 
+/* Ligne de collage sous la nav : accueil = barre hero, sinon --nav-h */
+#formules-grid {
+  --formules-nav-under: max(0.75rem, calc(env(safe-area-inset-top, 0px) + var(--nav-h) + 0.5rem));
+  /* Réserve ≈ hauteur titre + intro quand le bandeau titre est sticky (les cartes collent dessous) */
+  --formules-head-stack: clamp(7rem, 34vw, 13rem);
+}
+
+/* Même logique que scroll-padding-top accueil : barre nav + 16px (repère du bandeau « Mes services ») */
+body.page-home #formules-grid {
+  --formules-nav-gap: 16px;
+  --formules-nav-under: calc(
+    env(safe-area-inset-top, 0px) + var(--hero-nav-stack-h, 85px) + var(--formules-nav-gap, 16px)
+  );
+}
+
+/* Colonne titre + cartes : hauteur commune pour que le bandeau puisse rester en sticky (accueil) */
+#formules-grid > .formules__stack-main {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  align-self: stretch;
+  width: 100%;
+  max-width: min(1100px, 100%);
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Région sticky : uniquement les cartes (le titre est frère au-dessus pour un sticky stable sur toute la grille) */
+.formules-sticky-region {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: min(1100px, 100%);
+  align-self: stretch;
+  box-sizing: border-box;
+  position: relative;
+  z-index: 2;
+  padding-bottom: clamp(2.5rem, 28vh, 18rem);
+}
+
 .formules-stack__slot {
   position: sticky;
   top: max(0.75rem, calc(var(--nav-h) + 0.5rem));
@@ -2535,18 +2839,57 @@ main {
   box-sizing: border-box;
 }
 
-.formules-stack__slot:nth-child(1) {
-  z-index: 1;
-}
-.formules-stack__slot:nth-child(2) {
-  z-index: 2;
-}
-.formules-stack__slot:nth-child(3) {
-  z-index: 3;
+.formules-sticky-region > .formules-stack__slot {
+  top: calc(var(--formules-nav-under) + var(--formules-head-stack));
 }
 
-.formules-stack__slot:nth-child(4) {
-  z-index: 4;
+/* Accueil : mêmes métriques mesurées avant / pendant le pin → pas de saut à l’entrée de la 1re carte */
+body.page-home #formules-grid .formules-sticky-region > .formules-stack__slot {
+  top: calc(
+    var(--formules-nav-under-live, var(--formules-nav-under)) +
+      var(--formules-pin-head-h, var(--formules-head-stack))
+  );
+}
+
+/* Ancrage bandeau titre (largeur alignée sur la grille) */
+#formules-grid > .formules__stack-main > .formules__head-anchor {
+  align-self: stretch;
+  width: 100%;
+  max-width: min(1100px, 100%);
+  margin-inline: auto;
+  box-sizing: border-box;
+}
+
+/* Accueil : bandeau sticky ; z-index bas pour que la région cartes (frère, z-index plus haut) passe au-dessus */
+body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor {
+  position: sticky;
+  top: var(--formules-nav-under-live, var(--formules-nav-under));
+  z-index: 1;
+}
+
+#formules-grid > .formules__stack-main > .formules__head-anchor > .formules__text-block {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: min(1100px, 100%);
+  box-sizing: border-box;
+  /* Même fond que la section : pas d’ombre / trait bas → évite l’effet « bloc posé par-dessus » */
+  background: var(--bg);
+  padding-bottom: clamp(0.35rem, 1.2vw, 0.65rem);
+}
+
+/* 4 slots : empilement sticky (z-index croissant) */
+.formules-sticky-region > .formules-stack__slot:nth-child(1) {
+  z-index: 14;
+}
+.formules-sticky-region > .formules-stack__slot:nth-child(2) {
+  z-index: 15;
+}
+.formules-sticky-region > .formules-stack__slot:nth-child(3) {
+  z-index: 16;
+}
+.formules-sticky-region > .formules-stack__slot:nth-child(4) {
+  z-index: 17;
 }
 
 .formules__stack--pair .formules-stack__slot + .formules-stack__slot,
@@ -2563,8 +2906,26 @@ main {
   padding-bottom: clamp(5rem, 18vh, 12rem);
 }
 
+/*
+ * Accueil : la bande 64px avant le présentiel fait déjà l’écart « entre sections » ;
+ * garder seulement une petite réserve sous la dernière carte pour le sticky (sans cumuler du vide).
+ */
+body.page-home #formules-grid.formules__stack--stack {
+  padding-bottom: 0;
+}
+
+body.page-home #formules-grid .formules-sticky-region {
+  z-index: 12;
+  padding-bottom: clamp(0.75rem, 2.5vh, 1.5rem);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .formules-stack__slot {
+    position: relative;
+    top: auto;
+  }
+
+  body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor {
     position: relative;
     top: auto;
   }
@@ -2572,6 +2933,10 @@ main {
   .formules__stack--pair .formules-stack__slot + .formules-stack__slot,
   .formules__stack--stack .formules-stack__slot + .formules-stack__slot {
     margin-top: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .formules-sticky-region {
+    padding-bottom: clamp(1rem, 3vw, 1.5rem);
   }
 }
 
@@ -2625,6 +2990,27 @@ main {
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.92) inset,
     0 24px 56px rgba(22, 20, 17, 0.12);
+}
+
+/* Grille « Mes services » : pas d’ombre portée — cartes posées sur le fond blanc, léger bord gris */
+#formules-grid .formule-card {
+  box-shadow: none;
+  border: 1px solid #d8d8d8;
+}
+
+#formules-grid .formule-card:hover {
+  box-shadow: none;
+  border-color: #c4c4c4;
+}
+
+#formules-grid .formule-card--split {
+  box-shadow: none;
+  border: 1px solid #d8d8d8;
+}
+
+#formules-grid .formule-card--split:hover {
+  box-shadow: none;
+  border-color: #b8b8b8;
 }
 
 .formule-card__visual {
@@ -2962,6 +3348,13 @@ main {
   margin-top: clamp(2.25rem, 5vw, 3.25rem);
   padding-top: clamp(1.75rem, 4vw, 2.5rem);
   border-top: 1px solid var(--hairline);
+}
+
+/* Même bande 64px qu’entre les <section> ; le padding interne reste léger pour ne pas doubler l’air */
+body.page-home #formules-grid + .formules-presentiel {
+  margin-top: 0;
+  border-top: 64px solid var(--bg);
+  padding-top: clamp(1.25rem, 3vw, 1.75rem);
 }
 
 .formules-presentiel__split {
@@ -3374,7 +3767,7 @@ main {
   border: none;
   background: transparent;
   box-shadow: none;
-  scroll-margin-top: calc(var(--nav-h, 72px) + 12px);
+  scroll-margin-top: calc(var(--nav-h, 85px) + 12px);
 }
 
 .contact-form__row {
@@ -3556,7 +3949,8 @@ main {
 
 .avis__inner {
   max-width: var(--max);
-  margin: 0 auto;
+  margin: 0;
+  margin-right: auto;
   padding-bottom: clamp(0.5rem, 2vw, 1rem);
 }
 
@@ -3600,26 +3994,59 @@ main {
   font-size: var(--text-body);
 }
 
-.avis__grid {
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 16px;
+/* Carrousel témoignages : 2 lignes × 3 avis, défilement automatique */
+.avis__carousel {
+  display: block;
   width: 100%;
 }
 
-.avis__col {
-  flex: 1 1 0;
+.avis__viewport {
+  width: 100%;
   min-width: 0;
+  overflow: hidden;
+}
+
+.avis__track {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  width: calc(var(--avis-n, 2) * 100%);
+  transform: translateX(calc(var(--avis-i, 0) * -100% / var(--avis-n, 2)));
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
+}
+
+.avis__track.avis__track--jump {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .avis__track {
+    transition: none;
+  }
+}
+
+.avis__slide {
+  flex: 0 0 calc(100% / var(--avis-n, 2));
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.avis__slide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, auto));
   gap: 16px;
+  align-content: stretch;
+  justify-items: stretch;
+  width: 100%;
+  min-height: 0;
 }
 
 .avis__card {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  height: 100%;
   padding: 1.15rem 1.2rem 1.25rem;
   border-radius: 14px;
   background: #f3f3f4;
@@ -3803,24 +4230,19 @@ main {
 }
 
 @media (max-width: 960px) {
-  .avis__grid {
-    gap: 16px;
-  }
-
-  .avis__col {
-    flex: 1 1 0;
-    min-width: 0;
+  .avis__slide-grid {
+    gap: 14px;
   }
 }
 
-@media (max-width: 560px) {
-  .avis__grid {
-    flex-direction: column;
+@media (max-width: 720px) {
+  .avis__slide-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
   }
 
-  .avis__col {
-    flex: 1 1 auto;
-    width: 100%;
+  .avis__card {
+    height: auto;
   }
 }
 
@@ -4079,6 +4501,11 @@ main {
     margin: 0;
   }
 
+  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage.is-open .nav__toggle,
+  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage.is-open .nav__toggle {
+    right: env(safe-area-inset-right, 0px);
+  }
+
   body.page-contact .nav.is-open .nav__toggle,
   body.page-apropos .nav.is-open .nav__toggle {
     position: relative;
@@ -4125,7 +4552,7 @@ main {
       "text"
       "photo";
     gap: clamp(1.5rem, 4vw, 2rem);
-    padding: 0 var(--page-gutter-x);
+    padding-inline: var(--page-gutter-x);
     max-width: none;
   }
 

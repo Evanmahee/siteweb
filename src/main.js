@@ -260,9 +260,200 @@
     section.querySelectorAll(".avis__card").forEach(measureOne);
   }
 
+  /** Carrousel témoignages infini : avance toujours dans le même sens (LTR, panneau suivant depuis la droite) */
+  function initAvisCarousel() {
+    var root = document.querySelector("[data-avis-carousel]");
+    if (!root) return;
+
+    var track = root.querySelector("[data-avis-track]");
+    if (!track) return;
+
+    var originals = Array.prototype.slice.call(track.querySelectorAll(":scope > .avis__slide"));
+    if (originals.length < 2) return;
+
+    var reduceMotion =
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    function fixSlideCloneIds(slideEl, suffix) {
+      slideEl.removeAttribute("id");
+      slideEl.querySelectorAll(".avis__card").forEach(function (card) {
+        var p = card.querySelector(".avis__text");
+        var btn = card.querySelector(".avis__toggle");
+        if (p && p.id) {
+          var nid = p.id + suffix;
+          p.id = nid;
+          if (btn) btn.setAttribute("aria-controls", nid);
+        }
+      });
+    }
+
+    var slides;
+    var n;
+    var i;
+    var timerId = null;
+    var intervalMs = 6500;
+    var userPause = false;
+
+    if (!reduceMotion) {
+      var cloneLast = originals[originals.length - 1].cloneNode(true);
+      cloneLast.classList.add("avis__slide--clone");
+      fixSlideCloneIds(cloneLast, "-c-last");
+      var cloneFirst = originals[0].cloneNode(true);
+      cloneFirst.classList.add("avis__slide--clone");
+      fixSlideCloneIds(cloneFirst, "-c-first");
+      track.insertBefore(cloneLast, originals[0]);
+      track.appendChild(cloneFirst);
+      slides = track.querySelectorAll(":scope > .avis__slide");
+      n = slides.length;
+      i = 1;
+    } else {
+      slides = originals;
+      n = slides.length;
+      i = 0;
+    }
+
+    function apply() {
+      track.style.setProperty("--avis-n", String(n));
+      track.style.setProperty("--avis-i", String(i));
+      slides.forEach(function (slide, idx) {
+        var hidden = idx !== i;
+        slide.setAttribute("aria-hidden", hidden ? "true" : "false");
+        if ("inert" in slide) {
+          slide.inert = hidden;
+        }
+      });
+    }
+
+    function afterSlideChange() {
+      window.requestAnimationFrame(function () {
+        initAvisToggles();
+      });
+    }
+
+    function tick() {
+      if (document.hidden || userPause || reduceMotion) return;
+
+      if (!reduceMotion && i === n - 1) {
+        track.classList.add("avis__track--jump");
+        i = 1;
+        apply();
+        void track.offsetHeight;
+        track.classList.remove("avis__track--jump");
+        afterSlideChange();
+        return;
+      }
+
+      i = (i + 1) % n;
+      apply();
+      afterSlideChange();
+    }
+
+    function stopTimer() {
+      if (timerId !== null) {
+        window.clearInterval(timerId);
+        timerId = null;
+      }
+    }
+
+    function syncTimer() {
+      stopTimer();
+      if (reduceMotion || document.hidden || userPause) return;
+      timerId = window.setInterval(tick, intervalMs);
+    }
+
+    apply();
+    syncTimer();
+
+    root.addEventListener("mouseenter", function () {
+      userPause = true;
+      syncTimer();
+    });
+    root.addEventListener("mouseleave", function () {
+      userPause = false;
+      syncTimer();
+    });
+
+    root.addEventListener("focusin", function () {
+      userPause = true;
+      syncTimer();
+    });
+    root.addEventListener("focusout", function (e) {
+      var rel = e.relatedTarget;
+      if (!rel || !root.contains(rel)) {
+        userPause = false;
+        syncTimer();
+      }
+    });
+
+    document.addEventListener("visibilitychange", function () {
+      syncTimer();
+    });
+  }
+
   initAvisToggles();
+  initAvisCarousel();
   window.addEventListener("resize", initAvisToggles, { passive: true });
   if (document.fonts && document.fonts.ready) {
     document.fonts.ready.then(initAvisToggles);
   }
+
+  /*
+   * Accueil — formules : variables CSS pour le sticky des cartes (nav + hauteur du bandeau).
+   * Le titre « Mes services » reste visible via position: sticky sur .formules__head-anchor
+   * (parent .formules__stack-main dans index.html) — pas d’écoute scroll / fixed.
+   */
+  (function initFormulesLayoutMetrics() {
+    if (typeof window === "undefined" || !document.body.classList.contains("page-home")) {
+      return;
+    }
+
+    var grid = document.getElementById("formules-grid");
+    if (!grid) return;
+    var head = grid.querySelector(".formules__head-anchor .formules__text-block");
+    if (!head) return;
+
+    var GAP = 16;
+    var resizeTimer = 0;
+
+    function getNavBottom() {
+      var nav = document.querySelector(".hero-im__nav.hero-im__nav--above-stage");
+      if (nav) {
+        return Math.round(nav.getBoundingClientRect().bottom);
+      }
+      return 96;
+    }
+
+    function applyMetrics() {
+      grid.style.setProperty("--formules-nav-under-live", getNavBottom() + GAP + "px");
+      var nh = Math.round(head.offsetHeight);
+      if (nh > 0) {
+        grid.style.setProperty("--formules-pin-head-h", nh + "px");
+      }
+    }
+
+    function onResize() {
+      if (resizeTimer) {
+        window.clearTimeout(resizeTimer);
+      }
+      resizeTimer = window.setTimeout(function () {
+        resizeTimer = 0;
+        applyMetrics();
+      }, 120);
+    }
+
+    function kick() {
+      applyMetrics();
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(applyMetrics);
+      });
+    }
+
+    kick();
+    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("load", kick);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(kick);
+    }
+  })();
 })();
