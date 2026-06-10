@@ -211,6 +211,8 @@ body.page-home main + footer.footer--nc {
 .page-home #top.hero.hero--immersive {
   min-height: 0;
   margin-bottom: 0;
+  /* Longue réserve en flux : la carte hero reste fixe, mais on défile plus longtemps « sur » le hero avant l’éditorial */
+  padding-bottom: clamp(5rem, 30vh, 16rem);
 }
 
 .page-home .hero.hero--immersive .hero-im__stage {
@@ -226,20 +228,20 @@ body.page-home main + footer.footer--nc {
 }
 
 .page-home .hero-im__scroll-spacer {
-  /* + clamp : plus de parcours hero avant recouvrement (évite l’éditorial trop collé sous la nav) */
+  /* Piste de scroll après le hero : garde-fous + marge pour que l’éditorial ne remonte pas trop tôt sous la nav */
   min-height: max(
     calc(
-      100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(40px, 8vh, 120px)
+      100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(72px, 14vh, 200px)
     ),
-    calc(var(--hero-nav-stack-h, 85px) + 16px + 92vh)
+    calc(var(--hero-nav-stack-h, 85px) + 16px + 100vh)
   );
   min-height: max(
     calc(
-      100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(40px, 8vh, 120px)
+      100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(72px, 14vh, 200px)
     ),
-    calc(var(--hero-nav-stack-h, 85px) + 16px + 92dvh)
+    calc(var(--hero-nav-stack-h, 85px) + 16px + 100dvh)
   );
-  margin-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+  margin-bottom: calc(2rem + env(safe-area-inset-bottom, 0px));
   flex-shrink: 0;
   pointer-events: none;
 }
@@ -1917,9 +1919,9 @@ main {
   padding-top: 64px;
 }
 
-/* Air supplémentaire sur le hero fixe avant le bloc blanc (marges flex non effondrées) */
+/* Air sur le hero fixe avant le bloc blanc (flex : marges non effondrées) */
 .page-home .about-editorial {
-  margin-top: clamp(1.25rem, 4vh, 2.75rem);
+  margin-top: clamp(2rem, 8vh, 4.5rem);
 }
 
 .page-home main > section + section {
