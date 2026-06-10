@@ -1899,31 +1899,61 @@ main {
   }
 }
 
-/* ——— Accueil : éditorial sous le hero ——— */
+/* ——— Accueil : éditorial sous le hero (même logique que .impact-stats : gouttières section + contenu max --max centré) ——— */
 .about-editorial {
   box-sizing: border-box;
   width: 100%;
-  max-width: min(100%, calc(var(--max) + 2 * var(--page-gutter-x)));
-  margin-inline: auto;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 38%);
-  grid-template-areas: "text photo";
-  gap: clamp(2rem, 4vw, 3.5rem);
-  align-items: start;
+  max-width: none;
+  margin-inline: 0;
+  min-width: 0;
   padding-inline: var(--page-gutter-x);
   background: #fff;
   color: #111;
   overflow: visible;
 }
 
-/* Accueil : 64px entre sections, rempli en blanc (padding / border — pas de marge transparente sur le hero) */
-.page-home main > .hero-im__scroll-spacer + section {
-  padding-top: 64px;
+.about-ed__inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: var(--max);
+  margin-inline: auto;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 38%);
+  grid-template-areas: "text photo";
+  gap: clamp(2rem, 4vw, 3.5rem);
+  align-items: start;
 }
 
-/* Remonte l’éditorial sur la carte hero (marge négative) : le flux passe visuellement par-dessus le hero fixe */
-.page-home .about-editorial {
-  margin-top: calc(-1 * clamp(2.5rem, 10vh, 6.5rem));
+/* Grands écrans : colonnes équilibrées + texte un peu plus large dans la colonne */
+@media (min-width: 901px) {
+  .about-ed__inner {
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, min(40%, 480px));
+    align-items: center;
+    gap: clamp(2.25rem, 3.5vw, 3.75rem);
+    padding-block-end: clamp(2.5rem, 4vw, 4rem);
+  }
+
+  .about-editorial .about-ed__title,
+  .about-editorial .about-ed__cols {
+    max-width: min(46rem, 100%);
+  }
+
+  .about-editorial .about-ed__photo-left img {
+    max-height: min(520px, 52vh);
+  }
+}
+
+@media (min-width: 1320px) {
+  .about-ed__inner {
+    grid-template-columns: minmax(0, 1fr) minmax(320px, min(520px, 36vw));
+  }
+}
+
+/* Accueil — #resultats : premier bloc sous le hero fixe (pas de marge négative : évite trous, empilement et bordure impact-stats) */
+.page-home main > .hero-im__scroll-spacer + section#resultats {
+  margin-top: 0;
+  padding-top: clamp(3rem, 5vw, 4rem);
 }
 
 .page-home main > section + section {
@@ -3962,9 +3992,10 @@ body.page-home #formules-grid + .formules-presentiel {
 }
 
 .avis__inner {
+  box-sizing: border-box;
+  width: 100%;
   max-width: var(--max);
-  margin: 0;
-  margin-right: auto;
+  margin-inline: auto;
   padding-bottom: clamp(0.5rem, 2vw, 1rem);
 }
 
@@ -4560,13 +4591,12 @@ body.page-home #formules-grid + .formules-presentiel {
     text-align: center;
   }
 
-  .about-editorial {
+  .about-ed__inner {
     grid-template-columns: 1fr;
     grid-template-areas:
       "text"
       "photo";
     gap: clamp(1.5rem, 4vw, 2rem);
-    padding-inline: var(--page-gutter-x);
     max-width: none;
   }
 
