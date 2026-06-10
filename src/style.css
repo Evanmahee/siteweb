@@ -211,12 +211,13 @@ body.page-home main + footer.footer--nc {
 .page-home #top.hero.hero--immersive {
   min-height: 0;
   margin-bottom: 0;
-  /* Longue réserve en flux : la carte hero reste fixe, mais on défile plus longtemps « sur » le hero avant l’éditorial */
-  padding-bottom: clamp(5rem, 30vh, 16rem);
+  /* Réserve de scroll modérée : le hero reste visible en scrollant, sans pousser tout le flux trop bas */
+  padding-bottom: clamp(2rem, 10vh, 6rem);
 }
 
 .page-home .hero.hero--immersive .hero-im__stage {
   position: fixed;
+  /* Sous tout le contenu de main qui a z-index ≥ 1 (éditorial, suites de page) */
   z-index: 0;
   top: calc(var(--hero-nav-stack-h, 85px) + var(--hero-nav-gap-above-stage, 16px));
   left: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
@@ -248,6 +249,7 @@ body.page-home main + footer.footer--nc {
 
 .page-home main > .hero-im__scroll-spacer ~ * {
   position: relative;
+  /* Au-dessus du .hero-im__stage fixe (z-index 0 dans #top) */
   z-index: 1;
 }
 
@@ -1919,9 +1921,9 @@ main {
   padding-top: 64px;
 }
 
-/* Air sur le hero fixe avant le bloc blanc (flex : marges non effondrées) */
+/* Remonte l’éditorial sur la carte hero (marge négative) : le flux passe visuellement par-dessus le hero fixe */
 .page-home .about-editorial {
-  margin-top: clamp(2rem, 8vh, 4.5rem);
+  margin-top: calc(-1 * clamp(2.5rem, 10vh, 6.5rem));
 }
 
 .page-home main > section + section {
