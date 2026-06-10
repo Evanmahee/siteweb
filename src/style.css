@@ -226,13 +226,18 @@ body.page-home main + footer.footer--nc {
 }
 
 .page-home .hero-im__scroll-spacer {
+  /* + clamp : plus de parcours hero avant recouvrement (évite l’éditorial trop collé sous la nav) */
   min-height: max(
-    calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)),
-    calc(var(--hero-nav-stack-h, 85px) + 16px + 85vh)
+    calc(
+      100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(40px, 8vh, 120px)
+    ),
+    calc(var(--hero-nav-stack-h, 85px) + 16px + 92vh)
   );
   min-height: max(
-    calc(100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)),
-    calc(var(--hero-nav-stack-h, 85px) + 16px + 85dvh)
+    calc(
+      100dvh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(40px, 8vh, 120px)
+    ),
+    calc(var(--hero-nav-stack-h, 85px) + 16px + 92dvh)
   );
   margin-bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
   flex-shrink: 0;
@@ -1910,6 +1915,11 @@ main {
 /* Accueil : 64px entre sections, rempli en blanc (padding / border — pas de marge transparente sur le hero) */
 .page-home main > .hero-im__scroll-spacer + section {
   padding-top: 64px;
+}
+
+/* Air supplémentaire sur le hero fixe avant le bloc blanc (marges flex non effondrées) */
+.page-home .about-editorial {
+  margin-top: clamp(1.25rem, 4vh, 2.75rem);
 }
 
 .page-home main > section + section {
