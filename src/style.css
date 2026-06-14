@@ -1735,18 +1735,12 @@ main {
   }
 
   .page-home .hero-im__scroll-spacer {
-    min-height: max(
-      calc(
-        100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(72px, 14vh, 200px)
-      ),
-      calc(var(--hero-nav-stack-h, 85px) + 16px + 100vh)
-    );
-    min-height: max(
-      calc(
-        100svh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(72px, 14vh, 200px)
-      ),
-      calc(var(--hero-nav-stack-h, 85px) + 16px + 100svh)
-    );
+    /*
+     * Piste de scroll sous le hero (stage fixed) : avant ~1× la hauteur d’écran + marge → trop long sur mobile.
+     * ~0,72× svh + réserve nav : une passe de scroll suffit en général pour atteindre l’éditorial.
+     */
+    min-height: calc(72svh + clamp(3rem, 10vw, 5rem));
+    margin-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
   }
 
   /* Bouton Contact header desktop : doublon avec le drawer mobile (accueil + Contact + À propos) */
