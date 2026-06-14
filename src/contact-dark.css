@@ -32,12 +32,6 @@ body.page-apropos .site-header.is-scrolled {
     0 10px 36px rgba(22, 20, 17, 0.08);
 }
 
-body.page-contact .site-header .hero-im__logo-img,
-body.page-apropos .site-header .hero-im__logo-img {
-  mix-blend-mode: normal;
-  filter: none;
-}
-
 body.page-contact .site-header .hero-im__pill-links a,
 body.page-apropos .site-header .hero-im__pill-links a {
   display: inline-block;
@@ -85,7 +79,7 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
 /* Même largeur utile que .contact-dark__inner : pas de double 120px (nav centrée vs intro). */
 @media (min-width: 901px) {
   :is(body.page-contact, body.page-apropos) .nav {
-    max-width: min(var(--max), calc(100% - 2 * var(--page-gutter-x)));
+    max-width: min(var(--max), 100%);
     padding-left: 0;
     padding-right: 0;
   }
@@ -126,11 +120,11 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
     margin-left: 0;
   }
 
-  /* Même gouttière + largeur max (logo aligné avec le contenu) */
+  /* Même axe horizontal que la nav accueil (logo + contenu) */
   body.page-contact .site-header,
   body.page-apropos .site-header {
-    padding-left: var(--page-gutter-x);
-    padding-right: var(--page-gutter-x);
+    padding-left: calc(var(--nav-logo-view-l) + var(--nav-logo-col-side));
+    padding-right: calc(var(--nav-logo-view-r) + var(--nav-logo-col-side));
   }
 
   body.page-contact .site-header .nav,
@@ -154,11 +148,7 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
     display: none;
   }
 
-  body.page-contact .nav__links li {
-    border-bottom-color: var(--nav-row-border);
-  }
-
-  body.page-apropos .nav__links li {
+  :is(body.page-contact, body.page-apropos) .nav__links li {
     border-bottom-color: rgba(255, 255, 255, 0.1);
   }
 
@@ -167,88 +157,47 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
     justify-content: space-between;
   }
 
-  body.page-contact .nav__links a {
-    color: var(--text);
-  }
-
-  body.page-contact .nav__links a:hover,
-  body.page-contact .nav__links a:focus-visible {
-    color: var(--gold);
-  }
-
-  body.page-contact .nav__links a.is-active {
-    color: var(--text);
-  }
-
-  body.page-contact .nav__links .nav-link--soon {
-    color: var(--text-muted);
-  }
-
-  body.page-apropos .nav__links a {
+  :is(body.page-contact, body.page-apropos) .nav__links a {
     color: rgba(255, 255, 255, 0.88);
   }
 
-  body.page-apropos .nav__links a:hover,
-  body.page-apropos .nav__links a:focus-visible {
-    color: var(--gold);
+  :is(body.page-contact, body.page-apropos) .nav__links a:hover,
+  :is(body.page-contact, body.page-apropos) .nav__links a:focus-visible {
+    color: #ffffff;
   }
 
-  body.page-apropos .nav__links a.is-active {
+  :is(body.page-contact, body.page-apropos) .nav__links a.is-active {
     color: rgba(255, 255, 255, 0.88);
   }
 
-  body.page-apropos .nav__links .nav-link--soon {
+  :is(body.page-contact, body.page-apropos) .nav__links .nav-link--soon {
     color: rgba(255, 255, 255, 0.42);
     opacity: 1;
   }
 
-  body.page-contact .nav__toggle {
+  :is(body.page-contact, body.page-apropos) .nav__toggle {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
     border-radius: 10px;
-    border-color: rgba(22, 20, 17, 0.18);
-    background: rgba(22, 20, 17, 0.04);
+    border-color: rgba(22, 20, 17, 0.14);
+    background: rgba(255, 255, 255, 1);
   }
 
-  body.page-contact .nav__toggle-bar {
+  :is(body.page-contact, body.page-apropos) .nav__toggle-bar {
     background: var(--text);
   }
 
-  body.page-apropos .nav__toggle {
-    border-radius: 10px;
-    border-color: rgba(22, 20, 17, 0.18);
-    background: rgba(22, 20, 17, 0.04);
-  }
+  /* Tiroir #000 + texte clair : défini dans style.css ; pas de surcouche « menu clair » ici */
 
-  body.page-apropos .nav__toggle-bar {
-    background: var(--text);
-  }
-
-  body.page-contact .nav__menu.hero-im__drawer {
-    background: var(--mobile-menu-bg);
-    backdrop-filter: blur(18px) saturate(1.2);
-    -webkit-backdrop-filter: blur(18px) saturate(1.2);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.1);
-  }
-
-  body.page-contact .hero-im__drawer .hero-btn--secondary {
-    color: var(--text);
-    border-color: rgba(22, 20, 17, 0.18);
-    background: rgba(22, 20, 17, 0.04);
-  }
-
-  body.page-contact .hero-im__drawer .hero-btn--secondary:hover,
-  body.page-contact .hero-im__drawer .hero-btn--secondary:focus-visible {
-    border-color: rgba(22, 20, 17, 0.28);
-    background: rgba(22, 20, 17, 0.08);
-  }
-
-  body.page-apropos .hero-im__drawer .hero-btn--secondary {
+  :is(body.page-contact, body.page-apropos) .hero-im__drawer .hero-btn--secondary {
     color: #fff;
     border-color: rgba(255, 255, 255, 0.28);
     background: rgba(255, 255, 255, 0.08);
   }
 
-  body.page-apropos .hero-im__drawer .hero-btn--secondary:hover,
-  body.page-apropos .hero-im__drawer .hero-btn--secondary:focus-visible {
+  :is(body.page-contact, body.page-apropos) .hero-im__drawer .hero-btn--secondary:hover,
+  :is(body.page-contact, body.page-apropos) .hero-im__drawer .hero-btn--secondary:focus-visible {
     border-color: rgba(255, 255, 255, 0.45);
     background: rgba(255, 255, 255, 0.14);
   }
@@ -268,16 +217,18 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
     overflow: visible;
   }
 
-  body.page-apropos .nav.is-open .nav__menu.hero-im__drawer,
   body.page-contact .nav.is-open .nav__menu.hero-im__drawer {
     z-index: 10000;
   }
 }
 
-/* Bloc principal (thème clair — page contact) */
+/* Bloc principal (thème clair — page contact) : même gouttière horizontale que les sections accueil (.mes-services, etc.) */
 .contact-dark {
   /* Header sticky déjà dans le flux : espace uniquement sous la nav */
-  padding: 32px var(--page-gutter-x) clamp(3rem, 8vw, 5rem);
+  padding-top: 32px;
+  padding-bottom: clamp(3rem, 8vw, 5rem);
+  padding-left: var(--page-gutter-x);
+  padding-right: var(--page-gutter-x);
   background: var(--bg);
   color: var(--text);
 }
@@ -303,6 +254,8 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
 .contact-dark__intro {
   width: 100%;
   min-width: 0;
+  padding-inline: 0;
+  box-sizing: border-box;
 }
 
 .contact-dark__intro-copy {
@@ -594,14 +547,14 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
 }
 
 .contact-pill__input:focus-visible + .contact-pill__label {
-  outline: 2px solid var(--gold);
+  outline: 2px solid rgba(22, 20, 17, 0.45);
   outline-offset: 2px;
 }
 
 .contact-pill__input:checked + .contact-pill__label {
-  background: var(--gold);
-  color: var(--on-accent);
-  border-color: var(--gold);
+  background: #111;
+  color: #fff;
+  border-color: #111;
   font-weight: 600;
 }
 
@@ -668,8 +621,8 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
 .contact-dark .contact-form--dark .field select:focus-visible,
 .contact-dark .contact-form--dark .field textarea:focus-visible {
   outline: none;
-  border-color: rgba(201, 168, 76, 0.65);
-  box-shadow: 0 0 0 1px rgba(201, 168, 76, 0.35);
+  border-color: rgba(22, 20, 17, 0.35);
+  box-shadow: 0 0 0 1px rgba(22, 20, 17, 0.1);
 }
 
 .contact-dark .contact-form--dark .field textarea {
@@ -709,7 +662,7 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
 }
 
 .contact-dark__submit:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid rgba(22, 20, 17, 0.45);
   outline-offset: 3px;
 }
 

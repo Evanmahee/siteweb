@@ -88,6 +88,21 @@
     closeAllMenus();
   });
 
+  /* Mobile / tablette : fermer le menu en cliquant hors de la barre (ex. hero sous le tiroir demi-hauteur) */
+  document.addEventListener(
+    "click",
+    function (e) {
+      if (window.innerWidth > 900) return;
+      if (!document.querySelector(".nav.is-open")) return;
+      var t = e.target;
+      if (!t || !t.closest) return;
+      if (!t.closest(".nav.is-open")) {
+        closeAllMenus();
+      }
+    },
+    false
+  );
+
   /* IntersectionObserver — fadeUp */
   var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

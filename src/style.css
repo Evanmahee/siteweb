@@ -86,25 +86,22 @@
   color-scheme: light;
   --black: #050505;
   --white: #ffffff;
-  --gold: #c9a84c;
-  --gold-hover: #d4b45d;
   --on-accent: #0a0a0a;
   --bg: #ffffff;
   --bg-elevated: #ffffff;
-  --gold-dim: rgba(140, 110, 40, 0.4);
-  --gold-soft: rgba(201, 168, 76, 0.18);
   --text: #161411;
   --text-muted: #5e594e;
-  --line: rgba(201, 168, 76, 0.32);
+  --line: rgba(22, 20, 17, 0.12);
   --badge-bg: rgba(255, 255, 255, 0.95);
   --hairline: rgba(22, 20, 17, 0.08);
-  --shadow-featured: 0 0 0 1px rgba(201, 168, 76, 0.2), 0 20px 48px rgba(0, 0, 0, 0.08);
+  --shadow-featured: 0 0 0 1px rgba(22, 20, 17, 0.08), 0 20px 48px rgba(0, 0, 0, 0.08);
+  --focus-ring: rgba(22, 20, 17, 0.45);
   --contact-form-bg: rgba(255, 255, 255, 0.92);
   --mobile-menu-bg: rgba(255, 255, 255, 0.98);
   --nav-row-border: rgba(22, 20, 17, 0.08);
   --about-placeholder-bg: linear-gradient(145deg, #f2f2f2 0%, #e8e8e8 100%);
   --about-placeholder-border: rgba(22, 20, 17, 0.08);
-  --contact-glow: radial-gradient(circle, rgba(201, 168, 76, 0.14) 0%, transparent 65%);
+  --contact-glow: radial-gradient(circle, rgba(22, 20, 17, 0.06) 0%, transparent 65%);
   --hero-image: url("../assets/hero-coach.png");
   /* Zoom photo hero : cover + scale (le bloc .hero--immersive masque le débordement) */
   --hero-im-photo-scale: 1.15;
@@ -132,6 +129,15 @@
   --section-stack-gap: 80px;
   /* Cadre hero immersif : écart fixe aux bords de la fenêtre (toutes largeurs) */
   --hero-frame-gutter-x: 16px;
+  /* Même axe horizontal que la nav accueil (logo + colonne) — réutilisé headers / pages internes */
+  --nav-logo-view-l: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
+  --nav-logo-view-r: max(var(--hero-frame-gutter-x), env(safe-area-inset-right, 0px));
+  --nav-logo-shell-inner-w: calc(100vw - var(--nav-logo-view-l) - var(--nav-logo-view-r));
+  --nav-logo-col-w: min(
+    var(--max),
+    max(0px, calc(var(--nav-logo-shell-inner-w) - 2 * var(--section-pad-x)))
+  );
+  --nav-logo-col-side: max(0px, calc((var(--nav-logo-shell-inner-w) - var(--nav-logo-col-w)) / 2));
   /* Espace sous le bloc titre + CTA (aligné preuve sociale, coin bas hero) */
   --hero-im-main-edge: 32px;
   --site-title-size: 40px;
@@ -142,12 +148,12 @@
   --glass-bg-scrolled: rgba(255, 255, 255, 0.78);
   --glass-border: rgba(255, 255, 255, 0.45);
   --glass-edge: rgba(22, 20, 17, 0.06);
-  /* Actions : primaire = clair, secondaire = or (marque) */
+  /* Actions : primaire = clair, secondaire = foncé */
   --color-action-primary: #ffffff;
   --color-action-primary-hover: #f4f4f4;
   --color-action-primary-ink: var(--on-accent);
-  --color-action-secondary: var(--gold);
-  --color-action-secondary-hover: var(--gold-hover);
+  --color-action-secondary: #161411;
+  --color-action-secondary-hover: #333333;
   /* Verre blanc (CTA secondaire hero) */
   --color-action-secondary-glass: rgba(255, 255, 255, 0.14);
   --color-action-secondary-glass-hover: rgba(255, 255, 255, 0.22);
@@ -320,6 +326,13 @@ main {
     0 10px 40px rgba(0, 0, 0, 0.06);
 }
 
+/* Même retrait horizontal que la nav accueil (nav texte marketplace / mentions) */
+.site-header > .nav:not(.hero-im__nav) {
+  padding-left: calc(var(--nav-logo-view-l) + var(--nav-logo-col-side));
+  padding-right: calc(var(--nav-logo-view-r) + var(--nav-logo-col-side));
+  box-sizing: border-box;
+}
+
 /* Ancienne barre fixe bas de page (supprimée du HTML) — filet si cache / ancien déploiement */
 #sticky-cta-home {
   display: none !important;
@@ -377,19 +390,21 @@ main {
   width: 20px;
   height: 2px;
   margin: 0 auto;
-  background: var(--gold);
+  background: var(--text);
   transition: transform 0.3s var(--ease-out), opacity 0.3s;
 }
 
-.nav.is-open .nav__toggle-bar:nth-child(1) {
+/* nth-of-type : les retours à la ligne dans <button> créent des nœuds texte ;
+   avec :nth-child(), les barres ne sont plus les enfants 1–3 → la croix ne se forme pas. */
+.nav.is-open .nav__toggle-bar:nth-of-type(1) {
   transform: translateY(8px) rotate(45deg);
 }
 
-.nav.is-open .nav__toggle-bar:nth-child(2) {
+.nav.is-open .nav__toggle-bar:nth-of-type(2) {
   opacity: 0;
 }
 
-.nav.is-open .nav__toggle-bar:nth-child(3) {
+.nav.is-open .nav__toggle-bar:nth-of-type(3) {
   transform: translateY(-8px) rotate(-45deg);
 }
 
@@ -423,7 +438,7 @@ main {
 
 .nav__links a:hover,
 .nav__links a:focus-visible {
-  color: var(--gold);
+  color: var(--text);
 }
 
 .nav__links a.is-active {
@@ -479,7 +494,7 @@ main {
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -539,7 +554,7 @@ main {
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--gold);
+  color: var(--text-muted);
 }
 
 .section__title {
@@ -552,7 +567,7 @@ main {
 }
 
 .gold-italic {
-  color: var(--gold);
+  color: var(--text);
   font-style: italic;
   font-weight: 500;
 }
@@ -579,15 +594,12 @@ main {
   --hero-frame-top: 0px;
   --hero-nav-below-frame: 0.65rem;
   --hero-nav-gap-above-stage: 16px;
-  /* Alignement nav (logo / Contact) sur la colonne .hero-im__main */
-  --hero-im-view-l: max(var(--hero-frame-gutter-x), env(safe-area-inset-left, 0px));
-  --hero-im-view-r: max(var(--hero-frame-gutter-x), env(safe-area-inset-right, 0px));
-  --hero-im-shell-inner-w: calc(100vw - var(--hero-im-view-l) - var(--hero-im-view-r));
-  --hero-im-col-w: min(
-    var(--max),
-    max(0px, calc(var(--hero-im-shell-inner-w) - 2 * var(--section-pad-x)))
-  );
-  --hero-im-col-side: max(0px, calc((var(--hero-im-shell-inner-w) - var(--hero-im-col-w)) / 2));
+  /* Alignement nav (logo / Contact) sur la colonne .hero-im__main (= --nav-logo-* global) */
+  --hero-im-view-l: var(--nav-logo-view-l);
+  --hero-im-view-r: var(--nav-logo-view-r);
+  --hero-im-shell-inner-w: var(--nav-logo-shell-inner-w);
+  --hero-im-col-w: var(--nav-logo-col-w);
+  --hero-im-col-side: var(--nav-logo-col-side);
   /* Réserve verticale = hauteur réelle de la nav fixe (85px) */
   --hero-nav-bar-h: var(--hero-nav-stack-h, 85px);
   /* Pleine largeur : la nav touche les bords ; le cadre photo reste sur .hero-im__stage */
@@ -860,6 +872,15 @@ main {
   width: auto;
 }
 
+/* Contact / À propos (header clair) : même rendu logo image que la nav accueil */
+.site-header .hero-im__logo-img {
+  mix-blend-mode: normal;
+  filter: none;
+  height: clamp(2.2rem, 4.2vw, 2.65rem);
+  width: auto;
+  max-height: none;
+}
+
 .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links li + li::before,
 .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links li + li::before {
   background: rgba(22, 20, 17, 0.22);
@@ -914,7 +935,7 @@ main {
 }
 
 .hero-im__logo:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -1444,7 +1465,7 @@ main {
 }
 
 .mes-services__card:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -1510,7 +1531,7 @@ main {
   justify-content: center;
   width: 2.25rem;
   height: 2.25rem;
-  color: var(--gold);
+  color: var(--text-muted);
   opacity: 0;
   transform: translate(-6px, 0);
   transition:
@@ -1692,12 +1713,12 @@ main {
     font-size: clamp(2.05rem, 8.8vw + 0.45rem, 2.8rem);
   }
 
-  /* Header hero : retrait homogène 16px, pleine largeur utile */
+  /* Même retrait horizontal que la nav fixe accueil (gouttière + centrage colonne --max) */
   .hero-im__nav {
     flex-shrink: 0;
     max-width: none;
     width: 100%;
-    padding-inline: var(--hero-frame-gutter-x);
+    padding-inline: calc(var(--nav-logo-view-l) + var(--nav-logo-col-side));
     gap: 0.75rem;
     align-items: center;
   }
@@ -1732,17 +1753,6 @@ main {
     justify-content: center;
     align-self: center;
     gap: 0.45rem;
-  }
-
-  /* Contact / À propos : header sticky, burger 44px — aligner la zone logo */
-  .site-header .hero-im__logo {
-    min-height: 44px;
-    height: 44px;
-    padding: 0;
-  }
-
-  .site-header .hero-im__logo-img {
-    max-height: 38px;
   }
 
   .hero-im__nav-actions .hero-im__nav-cta {
@@ -1826,8 +1836,7 @@ main {
   .hero--immersive .nav__menu {
     top: 0;
     bottom: auto;
-    height: 50dvh;
-    max-height: 50%;
+    height: min(50dvh, 50vh);
     box-sizing: border-box;
     overflow-y: auto;
     padding: calc(1rem + env(safe-area-inset-top, 0px)) var(--hero-frame-gutter-x) max(1rem, env(safe-area-inset-bottom, 0px));
@@ -1846,7 +1855,7 @@ main {
 
   .hero--immersive .nav__links a:hover,
   .hero--immersive .nav__links a:focus-visible {
-    color: var(--gold);
+    color: #ffffff;
   }
 
   .hero--immersive .nav__links .nav-link--soon {
@@ -1890,7 +1899,7 @@ main {
   .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle,
   .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle {
     border-color: rgba(22, 20, 17, 0.14);
-    background: rgba(22, 20, 17, 0.04);
+    background: rgba(255, 255, 255, 1);
   }
 
   .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle-bar,
@@ -1986,7 +1995,7 @@ body.page-home .mes-services .mes-services__grid {
 .apropos-hero-grid {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 var(--page-gutter-x) clamp(2rem, 4vw, 3.25rem);
+  padding: 0 calc(var(--nav-logo-view-l) + var(--nav-logo-col-side)) clamp(2rem, 4vw, 3.25rem);
   background: #fff;
   color: #111;
 }
@@ -2019,6 +2028,12 @@ body.page-home .mes-services .mes-services__grid {
 }
 
 @media (max-width: 900px) {
+  /* Hors accueil : même gouttière horizontale que les blocs type « Mes services » (var(--page-gutter-x)) */
+  .apropos-hero-grid {
+    padding-left: var(--page-gutter-x);
+    padding-right: var(--page-gutter-x);
+  }
+
   .apropos-hero-grid__split {
     grid-template-columns: 1fr;
   }
@@ -2211,7 +2226,7 @@ body.page-home .mes-services .mes-services__grid {
 }
 
 .apropos-bio__cta:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -2600,7 +2615,7 @@ body.page-home .mes-services .mes-services__grid {
 .online__divider {
   width: 80px;
   height: 3px;
-  background: var(--gold);
+  background: var(--text);
   border-radius: 2px;
 }
 .online__text {
@@ -2667,7 +2682,7 @@ body.page-home .mes-services .mes-services__grid {
   left: 12px;
   right: -12px;
   bottom: -12px;
-  border: 1px solid var(--gold-dim);
+  border: 1px solid rgba(22, 20, 17, 0.12);
   pointer-events: none;
   z-index: -1;
 }
@@ -2711,7 +2726,7 @@ body.page-home .mes-services .mes-services__grid {
   top: 0.55em;
   width: 8px;
   height: 1px;
-  background: var(--gold);
+  background: var(--text);
 }
 
 /* ——— Services ——— */
@@ -2735,13 +2750,13 @@ body.page-home .mes-services .mes-services__grid {
 }
 
 .service-card:hover {
-  border-color: var(--gold-dim);
+  border-color: rgba(22, 20, 17, 0.2);
 }
 
 .service-card__line {
   width: 48px;
   height: 1px;
-  background: var(--gold);
+  background: var(--text);
   margin-bottom: 1.25rem;
   opacity: 0.85;
 }
@@ -2775,9 +2790,9 @@ body.page-home .mes-services .mes-services__grid {
 }
 
 .service-card--featured {
-  border-color: var(--gold);
+  border-color: rgba(22, 20, 17, 0.16);
   box-shadow: var(--shadow-featured);
-  background: radial-gradient(120% 80% at 50% 0%, var(--gold-soft) 0%, var(--bg-elevated) 55%);
+  background: radial-gradient(120% 80% at 50% 0%, rgba(22, 20, 17, 0.04) 0%, var(--bg-elevated) 55%);
 }
 
 .service-card__ribbon {
@@ -2789,8 +2804,8 @@ body.page-home .mes-services .mes-services__grid {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  background: var(--gold);
-  color: var(--on-accent);
+  background: #111;
+  color: #fff;
 }
 
 /* ——— Formules (durées d’accompagnement) ——— */
@@ -3166,7 +3181,7 @@ body.page-home #formules-grid .formules-sticky-region {
 }
 
 .formule-card__cta:focus-visible {
-  outline: 2px solid rgba(201, 168, 76, 0.65);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -3285,7 +3300,7 @@ body.page-home #formules-grid .formules-sticky-region {
 }
 
 .formule-card--gold-head .formule-card__price {
-  color: var(--gold);
+  color: #7a756c;
 }
 
 .formule-card__body {
@@ -3614,7 +3629,7 @@ body.page-home #formules-grid + .formules-presentiel {
 .quote-card__result {
   font-size: var(--text-body);
   font-weight: 500;
-  color: var(--gold);
+  color: var(--text-muted);
   letter-spacing: 0.02em;
   text-transform: none;
 }
@@ -3666,7 +3681,7 @@ body.page-home #formules-grid + .formules-presentiel {
 .contact-page__title em {
   font-style: italic;
   font-weight: 600;
-  color: var(--gold);
+  color: #111;
 }
 
 .contact-page__subtitle {
@@ -3780,7 +3795,7 @@ body.page-home #formules-grid + .formules-presentiel {
 }
 
 .contact-card__cta:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -3856,7 +3871,7 @@ body.page-home #formules-grid + .formules-presentiel {
 .contact-form.contact-form--page .field select:focus-visible,
 .contact-form.contact-form--page .field textarea:focus-visible {
   border-color: #d1d5db;
-  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.2);
+  box-shadow: 0 0 0 3px rgba(22, 20, 17, 0.08);
 }
 
 .contact-form__submit {
@@ -3881,7 +3896,7 @@ body.page-home #formules-grid + .formules-presentiel {
 }
 
 .contact-form__submit:focus-visible {
-  outline: 2px solid var(--gold);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
 }
 
@@ -3928,7 +3943,7 @@ body.page-home #formules-grid + .formules-presentiel {
 .contact__note {
   margin: 0;
   font-size: var(--text-body);
-  color: var(--gold);
+  color: var(--text-muted);
   letter-spacing: 0.04em;
 }
 
@@ -3973,8 +3988,8 @@ body.page-home #formules-grid + .formules-presentiel {
 .field select:focus-visible,
 .field textarea:focus-visible {
   outline: none;
-  border-color: var(--gold);
-  box-shadow: 0 0 0 1px var(--gold-dim);
+  border-color: rgba(22, 20, 17, 0.35);
+  box-shadow: 0 0 0 1px rgba(22, 20, 17, 0.12);
 }
 
 .field textarea {
@@ -4330,7 +4345,7 @@ body.page-home #formules-grid + .formules-presentiel {
 .footer__social-link:hover,
 .footer__social-link:focus-visible {
   opacity: 1;
-  color: var(--gold);
+  color: var(--text);
 }
 
 .footer__rule {
@@ -4368,14 +4383,14 @@ body.page-home #formules-grid + .formules-presentiel {
 }
 
 .footer__legal-link--gold {
-  color: var(--gold);
+  color: var(--text-muted);
   font-weight: 500;
 }
 
 .footer__legal-link--gold:hover,
 .footer__legal-link--gold:focus-visible {
-  color: var(--gold-hover);
-  border-bottom-color: var(--gold-dim);
+  color: var(--text);
+  border-bottom-color: var(--hairline);
 }
 
 /* ——— Scroll reveal ——— */
@@ -4432,7 +4447,7 @@ body.page-home #formules-grid + .formules-presentiel {
   }
 
   .nav__drawer-close:focus-visible {
-    outline: 2px solid var(--gold);
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
   }
 
@@ -4512,8 +4527,7 @@ body.page-home #formules-grid + .formules-presentiel {
     z-index: 1100;
     top: 0;
     bottom: auto;
-    height: 50dvh;
-    max-height: 50%;
+    height: min(50dvh, 50vh);
     box-sizing: border-box;
     overflow-y: auto;
     background: #000;
@@ -4521,12 +4535,13 @@ body.page-home #formules-grid + .formules-presentiel {
     -webkit-backdrop-filter: none;
   }
 
+  /* Contact + À propos : même tiroir sombre que l’accueil (gouttière 16px + safe area) */
   body.page-contact .nav__menu.hero-im__drawer,
   body.page-apropos .nav__menu.hero-im__drawer {
-    padding: calc(1rem + env(safe-area-inset-top, 0px)) var(--page-gutter-x) max(1rem, env(safe-area-inset-bottom, 0px));
     border-top: 0;
     border-radius: 0 0 1rem 1rem;
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+    padding: calc(1rem + env(safe-area-inset-top, 0px)) var(--hero-frame-gutter-x) max(1rem, env(safe-area-inset-bottom, 0px));
   }
 
   .hero--immersive .nav.is-open .nav__menu,
@@ -4535,26 +4550,19 @@ body.page-home #formules-grid + .formules-presentiel {
     transform: translateY(0);
   }
 
-  .hero--immersive .nav.is-open .nav__toggle {
-    position: fixed;
-    z-index: 1210;
-    /* Même bande verticale que la 1re ligne du drawer (padding drawer + ligne « À propos ») */
-    top: calc(
-      env(safe-area-inset-top, 0px) + 1rem + (2rem + 1.05rem * 1.5) / 2 - 21px
-    );
-    right: var(--hero-frame-gutter-x);
-    margin: 0;
-  }
-
-  .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage.is-open .nav__toggle,
-  .hero--immersive > .hero-im__nav.hero-im__nav--above-stage.is-open .nav__toggle {
-    right: env(safe-area-inset-right, 0px);
-  }
-
+  .hero--immersive .nav.is-open .nav__toggle,
   body.page-contact .nav.is-open .nav__toggle,
   body.page-apropos .nav.is-open .nav__toggle {
+    /* Rester dans le flux (pas de fixed + right : évite le saut du burger vers le bord) */
     position: relative;
     z-index: 1210;
+  }
+
+  /* Le tiroir (#nav-menu) est frère de .hero-im__nav-end avec z-index 1100 ; sans z-index sur
+     nav-end, tout le bloc droit (dont le toggle) passe sous le menu — la croix n’est plus visible. */
+  .nav.is-open .hero-im__nav-end {
+    position: relative;
+    z-index: 1215;
   }
 
   .nav__links {
