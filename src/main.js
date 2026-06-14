@@ -17,6 +17,28 @@
   updateHeaderScroll();
   window.addEventListener("scroll", updateHeaderScroll, { passive: true });
 
+  /* Accueil : masquer la carte hero fixe dès que le footer entre dans le viewport (évite flash au scroll élastique sur le footer). */
+  (function initPageHomeFooterHeroLayer() {
+    if (typeof window === "undefined" || !document.body.classList.contains("page-home")) {
+      return;
+    }
+    var footer = document.querySelector("main + footer.footer--nc");
+    if (!footer) return;
+
+    function sync() {
+      var ft = footer.getBoundingClientRect().top;
+      var hide = ft < window.innerHeight - 2;
+      document.body.classList.toggle("page-home-hide-hero-stage", hide);
+    }
+
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+    window.addEventListener("resize", sync, { passive: true });
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", sync, { passive: true });
+    }
+  })();
+
   /* Mobile menu */
   function setMenuOpen(nav, open) {
     if (!nav) return;
@@ -275,7 +297,10 @@
     section.querySelectorAll(".avis__card").forEach(measureOne);
   }
 
-  /** Carrousel témoignages infini : avance toujours dans le même sens (LTR, panneau suivant depuis la droite) */
+  /**
+   * Carrousel témoignages (≥721px) : défilement auto + clones pour boucle.
+   * Téléphone (≤720px) : pas de carrousel — les deux groupes d’avis s’empilent (voir .avis__carousel--static).
+   */
   function initAvisCarousel() {
     var root = document.querySelector("[data-avis-carousel]");
     if (!root) return;
@@ -283,12 +308,50 @@
     var track = root.querySelector("[data-avis-track]");
     if (!track) return;
 
-    var originals = Array.prototype.slice.call(track.querySelectorAll(":scope > .avis__slide"));
-    if (originals.length < 2) return;
+    var mqPhone =
+      typeof window.matchMedia === "function" ? window.matchMedia("(max-width: 720px)") : null;
 
-    var reduceMotion =
-      typeof window.matchMedia === "function" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    function isPhone() {
+      return mqPhone ? mqPhone.matches : window.innerWidth <= 720;
+    }
+
+    function teardownCarousel() {
+      track.querySelectorAll(".avis__slide--clone").forEach(function (el) {
+        el.remove();
+      });
+      track.classList.remove("avis__track--jump");
+      track.style.removeProperty("--avis-n");
+      track.style.removeProperty("--avis-i");
+      var st = root._avisCarouselState;
+      if (st) {
+        if (st.timerId !== null) {
+          window.clearInterval(st.timerId);
+          st.timerId = null;
+        }
+        if (st.onVis) {
+          document.removeEventListener("visibilitychange", st.onVis);
+          st.onVis = null;
+        }
+        if (st.onEnter) root.removeEventListener("mouseenter", st.onEnter);
+        if (st.onLeave) root.removeEventListener("mouseleave", st.onLeave);
+        if (st.onFocusIn) root.removeEventListener("focusin", st.onFocusIn);
+        if (st.onFocusOut) root.removeEventListener("focusout", st.onFocusOut);
+        st.onEnter = st.onLeave = st.onFocusIn = st.onFocusOut = null;
+        root._avisCarouselState = null;
+      }
+    }
+
+    function setPhoneStackMode() {
+      teardownCarousel();
+      root.classList.add("avis__carousel--static");
+      root.removeAttribute("aria-roledescription");
+      track.querySelectorAll(":scope > .avis__slide").forEach(function (slide) {
+        slide.setAttribute("aria-hidden", "false");
+        if ("inert" in slide) {
+          slide.inert = false;
+        }
+      });
+    }
 
     function fixSlideCloneIds(slideEl, suffix) {
       slideEl.removeAttribute("id");
@@ -303,107 +366,161 @@
       });
     }
 
-    var slides;
-    var n;
-    var i;
-    var timerId = null;
-    var intervalMs = 6500;
-    var userPause = false;
+    function mountDesktopCarousel() {
+      var originals = Array.prototype.slice.call(
+        track.querySelectorAll(":scope > .avis__slide:not(.avis__slide--clone)")
+      );
+      if (originals.length < 2) return;
 
-    if (!reduceMotion) {
-      var cloneLast = originals[originals.length - 1].cloneNode(true);
-      cloneLast.classList.add("avis__slide--clone");
-      fixSlideCloneIds(cloneLast, "-c-last");
-      var cloneFirst = originals[0].cloneNode(true);
-      cloneFirst.classList.add("avis__slide--clone");
-      fixSlideCloneIds(cloneFirst, "-c-first");
-      track.insertBefore(cloneLast, originals[0]);
-      track.appendChild(cloneFirst);
-      slides = track.querySelectorAll(":scope > .avis__slide");
-      n = slides.length;
-      i = 1;
-    } else {
-      slides = originals;
-      n = slides.length;
-      i = 0;
-    }
+      var reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    function apply() {
-      track.style.setProperty("--avis-n", String(n));
-      track.style.setProperty("--avis-i", String(i));
-      slides.forEach(function (slide, idx) {
-        var hidden = idx !== i;
-        slide.setAttribute("aria-hidden", hidden ? "true" : "false");
-        if ("inert" in slide) {
-          slide.inert = hidden;
-        }
-      });
-    }
+      teardownCarousel();
+      root.classList.remove("avis__carousel--static");
+      root.setAttribute("aria-roledescription", "carrousel");
 
-    function afterSlideChange() {
-      window.requestAnimationFrame(function () {
-        initAvisToggles();
-      });
-    }
+      var slides;
+      var n;
+      var i;
+      var intervalMs = 6500;
+      var userPause = false;
 
-    function tick() {
-      if (document.hidden || userPause || reduceMotion) return;
-
-      if (!reduceMotion && i === n - 1) {
-        track.classList.add("avis__track--jump");
+      if (!reduceMotion) {
+        var cloneLast = originals[originals.length - 1].cloneNode(true);
+        cloneLast.classList.add("avis__slide--clone");
+        fixSlideCloneIds(cloneLast, "-c-last");
+        var cloneFirst = originals[0].cloneNode(true);
+        cloneFirst.classList.add("avis__slide--clone");
+        fixSlideCloneIds(cloneFirst, "-c-first");
+        track.insertBefore(cloneLast, originals[0]);
+        track.appendChild(cloneFirst);
+        slides = track.querySelectorAll(":scope > .avis__slide");
+        n = slides.length;
         i = 1;
+      } else {
+        slides = originals;
+        n = slides.length;
+        i = 0;
+      }
+
+      function apply() {
+        track.style.setProperty("--avis-n", String(n));
+        track.style.setProperty("--avis-i", String(i));
+        slides.forEach(function (slide, idx) {
+          var hidden = idx !== i;
+          slide.setAttribute("aria-hidden", hidden ? "true" : "false");
+          if ("inert" in slide) {
+            slide.inert = hidden;
+          }
+        });
+      }
+
+      function afterSlideChange() {
+        window.requestAnimationFrame(function () {
+          initAvisToggles();
+        });
+      }
+
+      function tick() {
+        if (document.hidden || userPause || reduceMotion) return;
+
+        if (!reduceMotion && i === n - 1) {
+          track.classList.add("avis__track--jump");
+          i = 1;
+          apply();
+          void track.offsetHeight;
+          track.classList.remove("avis__track--jump");
+          afterSlideChange();
+          return;
+        }
+
+        i = (i + 1) % n;
         apply();
-        void track.offsetHeight;
-        track.classList.remove("avis__track--jump");
         afterSlideChange();
-        return;
       }
 
-      i = (i + 1) % n;
-      apply();
-      afterSlideChange();
-    }
+      var st = {
+        timerId: null,
+        onVis: null,
+        onEnter: null,
+        onLeave: null,
+        onFocusIn: null,
+        onFocusOut: null,
+      };
 
-    function stopTimer() {
-      if (timerId !== null) {
-        window.clearInterval(timerId);
-        timerId = null;
+      function stopTimer() {
+        if (st.timerId !== null) {
+          window.clearInterval(st.timerId);
+          st.timerId = null;
+        }
       }
-    }
 
-    function syncTimer() {
-      stopTimer();
-      if (reduceMotion || document.hidden || userPause) return;
-      timerId = window.setInterval(tick, intervalMs);
-    }
+      function syncTimer() {
+        stopTimer();
+        if (reduceMotion || document.hidden || userPause) return;
+        st.timerId = window.setInterval(tick, intervalMs);
+      }
 
-    apply();
-    syncTimer();
-
-    root.addEventListener("mouseenter", function () {
-      userPause = true;
-      syncTimer();
-    });
-    root.addEventListener("mouseleave", function () {
-      userPause = false;
-      syncTimer();
-    });
-
-    root.addEventListener("focusin", function () {
-      userPause = true;
-      syncTimer();
-    });
-    root.addEventListener("focusout", function (e) {
-      var rel = e.relatedTarget;
-      if (!rel || !root.contains(rel)) {
+      st.onEnter = function () {
+        userPause = true;
+        syncTimer();
+      };
+      st.onLeave = function () {
         userPause = false;
         syncTimer();
-      }
-    });
+      };
+      st.onFocusIn = function () {
+        userPause = true;
+        syncTimer();
+      };
+      st.onFocusOut = function (e) {
+        var rel = e.relatedTarget;
+        if (!rel || !root.contains(rel)) {
+          userPause = false;
+          syncTimer();
+        }
+      };
+      st.onVis = function () {
+        syncTimer();
+      };
 
-    document.addEventListener("visibilitychange", function () {
+      root.addEventListener("mouseenter", st.onEnter);
+      root.addEventListener("mouseleave", st.onLeave);
+      root.addEventListener("focusin", st.onFocusIn);
+      root.addEventListener("focusout", st.onFocusOut);
+      document.addEventListener("visibilitychange", st.onVis);
+
+      root._avisCarouselState = st;
+
+      apply();
       syncTimer();
-    });
+    }
+
+    function syncMode() {
+      if (isPhone()) {
+        setPhoneStackMode();
+      } else {
+        mountDesktopCarousel();
+      }
+      initAvisToggles();
+    }
+
+    if (root._avisMqBound) {
+      syncMode();
+      return;
+    }
+    root._avisMqBound = true;
+
+    if (mqPhone && mqPhone.addEventListener) {
+      mqPhone.addEventListener("change", syncMode);
+    } else if (mqPhone && mqPhone.addListener) {
+      mqPhone.addListener(syncMode);
+    }
+
+    window.addEventListener("resize", syncMode, { passive: true });
+
+    syncMode();
   }
 
   initAvisToggles();
@@ -467,6 +584,10 @@
     kick();
     window.addEventListener("resize", onResize, { passive: true });
     window.addEventListener("load", kick);
+    /* Mobile : barre d’URL / visual viewport — recalcul bandeau + pin pour les cartes sticky #formules */
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", onResize, { passive: true });
+    }
     if (document.fonts && document.fonts.ready) {
       document.fonts.ready.then(kick);
     }

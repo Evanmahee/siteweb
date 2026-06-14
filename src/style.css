@@ -198,11 +198,28 @@ main {
   gap: 0;
 }
 
-/* Après `main + .footer` : pas de marge (évite bande transparente sur le hero) ; z-index au-dessus du hero */
+/* Après `main + .footer` : au-dessus du hero fixe ; calque renforcé (overscroll mobile / z-index sticky #formules) */
 body.page-home main + footer.footer--nc {
   margin-top: 0;
   position: relative;
-  z-index: 3;
+  z-index: 100;
+  isolation: isolate;
+}
+
+/* Accueil : quand le footer est dans le viewport, la carte photo fixe est masquée (évite qu’elle réapparaisse au scroll élastique sur le footer). Classe posée par main.js. */
+body.page-home.page-home-hide-hero-stage .hero.hero--immersive .hero-im__stage {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    opacity 0.22s var(--ease-out),
+    visibility 0.22s var(--ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.page-home.page-home-hide-hero-stage .hero.hero--immersive .hero-im__stage {
+    transition: none;
+  }
 }
 
 /* Ancres (#formules, etc.) : barre fixe + 16px sous la nav */
@@ -210,6 +227,8 @@ body.page-home main + footer.footer--nc {
   /* Hauteur barre nav fixe accueil (= height sur .hero-im__nav--above-stage) */
   --hero-nav-stack-h: 85px;
   scroll-padding-top: calc(var(--hero-nav-stack-h) + 16px);
+  /* Limite la propagation du rubber-band : moins d’artefacts de couches au-dessus du footer */
+  overscroll-behavior-y: contain;
 }
 
 /* Accueil : carte hero (photo + contenu) figée ; le contenu suivant défile par-dessus.
@@ -1698,6 +1717,38 @@ main {
 }
 
 @media (max-width: 900px) {
+  /*
+   * Accueil hero : éviter 100dvh / 85dvh ici — au premier scroll la barre d’URL se rétracte,
+   * le dvh augmente, la carte .hero-im__stage grandit et le ressort flex (.hero-im__copy::before)
+   * refait la répartition → saut du bloc titre. svh = petite fenêtre, stable quand l’UI chrome bouge.
+   */
+  .hero--immersive {
+    min-height: calc(100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+    min-height: calc(100svh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px));
+  }
+
+  .hero.hero--immersive .hero-im__stage {
+    min-height: 85vh;
+    min-height: 85svh;
+    max-height: 85vh;
+    max-height: 85svh;
+  }
+
+  .page-home .hero-im__scroll-spacer {
+    min-height: max(
+      calc(
+        100vh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(72px, 14vh, 200px)
+      ),
+      calc(var(--hero-nav-stack-h, 85px) + 16px + 100vh)
+    );
+    min-height: max(
+      calc(
+        100svh - 24px - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px) + clamp(72px, 14vh, 200px)
+      ),
+      calc(var(--hero-nav-stack-h, 85px) + 16px + 100svh)
+    );
+  }
+
   /* Bouton Contact header desktop : doublon avec le drawer mobile (accueil + Contact + À propos) */
   .hero--immersive .hero-im__nav-cta--desktop,
   :is(body.page-contact, body.page-apropos) .hero-im__nav-cta--desktop {
@@ -1977,6 +2028,26 @@ body.page-home .mes-services + #formules.formules {
 body.page-home .mes-services .mes-services__grid {
   padding-bottom: 64px;
   background: var(--bg);
+}
+
+/* Mobile : 48px d’écart vertical entre les <section> de <main> (toutes pages) + accueil aligné */
+@media (max-width: 900px) {
+  :root {
+    --section-stack-gap: 48px;
+  }
+
+  .page-home main > section + section {
+    border-top: 48px solid var(--bg);
+  }
+
+  .page-home main > .hero-im__scroll-spacer + section#resultats {
+    padding-top: 48px;
+  }
+
+  body.page-home .mes-services .mes-services__grid {
+    /* La séparation avec #formules vient du border-top 48px sur la section suivante — pas doubler l’air */
+    padding-bottom: 0;
+  }
 }
 
 /* Page À propos : léger retrait sous le header (le <main> est déjà sous la nav en flux) */
@@ -2966,7 +3037,7 @@ body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor {
 }
 
 /*
- * Accueil : la bande 64px avant le présentiel fait déjà l’écart « entre sections » ;
+ * Accueil : la bande avant le présentiel aligne l’écart « entre blocs » (64px desktop, 48px ≤900px) ;
  * garder seulement une petite réserve sous la dernière carte pour le sticky (sans cumuler du vide).
  */
 body.page-home #formules-grid.formules__stack--stack {
@@ -3153,6 +3224,36 @@ body.page-home #formules-grid .formules-sticky-region {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23161411' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E");
 }
 
+/* CTA unique sous les cartes « Mes services » (frère de .formules-sticky-region) */
+.formules-services-cta {
+  width: 100%;
+  max-width: min(1100px, 100%);
+  margin-inline: auto;
+  box-sizing: border-box;
+  padding-top: clamp(1.25rem, 3vw, 2rem);
+  display: flex;
+  justify-content: flex-start;
+}
+
+.formules-services-cta .formule-card__cta {
+  margin-top: 0;
+}
+
+/* Mobile + tablette : largeur du CTA = même colonne que les cartes (#formules-grid) */
+@media (max-width: 1024px) {
+  #formules-grid .formules-services-cta {
+    justify-content: stretch;
+  }
+
+  #formules-grid .formules-services-cta .formule-card__cta {
+    align-self: stretch;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    justify-content: space-between;
+  }
+}
+
 .formule-card__cta {
   display: inline-flex;
   align-items: center;
@@ -3250,6 +3351,36 @@ body.page-home #formules-grid .formules-sticky-region {
 .formule-card--gold-head .formule-card__head-text {
   margin-inline: 0;
   max-width: 100%;
+}
+
+/* Split + gold : prix et tagline sur une ligne, titre pleine largeur dessous */
+.formule-card--split.formule-card--gold-head .formule-card__head-text {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  column-gap: 0.65rem;
+  row-gap: 0.35rem;
+  align-items: baseline;
+}
+
+.formule-card--split.formule-card--gold-head .formule-card__price:not([hidden]) {
+  grid-column: 1;
+  grid-row: 1;
+  margin: 0;
+  white-space: nowrap;
+}
+
+.formule-card--split.formule-card--gold-head .formule-card__tagline {
+  grid-column: 2;
+  grid-row: 1;
+  margin: 0;
+  min-width: 0;
+}
+
+.formule-card--split.formule-card--gold-head .formule-card__duration {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 0;
 }
 
 .formule-card--gold-head .formule-card__tagline {
@@ -3409,7 +3540,7 @@ body.page-home #formules-grid .formules-sticky-region {
   border-top: 1px solid var(--hairline);
 }
 
-/* Même bande 64px qu’entre les <section> ; le padding interne reste léger pour ne pas doubler l’air */
+/* Même bande qu’entre les <section> (64px desktop, 48px ≤900px) ; le padding interne reste léger pour ne pas doubler l’air */
 body.page-home #formules-grid + .formules-presentiel {
   margin-top: 0;
   border-top: 64px solid var(--bg);
@@ -3521,13 +3652,15 @@ body.page-home #formules-grid + .formules-presentiel {
   }
 
   .formules-presentiel__media {
-    justify-self: center;
-    max-width: min(360px, 100%);
+    justify-self: stretch;
+    width: 100%;
+    max-width: 100%;
   }
 
   .formules-presentiel__img {
     max-height: clamp(280px, 48vh, 400px);
-    margin-inline: auto;
+    width: 100%;
+    margin-inline: 0;
     object-position: center 32%;
   }
 
@@ -3540,38 +3673,86 @@ body.page-home #formules-grid + .formules-presentiel {
     margin-inline: auto;
   }
 
-  /* Même hauteur pour toutes les cartes : zone image fixe + panneau scrollable si besoin */
+  /*
+   * Même logique que le hero mobile : éviter dvh — barre d’URL → hauteur des cartes qui saute,
+   * marges sticky (28vh) et hauteurs (90dvh) plus alignées → l’empilement « cartes qui se superposent » casse.
+   */
+  .formules__stack--pair .formules-stack__slot + .formules-stack__slot,
+  .formules__stack--stack .formules-stack__slot + .formules-stack__slot {
+    margin-top: clamp(2.5rem, 28svh, 18rem);
+  }
+
+  /*
+   * Accueil mobile : le sticky multi-cartes + grandes marges recolle mal au bandeau titre
+   * (carte qui réapparaît sous la dernière en fin de scroll). Flux normal + écart fixe.
+   */
+  body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor {
+    position: relative;
+    top: auto;
+    z-index: auto;
+  }
+
+  body.page-home #formules-grid .formules-sticky-region > .formules-stack__slot {
+    position: relative;
+    top: auto;
+    z-index: auto;
+  }
+
+  body.page-home #formules-grid.formules__stack--stack .formules-stack__slot + .formules-stack__slot {
+    margin-top: 1.25rem;
+  }
+
+  /* Cartes services : pas de photo sur mobile — uniquement le panneau contenu */
   #formules-grid .formule-card--split {
     grid-template-columns: 1fr;
-    grid-template-rows: clamp(10rem, 28vw, 12.5rem) minmax(0, 1fr);
-    height: max(26rem, min(43.75rem, 90dvh));
-    min-height: max(26rem, min(43.75rem, 90dvh));
-    max-height: max(26rem, min(43.75rem, 90dvh));
+    grid-template-rows: minmax(0, 1fr);
+    height: auto;
+    min-height: 0;
+    max-height: none;
     box-sizing: border-box;
   }
 
   #formules-grid .formule-card--split .formule-card__visual {
-    height: 100%;
-    min-height: 0;
-    max-height: none;
+    display: none;
   }
 
-  #formules-grid .formule-card__visual img {
-    width: 100%;
-    height: 100%;
-    min-height: 0;
-    max-height: none;
-    object-fit: cover;
-  }
-
+  /* Hauteur fixe des panneaux (vue mobile sans image) : cartes alignées au pixel */
   #formules-grid .formule-card--split .formule-card__panel {
-    min-height: 0;
+    box-sizing: border-box;
+    height: 288px;
+    min-height: 288px;
+    max-height: 288px;
+    padding: 0.85rem 1rem 0.95rem;
+    gap: 0.25rem;
   }
 
   #formules-grid .formule-card--split .formule-card__body {
+    flex: 1 1 auto;
     min-height: 0;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
+  }
+
+  /*
+   * Accueil : .mes-services + #formules a border-top: none (spécificité) → pas de bande section+section.
+   * On impose 48px d’air réel sous « Mes services ». On compresse le vide sous les cartes / avant présentiel.
+   */
+  body.page-home .mes-services + #formules.formules {
+    padding-top: 48px;
+    box-sizing: border-box;
+  }
+
+  body.page-home #formules-grid .formules-sticky-region {
+    padding-bottom: 1rem;
+  }
+
+  body.page-home #formules-grid .formules-services-cta {
+    padding-top: 1rem;
+  }
+
+  body.page-home #formules-grid + .formules-presentiel {
+    margin-top: 0;
+    border-top: none;
+    padding-top: 48px;
   }
 
   .formule-card--featured {
@@ -4089,6 +4270,32 @@ body.page-home #formules-grid + .formules-presentiel {
   flex: 0 0 calc(100% / var(--avis-n, 2));
   min-width: 0;
   box-sizing: border-box;
+}
+
+/* Téléphone : pas de carrousel — les deux panneaux s’empilent (classe posée par main.js) */
+.avis__carousel.avis__carousel--static .avis__viewport {
+  overflow: visible;
+}
+
+.avis__carousel.avis__carousel--static .avis__track {
+  flex-direction: column;
+  width: 100%;
+  transform: none;
+  transition: none;
+  will-change: auto;
+}
+
+.avis__carousel.avis__carousel--static .avis__slide {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+.avis__carousel.avis__carousel--static .avis__slide + .avis__slide {
+  margin-top: clamp(1.25rem, 4vw, 2rem);
+}
+
+.avis__carousel.avis__carousel--static .avis__slide--clone {
+  display: none !important;
 }
 
 .avis__slide-grid {
