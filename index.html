@@ -1,0 +1,679 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Nefelie, coach fitness et musculation. Coaching sur mesure en présentiel et en ligne pour sculpter ton corps et dépasser tes limites."
+    />
+    <title>Nefelie | Coach Fitness & Musculation</title>
+    <link rel="stylesheet" href="src/style.css" />
+    <meta name="color-scheme" content="light" />
+  </head>
+  <body class="page-home">
+    <div class="grain" aria-hidden="true"></div>
+
+    <main>
+      <section class="hero hero--immersive" id="top" aria-label="Accueil">
+        <nav class="nav hero-im__nav hero-im__nav--above-stage" aria-label="Navigation principale">
+          <a class="hero-im__logo" href="index.html" aria-label="NC Coaching, accueil">
+            <img
+              class="hero-im__logo-img"
+              src="./assets/logo-nc-coaching.png"
+              width="477"
+              height="399"
+              alt="NC Coaching"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </a>
+
+          <div class="hero-im__nav-end">
+            <div class="hero-im__pill">
+              <ul class="hero-im__pill-links">
+                <li><a href="a-propos.html">À propos</a></li>
+                <li><a href="#formules">Services</a></li>
+                <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
+              </ul>
+            </div>
+
+            <div class="hero-im__nav-actions">
+              <a
+                class="hero-btn hero-btn--secondary hero-im__nav-cta hero-im__nav-cta--desktop"
+                href="contact.html"
+              >
+                <span class="hero-btn__label">Contact</span>
+                <span class="hero-btn__arrow" aria-hidden="true"></span>
+              </a>
+              <button
+                class="nav__toggle"
+                type="button"
+                aria-expanded="false"
+                aria-controls="nav-menu"
+                aria-label="Ouvrir le menu"
+              >
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+                <span class="nav__toggle-bar"></span>
+              </button>
+            </div>
+          </div>
+
+          <div id="nav-menu" class="nav__menu hero-im__drawer">
+            <ul class="nav__links">
+              <li><a href="a-propos.html">À propos</a></li>
+              <li><a href="#formules">Services</a></li>
+              <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
+            </ul>
+            <a class="hero-btn hero-btn--secondary hero-im__nav-cta" href="contact.html">
+              <span class="hero-btn__label">Contact</span>
+              <span class="hero-btn__arrow" aria-hidden="true"></span>
+            </a>
+          </div>
+        </nav>
+
+        <div class="hero-im__stage">
+          <div class="hero-im__visual" aria-hidden="true">
+            <div class="hero-im__photo"></div>
+            <div class="hero-im__readability"></div>
+            <div class="hero-im__shade"></div>
+          </div>
+
+          <div class="hero-im__shell">
+            <aside class="hero-im__social-proof" aria-label="Preuve sociale">
+              <div class="hero-im__social-proof-avatars" role="presentation">
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=5"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=9"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=12"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              <img
+                class="hero-im__social-proof-face"
+                src="https://i.pravatar.cc/96?img=15"
+                alt=""
+                width="48"
+                height="48"
+                loading="lazy"
+                decoding="async"
+              />
+              </div>
+              <p class="hero-im__social-proof-label">+200 personnes accompagnées</p>
+            </aside>
+
+            <div class="hero-im__main">
+              <div class="hero-im__copy">
+                <div class="hero-im__headline">
+                  <div class="hero-im__headline-title">
+                    <h1 class="hero-im__title">Ta meilleure version commence <span class="hero-im__title-accent">ici</span></h1>
+                  </div>
+                  <p class="hero-im__subtitle">
+                    Coaching sur mesure, en présentiel ou en ligne&nbsp;: technique, nutrition et suivi humain pour des
+                    résultats durables.
+                  </p>
+                </div>
+                <div class="hero-im__ctas">
+                  <a
+                    class="hero-btn hero-btn--primary"
+                    href="contact.html"
+                  >
+                    <span class="hero-btn__label">
+                      <span class="hero-im__cta-primary-label hero-im__cta-primary-label--sm">Contact</span>
+                      <span class="hero-im__cta-primary-label hero-im__cta-primary-label--lg">Prendre rendez-vous</span>
+                    </span>
+                  </a>
+                  <a class="hero-btn hero-btn--secondary" href="#formules">
+                    <span class="hero-btn__label">Découvrir</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Réserve la hauteur du hero (figé en fixed) pour le scroll et l’ancrage -->
+      <div class="hero-im__scroll-spacer" aria-hidden="true"></div>
+
+      <section class="about-editorial" id="resultats" aria-labelledby="resultats-title">
+        <div class="about-ed__inner">
+          <div class="about-ed__content">
+            <h2 id="resultats-title" class="about-ed__title">Résultats durables, coaching sur-mesure</h2>
+            <div class="about-ed__cols">
+              <p>
+                J'accompagne mes clients vers une progression durable, construite sur des bases solides et une méthode
+                éprouvée. Mon approche mêle technique, nutrition et suivi humain, parce qu'un corps se transforme quand
+                tout est aligné.
+              </p>
+              <p>
+                Que vous soyez débutant ou athlète confirmé, je conçois des programmes sur mesure pour vous aider à
+                exploiter pleinement votre potentiel.
+              </p>
+            </div>
+          </div>
+          <div class="about-ed__photo-left">
+            <img src="assets/nefelie-editorial.png" alt="Néfélie" loading="lazy" decoding="async" />
+          </div>
+        </div>
+      </section>
+
+      <section class="impact-stats" aria-label="Chiffres clés sur l’accompagnement Nefelie">
+        <ul class="impact-stats__grid" role="list">
+          <li class="impact-stats__item">
+            <span class="impact-stats__line" aria-hidden="true"></span>
+            <p class="impact-stats__value">15+</p>
+            <p class="impact-stats__label">Années d’expérience</p>
+          </li>
+          <li class="impact-stats__item">
+            <span class="impact-stats__line" aria-hidden="true"></span>
+            <p class="impact-stats__value">200+</p>
+            <p class="impact-stats__label">Athlètes coachés</p>
+          </li>
+          <li class="impact-stats__item">
+            <span class="impact-stats__line" aria-hidden="true"></span>
+            <p class="impact-stats__value">500+</p>
+            <p class="impact-stats__label">Programmes personnalisés</p>
+          </li>
+          <li class="impact-stats__item">
+            <span class="impact-stats__line" aria-hidden="true"></span>
+            <p class="impact-stats__value">10&nbsp;000+</p>
+            <p class="impact-stats__label">Heures d’entraînement</p>
+          </li>
+        </ul>
+      </section>
+
+      <section
+        class="mes-services"
+        aria-labelledby="mes-services-title"
+        aria-describedby="mes-services-subtitle"
+      >
+        <div class="mes-services__inner">
+          <h2 id="mes-services-title" class="mes-services__title">Mon accompagnement</h2>
+          <p id="mes-services-subtitle" class="mes-services__subtitle">Ce qu’il comprend</p>
+          <div class="mes-services__grid" aria-label="Détail des prestations">
+            <a href="contact.html" class="mes-services__card">
+              <div class="mes-services__card-media" aria-hidden="true">
+                <img
+                  src="assets/mes-services-coaching-individuel.png"
+                  alt=""
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mes-services__card-scrim" aria-hidden="true"></div>
+              <div class="mes-services__card-body">
+                <h3 class="mes-services__card-title">Suivi sportif</h3>
+                <div class="mes-services__card-desc-row">
+                  <p class="mes-services__card-desc">
+                    Séances en salle à Vannes, plan sur appli et ajustements inclus.
+                  </p>
+                  <span class="mes-services__card-arrow" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M5 12h14m-6-6 6 6-6 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+            <a href="contact.html" class="mes-services__card">
+              <div class="mes-services__card-media" aria-hidden="true">
+                <img
+                  src="assets/mes-services-coaching-ligne.png"
+                  alt=""
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mes-services__card-scrim" aria-hidden="true"></div>
+              <div class="mes-services__card-body">
+                <h3 class="mes-services__card-title">Suivi à distance</h3>
+                <div class="mes-services__card-desc-row">
+                  <p class="mes-services__card-desc">
+                    Bilans hebdo, nutrition (+ micro nutrition), vidéos et WhatsApp 6j/7.
+                  </p>
+                  <span class="mes-services__card-arrow" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M5 12h14m-6-6 6 6-6 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+            <a href="contact.html" class="mes-services__card">
+              <div class="mes-services__card-media" aria-hidden="true">
+                <img
+                  src="assets/mes-services-nutrition.png"
+                  alt=""
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mes-services__card-scrim" aria-hidden="true"></div>
+              <div class="mes-services__card-body">
+                <h3 class="mes-services__card-title">Nutrition</h3>
+                <div class="mes-services__card-desc-row">
+                  <p class="mes-services__card-desc">
+                    Repères alimentaires personnalisés (+ micro nutrition), sans régime restrictif.
+                  </p>
+                  <span class="mes-services__card-arrow" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M5 12h14m-6-6 6 6-6 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+            <a href="contact.html" class="mes-services__card">
+              <div class="mes-services__card-media" aria-hidden="true">
+                <img
+                  src="assets/mes-services-suivi-premium.png"
+                  alt=""
+                  width="800"
+                  height="600"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+              <div class="mes-services__card-scrim" aria-hidden="true"></div>
+              <div class="mes-services__card-body">
+                <h3 class="mes-services__card-title">Suivi complet premium</h3>
+                <div class="mes-services__card-desc-row">
+                  <p class="mes-services__card-desc">
+                    Présentiel + distanciel : séances en salle et accompagnement au quotidien.
+                  </p>
+                  <span class="mes-services__card-arrow" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M5 12h14m-6-6 6 6-6 6"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="formules" id="formules" aria-labelledby="formules-title">
+        <div class="formules__inner">
+        <div id="formules-grid" class="formules__stack formules__stack--stack">
+          <div class="formules__stack-main">
+          <div class="formules__head-anchor">
+            <div class="formules__text-block" aria-live="polite">
+              <h2 id="formules-title" class="formules__title">Mes services</h2>
+              <p id="formules-intro" class="formules__intro">
+                Suivi à distance, suivi sportif en salle (plan sur appli), formule complète présentiel + distanciel,
+                programme autonome (12 semaines min.) ou bilan d’environ 1 h à l’Appart Fitness Vannes Ouest.
+              </p>
+            </div>
+          </div>
+
+          <div class="formules-sticky-region">
+          <div class="formules-stack__slot">
+            <article class="formule-card formule-card--split">
+              <figure class="formule-card__visual">
+                <img
+                  class="formule-card__img"
+                  src="assets/nefelie-online.png"
+                  alt="Coaching à distance, Nefelie"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="formule-card__panel">
+                <header class="formule-card__head">
+                  <span class="formule-card__badge" hidden>Populaire</span>
+                  <div class="formule-card__head-text">
+                    <p class="formule-card__price" hidden></p>
+                    <p class="formule-card__tagline">3, 6 ou 12 mois</p>
+                    <h3 class="formule-card__duration">Suivi en distanciel</h3>
+                  </div>
+                </header>
+                <div class="formule-card__body">
+                  <ul class="formule-card__list">
+                    <li>Bilans hebdomadaires</li>
+                    <li>Plan d’entraînement personnalisé</li>
+                    <li>Suivi nutritionnel personnalisé (+ micro nutrition)</li>
+                    <li>Programme ajusté à chaque bilan</li>
+                    <li>Analyse de tes vidéos d’entraînement</li>
+                    <li>Contact WhatsApp, 6 jours sur 7</li>
+                    <li>Contenus mis à disposition</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="formules-stack__slot">
+            <article class="formule-card formule-card--split">
+              <figure class="formule-card__visual">
+                <img
+                  class="formule-card__img"
+                  src="assets/coaching-presentiel.png"
+                  alt="Suivi sportif en présentiel, Nefelie"
+                  width="576"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="formule-card__panel">
+                <header class="formule-card__head">
+                  <span class="formule-card__badge" hidden>Populaire</span>
+                  <div class="formule-card__head-text">
+                    <p class="formule-card__price" hidden></p>
+                    <p class="formule-card__tagline">3, 6 ou 12 mois · présentiel · Vannes Ouest</p>
+                    <h3 class="formule-card__duration" id="formule-sportif-title" aria-describedby="formules-fn-asterisk">
+                      Suivi sportif en présentiel<span class="formule-card__fn-mark" aria-hidden="true">*</span>
+                    </h3>
+                  </div>
+                </header>
+                <div class="formule-card__body">
+                  <ul class="formule-card__list">
+                    <li>1 séance minimum par semaine en salle (ou plus selon ton rythme)</li>
+                    <li>Plan d'entraînement personnalisé sur l'application</li>
+                    <li>Ajustements du programme inclus</li>
+                    <li>Coaching technique en présentiel</li>
+                    <li class="formule-card__list-note">Sans bilan hebdo, nutrition, analyse vidéo, messagerie 6j/7 ni contenus partagés</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="formules-stack__slot">
+            <article class="formule-card formule-card--split">
+              <figure class="formule-card__visual">
+                <img
+                  class="formule-card__img"
+                  src="assets/nefelie-online.png"
+                  alt="Suivi complet présentiel et distanciel, Nefelie"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="formule-card__panel">
+                <header class="formule-card__head">
+                  <span class="formule-card__badge">Le plus complet</span>
+                  <div class="formule-card__head-text">
+                    <p class="formule-card__price" hidden></p>
+                    <p class="formule-card__tagline">3, 6 ou 12 mois · présentiel + distanciel</p>
+                    <h3 class="formule-card__duration" id="formule-complet-title" aria-describedby="formules-fn-asterisk">
+                      Suivi complet premium<span class="formule-card__fn-mark" aria-hidden="true">*</span>
+                    </h3>
+                  </div>
+                </header>
+                <div class="formule-card__body">
+                  <ul class="formule-card__list">
+                    <li class="formule-card__list-heading">Tout le suivi sportif en salle, et en plus&nbsp;:</li>
+                    <li>Bilans hebdomadaires</li>
+                    <li>Suivi nutritionnel personnalisé (+ micro nutrition)</li>
+                    <li>Programme ajusté à chaque bilan</li>
+                    <li>Analyse de tes vidéos d'entraînement</li>
+                    <li>Contact WhatsApp, 6 jours sur 7</li>
+                    <li>Contenus mis à disposition</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="formules-stack__slot">
+            <article class="formule-card formule-card--split formule-card--gold-head">
+              <figure class="formule-card__visual">
+                <img
+                  class="formule-card__img"
+                  src="assets/nefelie-method.png"
+                  alt="Programme d’entraînement sur mesure"
+                  width="720"
+                  height="900"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="formule-card__panel">
+                <header class="formule-card__head">
+                  <span class="formule-card__badge" hidden>Populaire</span>
+                  <div class="formule-card__head-text">
+                    <p class="formule-card__price">99&nbsp;€</p>
+                    <p class="formule-card__tagline">Sans suivi</p>
+                    <h3 class="formule-card__duration formule-card__duration--caps">Programme</h3>
+                  </div>
+                </header>
+                <div class="formule-card__body">
+                  <ul class="formule-card__list">
+                    <li>Programme 12 semaines minimum, calé sur ton objectif, ton rythme et tes contraintes (blessures, nombre de séances par semaine…)</li>
+                    <li>Personnalisé à la création, sans suivi ni ajustements ensuite</li>
+                    <li>À suivre en salle et/ou à la maison, sans accompagnement à distance inclus</li>
+                    <li>En option : séance à l’unité ou carte de séances</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="formules-stack__slot">
+            <article class="formule-card formule-card--split formule-card--gold-head">
+              <figure class="formule-card__visual">
+                <img
+                  class="formule-card__img"
+                  src="assets/coaching-presentiel.png"
+                  alt="Bilan en salle, L’Appart Fitness Vannes Ouest"
+                  width="576"
+                  height="1024"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </figure>
+              <div class="formule-card__panel">
+                <header class="formule-card__head">
+                  <span class="formule-card__badge" hidden>Populaire</span>
+                  <div class="formule-card__head-text">
+                    <p class="formule-card__price">50&nbsp;€</p>
+                    <p class="formule-card__tagline">Présentiel · ~1 h · Vannes Ouest</p>
+                    <h3 class="formule-card__duration" id="formule-bilan-title" aria-describedby="formules-fn-asterisk formule-bilan-note">
+                      Bilan<span class="formule-card__fn-mark" aria-hidden="true">*</span>
+                    </h3>
+                  </div>
+                </header>
+                <div class="formule-card__body">
+                  <ul class="formule-card__list">
+                    <li>Analyse posturale</li>
+                    <li>Découverte de l’offre de coaching personnalisé</li>
+                    <li>Point d’entrée avant un suivi éventuel</li>
+                    <li class="formule-card__list-note" id="formule-bilan-note">Déduit du suivi s’il est souscrit le jour du rdv ou dans les 7 jours qui suivent. Passé ce délai, le bilan reste acquis même sans inscription à un accompagnement.</li>
+                  </ul>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          </div>
+
+          <div class="formules-services-cta">
+            <a class="formule-card__cta" href="contact.html">
+              <span class="formule-card__cta-label">Me contacter</span>
+              <span class="formule-card__cta-icon" aria-hidden="true"></span>
+            </a>
+          </div>
+          <p class="formules__footnote" id="formules-fn-asterisk">
+            <span class="formule-card__fn-mark" aria-hidden="true">*</span>
+            Analyse posturale en début de parcours pour les suivis en présentiel.
+          </p>
+          </div>
+        </div>
+
+        <div
+          class="formules-presentiel"
+          id="coaching-presentiel-salle"
+          aria-labelledby="formules-presentiel-title"
+        >
+          <div class="formules-presentiel__split">
+            <div class="formules-presentiel__content">
+              <h2 id="formules-presentiel-title" class="formules-presentiel__title">Coaching présentiel</h2>
+              <p class="formules-presentiel__lead">
+                Suivi en présentiel, carte de séances ou encore séances ponctuelles en salle de sport (sans frais
+                supplémentaires même sans abonnement)
+              </p>
+              <a href="contact.html" class="formules-presentiel__desc formules-presentiel__contact-link">Veuillez me contacter</a>
+              <div class="formules-presentiel__address">
+                <p class="formules-presentiel__address-label">Adresse :</p>
+                <p class="formules-presentiel__address-name">L’Appart Fitness Vannes Ouest</p>
+                <p class="formules-presentiel__address-detail">53 Route Sainte Anne 56000 Vannes</p>
+                <p class="formules-presentiel__address-detail">Ouvert de 6h jusqu’à 23h00</p>
+              </div>
+            </div>
+            <figure class="formules-presentiel__media">
+              <img
+                class="formules-presentiel__img"
+                src="assets/coaching-presentiel.png"
+                width="576"
+                height="1024"
+                alt="Portrait en salle de sport, coaching en présentiel"
+                loading="lazy"
+                decoding="async"
+              />
+            </figure>
+          </div>
+        </div>
+
+        </div>
+      </section>
+
+      <section class="avis" id="temoignages" aria-labelledby="avis-title" aria-describedby="avis-count">
+        <div class="avis__inner">
+          <h2 id="avis-title" class="avis__title">Témoignages</h2>
+          <p id="avis-count" class="avis__count">29 avis au total présents sur Google</p>
+
+          <div
+            class="avis__carousel"
+            role="region"
+            aria-roledescription="carrousel"
+            aria-label="Avis clients"
+            data-avis-carousel
+          >
+            <button
+              type="button"
+              class="avis__nav avis__nav--prev"
+              data-avis-prev
+              aria-label="Avis précédents"
+              hidden
+            >
+              <span aria-hidden="true">‹</span>
+            </button>
+            <div class="avis__viewport">
+              <div class="avis__track" data-avis-track></div>
+            </div>
+            <button
+              type="button"
+              class="avis__nav avis__nav--next"
+              data-avis-next
+              aria-label="Avis suivants"
+              hidden
+            >
+              <span aria-hidden="true">›</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="footer footer--nc">
+      <div class="footer__inner">
+        <div class="footer__social" aria-label="Réseaux sociaux">
+          <a
+            class="footer__social-link"
+            href="https://www.instagram.com/nefelie_cd/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Instagram, @nefelie_cd"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5" />
+              <circle cx="12" cy="12" r="4.25" />
+              <circle cx="17.5" cy="6.5" r="1.25" fill="currentColor" stroke="none" />
+            </svg>
+          </a>
+          <a
+            class="footer__social-link"
+            href="https://www.youtube.com/watch?v=NzWhNgRpdrM"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="YouTube, Nefelie"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path
+                d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.07 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"
+              />
+            </svg>
+          </a>
+        </div>
+        <hr class="footer__rule" />
+        <p class="footer__legal">
+          <span class="footer__legal-txt">Copyright ©<span data-year></span> – </span>
+          <a class="footer__legal-link footer__legal-link--gold" href="mentions-legales.html">Mentions légales</a>
+          <span class="footer__legal-txt"> – Tous droits réservés – Site réalisé par </span>
+          <a class="footer__legal-link" href="https://www.lemmacorp.fr/" target="_blank" rel="noopener noreferrer">LemmaCorp</a>
+        </p>
+      </div>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
