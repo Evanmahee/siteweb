@@ -4,14 +4,13 @@
 (function () {
   "use strict";
 
-  var TOTAL_STEPS = 6;
+  var TOTAL_STEPS = 5;
   var STEP_NAMES = [
     "Tes coordonnées",
     "Objectifs & pratique",
     "Santé & mode de vie",
     "Ton alimentation",
-    "Ton rapport à toi",
-    "Orientation",
+    "Ton rapport à toi & orientation",
   ];
 
   var SCALES = [
