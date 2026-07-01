@@ -30,12 +30,18 @@ function reviewTone(review, index) {
   return TONE_CYCLE[index % TONE_CYCLE.length];
 }
 
-export function cardsPerSlide() {
+const AVIS_ROWS = 2;
+
+function cardsPerRow() {
   if (typeof window === "undefined") return 3;
   const w = window.innerWidth;
   if (w <= 560) return 1;
   if (w <= 900) return 2;
   return 3;
+}
+
+export function cardsPerSlide() {
+  return cardsPerRow() * AVIS_ROWS;
 }
 
 function renderCard(review, quoteId) {

@@ -226,10 +226,15 @@ body.page-home.page-home-hide-hero-stage .hero.hero--immersive .hero-im__stage {
 .page-home {
   /* Hauteur barre nav fixe accueil (= height sur .hero-im__nav--above-stage) */
   --hero-nav-stack-h: 85px;
-  /* Carte hero = 0,75 × hauteur fenêtre + 33px */
-  --hero-stage-h: calc(75vh + 33px);
-  --hero-stage-h: calc(75dvh + 33px);
-  scroll-padding-top: calc(var(--hero-nav-stack-h) + 16px);
+  --hero-nav-gap-above-stage: 16px;
+  /* Carte hero = 98 % du viewport − nav − écart sous la nav */
+  --hero-stage-h: calc(
+    98vh - var(--hero-nav-stack-h) - var(--hero-nav-gap-above-stage)
+  );
+  --hero-stage-h: calc(
+    98dvh - var(--hero-nav-stack-h) - var(--hero-nav-gap-above-stage)
+  );
+  scroll-padding-top: calc(var(--hero-nav-stack-h) + var(--hero-nav-gap-above-stage));
   /* Limite la propagation du rubber-band : moins d’artefacts de couches au-dessus du footer */
   overscroll-behavior-y: contain;
 }
@@ -254,9 +259,9 @@ body.page-home.page-home-hide-hero-stage .hero.hero--immersive .hero-im__stage {
   margin-top: 0;
   margin-left: 0;
   margin-right: 0;
-  height: var(--hero-stage-h, calc(75vh + 33px));
-  min-height: var(--hero-stage-h, calc(75vh + 33px));
-  max-height: var(--hero-stage-h, calc(75vh + 33px));
+  height: var(--hero-stage-h, calc(98vh - var(--hero-nav-stack-h, 85px) - 16px));
+  min-height: var(--hero-stage-h, calc(98vh - var(--hero-nav-stack-h, 85px) - 16px));
+  max-height: var(--hero-stage-h, calc(98vh - var(--hero-nav-stack-h, 85px) - 16px));
 }
 
 .page-home .hero-im__scroll-spacer {
@@ -657,12 +662,12 @@ main {
   flex-direction: column;
 }
 
-/* Accueil immersif : carte photo (stage) = 0,75 × hauteur viewport */
+/* Accueil immersif : carte photo (stage) = 98 % viewport − nav − 16 px */
 .hero.hero--immersive .hero-im__stage {
   margin-top: 0;
-  height: var(--hero-stage-h, calc(75vh + 33px));
-  min-height: var(--hero-stage-h, calc(75vh + 33px));
-  max-height: var(--hero-stage-h, calc(75vh + 33px));
+  height: var(--hero-stage-h, calc(98vh - var(--hero-nav-stack-h, 85px) - 16px));
+  min-height: var(--hero-stage-h, calc(98vh - var(--hero-nav-stack-h, 85px) - 16px));
+  max-height: var(--hero-stage-h, calc(98vh - var(--hero-nav-stack-h, 85px) - 16px));
   flex: 0 0 auto;
 }
 
@@ -691,6 +696,20 @@ main {
   pointer-events: none;
 }
 
+.hero-im__video {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--hero-bg-pos);
+  opacity: var(--hero-image-opacity);
+  pointer-events: none;
+  transform: scale(var(--hero-im-photo-scale));
+  transform-origin: var(--hero-bg-pos);
+}
+
 .hero-im__photo {
   position: absolute;
   inset: 0;
@@ -711,6 +730,12 @@ main {
     --hero-image: url("../assets/hero-coach-portrait.png");
     --hero-bg-pos: 50% 26%;
     --hero-im-photo-scale: 1.05;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-im__video {
+    display: none;
   }
 }
 
@@ -1770,8 +1795,12 @@ main {
   }
 
   .hero.hero--immersive .hero-im__stage {
-    --hero-stage-h: calc(75vh + 33px);
-    --hero-stage-h: calc(75svh + 33px);
+    --hero-stage-h: calc(
+      98vh - var(--hero-nav-stack-h) - var(--hero-nav-gap-above-stage, 16px)
+    );
+    --hero-stage-h: calc(
+      98svh - var(--hero-nav-stack-h) - var(--hero-nav-gap-above-stage, 16px)
+    );
     height: var(--hero-stage-h);
     min-height: var(--hero-stage-h);
     max-height: var(--hero-stage-h);
@@ -4423,7 +4452,7 @@ body.page-home .formules__inner > .formules-presentiel {
   font-size: var(--text-body);
 }
 
-/* Carrousel témoignages : une rangée, hauteur fixe, tous écrans */
+/* Carrousel témoignages : deux rangées, hauteur fixe, tous écrans */
 .avis__carousel {
   display: grid;
   grid-template-columns: auto 1fr auto;
@@ -4442,8 +4471,9 @@ body.page-home .formules__inner > .formules-presentiel {
 
 .avis__nav {
   z-index: 2;
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 2.35rem;
   height: 2.35rem;
   margin: 0;
@@ -4452,24 +4482,25 @@ body.page-home .formules__inner > .formules-presentiel {
   border-radius: 999px;
   background: #fff;
   color: #2e2c28;
-  font-size: 1.45rem;
-  line-height: 0;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(22, 20, 17, 0.06);
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
-.avis__nav > span {
+.avis__nav-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
+.avis__nav-icon svg {
   display: block;
-  line-height: 1;
-}
-
-.avis__nav--prev > span {
-  transform: translateX(-1px);
-}
-
-.avis__nav--next > span {
-  transform: translateX(1px);
+  width: 100%;
+  height: 100%;
 }
 
 .avis__nav--prev {
@@ -4535,11 +4566,15 @@ body.page-home .formules__inner > .formules-presentiel {
   min-height: 0;
 }
 
-.avis__slide-grid[data-avis-per-slide="2"] {
+.avis__slide-grid[data-avis-per-slide="6"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.avis__slide-grid[data-avis-per-slide="4"] {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
-.avis__slide-grid[data-avis-per-slide="1"] {
+.avis__slide-grid[data-avis-per-slide="2"] {
   grid-template-columns: minmax(0, 1fr);
 }
 
@@ -4744,7 +4779,11 @@ body.page-home .formules__inner > .formules-presentiel {
   .avis__nav {
     width: 2.1rem;
     height: 2.1rem;
-    font-size: 1.3rem;
+  }
+
+  .avis__nav-icon {
+    width: 1rem;
+    height: 1rem;
   }
 
   .avis__card {

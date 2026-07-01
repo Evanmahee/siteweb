@@ -1,5 +1,5 @@
 /**
- * Envoi du formulaire contact via EmailJS (CDN chargé dans contact.html).
+ * Envoi du formulaire contact via l'API Resend (/api/send-email).
  */
 
 function fieldValue(form, name) {
@@ -22,15 +22,12 @@ function checkboxValues(form, name) {
     .join(", ");
 }
 
-/** Collecte toutes les variables pour le template EmailJS. */
+/** Collecte tous les champs du formulaire pour l'API. */
 export function collectContactFormData(form) {
-  var email = fieldValue(form, "email");
-
   return {
     prenom: fieldValue(form, "prenom"),
     nom: fieldValue(form, "nom"),
-    email: email,
-    reply_to: email,
+    email: fieldValue(form, "email"),
     telephone: fieldValue(form, "telephone"),
     age: fieldValue(form, "age"),
     genre: fieldValue(form, "genre"),
@@ -84,23 +81,18 @@ export function collectContactFormData(form) {
 }
 
 export function sendContactEmail(form) {
-  var publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-  var serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-  var templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-
-  if (!publicKey || !serviceId || !templateId) {
-    return Promise.reject(
-      new Error(
-        "Configuration EmailJS manquante (VITE_EMAILJS_PUBLIC_KEY, VITE_EMAILJS_SERVICE_ID, VITE_EMAILJS_TEMPLATE_ID)."
-      )
-    );
-  }
-
-  if (!window.emailjs) {
-    return Promise.reject(new Error("Bibliothèque EmailJS non chargée."));
-  }
-
-  window.emailjs.init(publicKey);
-
-  return window.emailjs.send(serviceId, templateId, collectContactFormData(form));
+  return fetch("/api/send-email", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(collectContactFormData(form)),
+  }).then(function (res) {
+    return res.json().then(function (body) {
+      if (!res.ok) {
+        throw new Error(body && body.error ? body.error : "Erreur lors de l'envoi.");
+      }
+      return body;
+    });
+  });
 }

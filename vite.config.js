@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import reviewsHandler from "./api/reviews.js";
+import sendEmailHandler from "./api/send-email.js";
 
 const root = fileURLToPath(new URL(".", import.meta.url));
 
@@ -20,6 +21,9 @@ function avisApiDevPlugin() {
     configureServer(server) {
       server.middlewares.use("/api/reviews", async (req, res) => {
         await reviewsHandler(req, res);
+      });
+      server.middlewares.use("/api/send-email", async (req, res) => {
+        await sendEmailHandler(req, res);
       });
     },
   };

@@ -75,6 +75,17 @@
 
         <div class="hero-im__stage">
           <div class="hero-im__visual" aria-hidden="true">
+            <video
+              class="hero-im__video"
+              src="assets/hero-bg.mp4"
+              poster="assets/hero-coach.png"
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="auto"
+              aria-hidden="true"
+            ></video>
             <div class="hero-im__photo"></div>
             <div class="hero-im__readability"></div>
             <div class="hero-im__shade"></div>
@@ -586,15 +597,6 @@
             aria-label="Avis clients"
             data-avis-carousel
           >
-            <button
-              type="button"
-              class="avis__nav avis__nav--prev"
-              data-avis-prev
-              aria-label="Avis précédents"
-              hidden
-            >
-              <span aria-hidden="true">‹</span>
-            </button>
             <div class="avis__viewport">
               <div class="avis__track" data-avis-track></div>
             </div>
@@ -605,7 +607,18 @@
               aria-label="Avis suivants"
               hidden
             >
-              <span aria-hidden="true">›</span>
+              <span class="avis__nav-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" focusable="false">
+                  <path
+                    d="M9 6l6 6-6 6"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.25"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
             </button>
           </div>
         </div>
@@ -647,8 +660,7 @@
         <p class="footer__legal">
           <span class="footer__legal-txt">Copyright ©<span data-year></span> – </span>
           <a class="footer__legal-link footer__legal-link--gold" href="mentions-legales.html">Mentions légales</a>
-          <span class="footer__legal-txt"> – Tous droits réservés – Site réalisé par </span>
-          <a class="footer__legal-link" href="https://www.lemmacorp.fr/" target="_blank" rel="noopener noreferrer">LemmaCorp</a>
+          <span class="footer__legal-txt"> – Tous droits réservés</span>
         </p>
       </div>
     </footer>
