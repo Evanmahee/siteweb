@@ -900,23 +900,12 @@ main {
 }
 
 /* Contact / À propos (header clair) : même rendu logo image que la nav accueil */
-.site-header {
-  isolation: isolate;
-}
-
-.site-header .hero-im__logo {
-  min-height: 0;
-  padding-block: 0;
-}
-
 .site-header .hero-im__logo-img {
   mix-blend-mode: normal;
   filter: none;
   height: clamp(2.2rem, 4.2vw, 2.65rem);
   width: auto;
   max-height: none;
-  aspect-ratio: 477 / 399;
-  object-fit: contain;
 }
 
 .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .hero-im__pill-links li + li::before,
@@ -1173,8 +1162,7 @@ main {
   -webkit-text-fill-color: transparent;
 }
 
-.hero-im__title-line--gold,
-.hero-im__title-accent {
+.hero-im__title-line--gold {
   background: linear-gradient(
     180deg,
     #f5e6bc 0%,
@@ -1187,10 +1175,6 @@ main {
   background-clip: text;
   color: transparent;
   -webkit-text-fill-color: transparent;
-}
-
-.hero-im__title-accent {
-  display: inline;
 }
 
 .hero-im__subtitle {
@@ -1220,10 +1204,9 @@ main {
     -webkit-text-fill-color: #fff;
   }
 
-  .hero-im__title-line--gold,
-  .hero-im__title-accent {
-    color: #e8c366;
-    -webkit-text-fill-color: #e8c366;
+  .hero-im__title-line--gold {
+    color: #7a5f24;
+    -webkit-text-fill-color: #7a5f24;
   }
 }
 
@@ -1975,23 +1958,6 @@ main {
     max-height: 36px;
   }
 
-  /* Contact / À propos : même ligne que le burger (42px), logo contenu */
-  .site-header .hero-im__logo {
-    min-height: 42px;
-    height: 42px;
-    padding: 0;
-  }
-
-  .site-header .hero-im__logo-img {
-    height: auto;
-    max-height: 36px;
-    width: auto;
-    aspect-ratio: 477 / 399;
-    object-fit: contain;
-    mix-blend-mode: normal;
-    filter: none;
-  }
-
   /* Burger lisible sur bandeau clair (nav au-dessus du stage) */
   .hero.hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle,
   .hero--immersive > .hero-im__nav.hero-im__nav--above-stage .nav__toggle {
@@ -2112,7 +2078,7 @@ body.page-home .mes-services .mes-services__grid {
 .apropos-hero-grid {
   box-sizing: border-box;
   width: 100%;
-  padding: 0 var(--page-gutter-x) clamp(2rem, 4vw, 3.25rem);
+  padding: 0 calc(var(--nav-logo-view-l) + var(--nav-logo-col-side)) clamp(2rem, 4vw, 3.25rem);
   background: #fff;
   color: #111;
 }
@@ -2141,10 +2107,16 @@ body.page-home .mes-services .mes-services__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(1.25rem, 3vw, 2rem);
-  align-items: start;
+  align-items: stretch;
 }
 
 @media (max-width: 900px) {
+  /* Hors accueil : même gouttière horizontale que les blocs type « Mes services » (var(--page-gutter-x)) */
+  .apropos-hero-grid {
+    padding-left: var(--page-gutter-x);
+    padding-right: var(--page-gutter-x);
+  }
+
   .apropos-hero-grid__split {
     grid-template-columns: 1fr;
   }
@@ -2156,13 +2128,15 @@ body.page-home .mes-services .mes-services__grid {
   .page-apropos .apropos-hero-grid__split {
     gap: clamp(0.85rem, 2.5vw, 1.35rem);
   }
+
+  .page-apropos .apropos-hero-grid__img {
+    min-height: min(34vh, 240px);
+  }
 }
 
 .apropos-hero-grid__figure {
   margin: 0;
   min-height: 0;
-  width: 100%;
-  aspect-ratio: 491 / 485;
   border-radius: clamp(1rem, 2vw, 1.35rem);
   overflow: hidden;
   border: 1px solid rgba(0, 0, 0, 0.06);
@@ -2174,7 +2148,7 @@ body.page-home .mes-services .mes-services__grid {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 0;
+  min-height: min(52vh, 420px);
   object-fit: cover;
   object-position: center 22%;
 }
@@ -2942,45 +2916,7 @@ body.page-home .mes-services .mes-services__grid {
   line-height: 1.65;
 }
 
-/* Liste simple de cartes (sans empilement sticky) */
-.formules__inner > .formules__text-block {
-  width: 100%;
-  max-width: min(1100px, 100%);
-  margin-inline: auto;
-  box-sizing: border-box;
-}
-
-#formules-grid.formules__cards {
-  display: flex;
-  flex-direction: column;
-  gap: clamp(1rem, 2vw, 1.25rem);
-  width: 100%;
-  max-width: min(1100px, 100%);
-  margin-inline: auto;
-  box-sizing: border-box;
-}
-
-#formules-grid.formules__cards .formule-card--split {
-  height: 450px;
-  min-height: 450px;
-  max-height: 450px;
-}
-
-#formules-grid.formules__cards .formule-card--split > .formule-card__panel {
-  height: 100%;
-  max-height: 100%;
-  overflow: hidden;
-}
-
-#formules-grid.formules__cards .formule-card--split .formule-card__body {
-  overflow: hidden;
-}
-
-#formules-grid.formules__cards .formule-card__img {
-  height: 450px;
-}
-
-/* ——— Legacy : empilement sticky (conservé si formules__stack réutilisé ailleurs) ——— */
+/* Empilement sticky : la carte suivante glisse au-dessus de la précédente */
 .formules__stack {
   display: flex;
   flex-direction: column;
@@ -2997,8 +2933,6 @@ body.page-home .mes-services .mes-services__grid {
 
 /* Ligne de collage sous la nav : accueil = barre hero, sinon --nav-h */
 #formules-grid {
-  --formule-card-stack-h: 310px;
-  --formules-stack-gap: var(--formule-card-stack-h);
   --formules-nav-under: max(0.75rem, calc(env(safe-area-inset-top, 0px) + var(--nav-h) + 0.5rem));
   /* Réserve ≈ hauteur titre + intro quand le bandeau titre est sticky (les cartes collent dessous) */
   --formules-head-stack: clamp(7rem, 34vw, 13rem);
@@ -3012,9 +2946,11 @@ body.page-home #formules-grid {
   );
 }
 
-/* Colonne titre + cartes : bloc (pas flex) pour que le sticky du bandeau couvre toute la pile */
+/* Colonne titre + cartes : hauteur commune pour que le bandeau puisse rester en sticky (accueil) */
 #formules-grid > .formules__stack-main {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   align-self: stretch;
   width: 100%;
   max-width: min(1100px, 100%);
@@ -3066,22 +3002,11 @@ body.page-home #formules-grid .formules-sticky-region > .formules-stack__slot {
   box-sizing: border-box;
 }
 
-/* Accueil : bandeau titre — pin JS (desktop) ; flux normal sinon */
+/* Accueil : bandeau sticky ; z-index bas pour que la région cartes (frère, z-index plus haut) passe au-dessus */
 body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor {
-  position: relative;
-  z-index: 19;
-}
-
-@media (min-width: 901px) {
-  body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor.is-head-pinned .formules__text-block {
-    position: fixed;
-    top: var(--formules-nav-under-live, var(--formules-nav-under));
-    left: var(--formules-head-pin-left);
-    width: var(--formules-head-pin-width);
-    max-width: var(--formules-head-pin-width);
-    box-sizing: border-box;
-    z-index: 19;
-  }
+  position: sticky;
+  top: var(--formules-nav-under-live, var(--formules-nav-under));
+  z-index: 1;
 }
 
 #formules-grid > .formules__stack-main > .formules__head-anchor > .formules__text-block {
@@ -3139,30 +3064,6 @@ body.page-home #formules-grid .formules-sticky-region {
   padding-bottom: clamp(0.75rem, 2.5vh, 1.5rem);
 }
 
-/* Desktop / tablette : empilement sticky calé sur la hauteur carte (310px) */
-@media (min-width: 901px) {
-  .formules__stack--pair .formules-stack__slot + .formules-stack__slot,
-  .formules__stack--stack .formules-stack__slot + .formules-stack__slot {
-    margin-top: var(--formules-stack-gap, var(--formule-card-stack-h, 310px));
-  }
-
-  .formules-sticky-region > .formules-stack__slot {
-    height: var(--formule-card-stack-h, 310px);
-    overflow: hidden;
-  }
-
-  .formules-sticky-region > .formules-stack__slot > .formule-card--split {
-    height: 100%;
-    min-height: 0;
-    max-height: 100%;
-  }
-
-  /* Piste de scroll sous la dernière carte (même hauteur qu’une carte) */
-  body.page-home #formules-grid .formules-sticky-region {
-    padding-bottom: var(--formule-card-stack-h, 310px);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .formules-stack__slot {
     position: relative;
@@ -3172,13 +3073,6 @@ body.page-home #formules-grid .formules-sticky-region {
   body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor {
     position: relative;
     top: auto;
-  }
-
-  body.page-home #formules-grid > .formules__stack-main > .formules__head-anchor.is-head-pinned .formules__text-block {
-    position: relative;
-    left: auto;
-    width: auto;
-    max-width: min(1100px, 100%);
   }
 
   .formules__stack--pair .formules-stack__slot + .formules-stack__slot,
@@ -3221,9 +3115,9 @@ body.page-home #formules-grid .formules-sticky-region {
   max-width: 1100px;
   margin-inline: auto;
   box-sizing: border-box;
-  height: var(--formule-card-stack-h, 310px);
-  min-height: var(--formule-card-stack-h, 310px);
-  max-height: var(--formule-card-stack-h, 310px);
+  height: auto;
+  min-height: 500px;
+  max-height: none;
   border-radius: clamp(1.1rem, 2vw, 1.65rem);
   border: 1px solid rgba(22, 20, 17, 0.09);
   box-shadow:
@@ -3231,16 +3125,13 @@ body.page-home #formules-grid .formules-sticky-region {
     0 20px 50px rgba(22, 20, 17, 0.1);
 }
 
-/* Évite que le min-height:auto des cellules casse la hauteur fixe des cartes */
+/* Évite que le min-height:auto des cellules impose une hauteur > 500px */
 #formules-grid .formule-card--split > * {
   min-width: 0;
 }
 
 #formules-grid .formule-card--split > .formule-card__panel {
   min-height: 0;
-  height: 100%;
-  max-height: 100%;
-  overflow: hidden;
 }
 
 #formules-grid .formule-card--split > .formule-card__visual {
@@ -3289,7 +3180,7 @@ body.page-home #formules-grid .formules-sticky-region {
   display: block;
   width: 100%;
   height: 100%;
-  min-height: 0;
+  min-height: 260px;
   object-fit: cover;
   object-position: center 32%;
 }
@@ -3340,7 +3231,7 @@ body.page-home #formules-grid .formules-sticky-region {
   flex: 1 1 auto;
   padding: 0.45rem 0 0;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .formule-card--split .formule-card__list {
@@ -3378,11 +3269,11 @@ body.page-home #formules-grid .formules-sticky-region {
 
 /* Mobile + tablette : largeur du CTA = même colonne que les cartes (#formules-grid) */
 @media (max-width: 1024px) {
-  .formules__inner .formules-services-cta {
+  #formules-grid .formules-services-cta {
     justify-content: stretch;
   }
 
-  .formules__inner .formules-services-cta .formule-card__cta {
+  #formules-grid .formules-services-cta .formule-card__cta {
     align-self: stretch;
     width: 100%;
     max-width: 100%;
@@ -3729,7 +3620,7 @@ body.page-home #formules-grid .formules-sticky-region {
 }
 
 /* Même bande qu’entre les <section> (64px desktop, 48px ≤900px) ; le padding interne reste léger pour ne pas doubler l’air */
-body.page-home .formules__inner > .formules-presentiel {
+body.page-home #formules-grid + .formules-presentiel {
   margin-top: 0;
   border-top: 64px solid var(--bg);
   padding-top: clamp(1.25rem, 3vw, 1.75rem);
@@ -3737,7 +3628,7 @@ body.page-home .formules__inner > .formules-presentiel {
 
 .formules-presentiel__split {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(260px, min(38%, 32.5rem));
+  grid-template-columns: minmax(0, 1fr) minmax(260px, min(38%, 26.625rem));
   gap: clamp(1.5rem, 4vw, 3rem);
   align-items: start;
 }
@@ -3756,9 +3647,9 @@ body.page-home .formules__inner > .formules-presentiel {
 .formules-presentiel__img {
   display: block;
   flex: none;
-  width: 520px;
-  height: 393px;
-  max-height: clamp(393px, 52vh, 420px);
+  width: 100%;
+  height: auto;
+  max-height: clamp(300px, 40vh, 420px);
   object-fit: cover;
   /* Proche du bloc éditorial (#resultats) : cadre compact, sujet remonté */
   object-position: center 32%;
@@ -3877,11 +3768,6 @@ body.page-home .formules__inner > .formules-presentiel {
     margin-inline: auto;
   }
 
-  #formules-grid.formules__cards {
-    max-width: min(28rem, 100%);
-    margin-inline: auto;
-  }
-
   /*
    * Même logique que le hero mobile : éviter dvh — barre d’URL → hauteur des cartes qui saute,
    * marges sticky (28vh) et hauteurs (90dvh) plus alignées → l’empilement « cartes qui se superposent » casse.
@@ -3911,33 +3797,54 @@ body.page-home .formules__inner > .formules-presentiel {
     margin-top: 1.25rem;
   }
 
-  /* Cartes services : pas de photo sur mobile */
-  #formules-grid.formules__cards .formule-card--split {
+  /* Cartes services : pas de photo sur mobile — uniquement le panneau contenu */
+  #formules-grid .formule-card--split {
     grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr);
     height: auto;
     min-height: 0;
     max-height: none;
+    box-sizing: border-box;
   }
 
-  #formules-grid.formules__cards .formule-card--split .formule-card__visual {
+  #formules-grid .formule-card--split .formule-card__visual {
     display: none;
   }
 
-  #formules-grid.formules__cards .formule-card--split .formule-card__panel {
+  /* Panneau : hauteur selon le contenu (listes longues, ex. suivi distanciel) */
+  #formules-grid .formule-card--split .formule-card__panel {
+    box-sizing: border-box;
+    height: auto;
+    min-height: 288px;
+    max-height: none;
     padding: 0.85rem 1rem 0.95rem;
     gap: 0.25rem;
   }
 
+  #formules-grid .formule-card--split .formule-card__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  /*
+   * Accueil : .mes-services + #formules a border-top: none (spécificité) → pas de bande section+section.
+   * On impose 48px d’air réel sous « Mes services ». On compresse le vide sous les cartes / avant présentiel.
+   */
   body.page-home .mes-services + #formules.formules {
     padding-top: 48px;
     box-sizing: border-box;
   }
 
-  body.page-home .formules__inner .formules-services-cta {
+  body.page-home #formules-grid .formules-sticky-region {
+    padding-bottom: 1rem;
+  }
+
+  body.page-home #formules-grid .formules-services-cta {
     padding-top: 1rem;
   }
 
-  body.page-home .formules__inner > .formules-presentiel {
+  body.page-home #formules-grid + .formules-presentiel {
     margin-top: 0;
     border-top: none;
     padding-top: 48px;
@@ -4442,8 +4349,9 @@ body.page-home .formules__inner > .formules-presentiel {
 
 .avis__nav {
   z-index: 2;
-  display: inline-grid;
-  place-items: center;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 2.35rem;
   height: 2.35rem;
   margin: 0;
@@ -4453,23 +4361,10 @@ body.page-home .formules__inner > .formules-presentiel {
   background: #fff;
   color: #2e2c28;
   font-size: 1.45rem;
-  line-height: 0;
+  line-height: 1;
   cursor: pointer;
   box-shadow: 0 1px 2px rgba(22, 20, 17, 0.06);
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-}
-
-.avis__nav > span {
-  display: block;
-  line-height: 1;
-}
-
-.avis__nav--prev > span {
-  transform: translateX(-1px);
-}
-
-.avis__nav--next > span {
-  transform: translateX(1px);
 }
 
 .avis__nav--prev {

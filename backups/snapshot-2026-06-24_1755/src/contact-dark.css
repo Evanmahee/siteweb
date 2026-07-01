@@ -122,11 +122,11 @@ body.page-apropos .site-header .hero-btn--secondary:focus-visible {
     margin-left: 0;
   }
 
-  /* Même retrait horizontal que la nav accueil (16px + safe-area), sans col-side */
+  /* Même axe horizontal que la nav accueil (logo + contenu) */
   body.page-contact .site-header,
   body.page-apropos .site-header {
-    padding-left: var(--nav-logo-view-l);
-    padding-right: var(--nav-logo-view-r);
+    padding-left: calc(var(--nav-logo-view-l) + var(--nav-logo-col-side));
+    padding-right: calc(var(--nav-logo-view-r) + var(--nav-logo-col-side));
   }
 
   body.page-contact .site-header .nav,

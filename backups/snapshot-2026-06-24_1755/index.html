@@ -127,7 +127,7 @@
               <div class="hero-im__copy">
                 <div class="hero-im__headline">
                   <div class="hero-im__headline-title">
-                    <h1 class="hero-im__title">Ta meilleure version commence <span class="hero-im__title-accent">ici</span></h1>
+                    <h1 class="hero-im__title">Ta meilleure version commence ici</h1>
                   </div>
                   <p class="hero-im__subtitle">
                     Coaching sur mesure, en présentiel ou en ligne&nbsp;: technique, nutrition et suivi humain pour des
@@ -347,15 +347,20 @@
 
       <section class="formules" id="formules" aria-labelledby="formules-title">
         <div class="formules__inner">
-        <div class="formules__text-block" aria-live="polite">
-          <h2 id="formules-title" class="formules__title">Mes services</h2>
-          <p id="formules-intro" class="formules__intro">
-            Suivi à distance, suivi sportif en salle (plan sur appli), formule complète présentiel + distanciel,
-            programme autonome (12 semaines min.) ou bilan d’environ 1 h à l’Appart Fitness Vannes Ouest.
-          </p>
-        </div>
+        <div id="formules-grid" class="formules__stack formules__stack--stack">
+          <div class="formules__stack-main">
+          <div class="formules__head-anchor">
+            <div class="formules__text-block" aria-live="polite">
+              <h2 id="formules-title" class="formules__title">Mes services</h2>
+              <p id="formules-intro" class="formules__intro">
+                Suivi à distance, suivi sportif en salle (plan sur appli), formule complète présentiel + distanciel,
+                programme autonome (12 semaines min.) ou bilan d’environ 1 h à l’Appart Fitness Vannes Ouest.
+              </p>
+            </div>
+          </div>
 
-        <div id="formules-grid" class="formules__cards">
+          <div class="formules-sticky-region">
+          <div class="formules-stack__slot">
             <article class="formule-card formule-card--split">
               <figure class="formule-card__visual">
                 <img
@@ -390,7 +395,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot">
             <article class="formule-card formule-card--split">
               <figure class="formule-card__visual">
                 <img
@@ -409,8 +416,8 @@
                   <div class="formule-card__head-text">
                     <p class="formule-card__price" hidden></p>
                     <p class="formule-card__tagline">3, 6 ou 12 mois · présentiel · Vannes Ouest</p>
-                    <h3 class="formule-card__duration" id="formule-sportif-title">
-                      Suivi sportif en présentiel
+                    <h3 class="formule-card__duration" id="formule-sportif-title" aria-describedby="formules-fn-asterisk">
+                      Suivi sportif en présentiel<span class="formule-card__fn-mark" aria-hidden="true">*</span>
                     </h3>
                   </div>
                 </header>
@@ -425,7 +432,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot">
             <article class="formule-card formule-card--split">
               <figure class="formule-card__visual">
                 <img
@@ -444,8 +453,8 @@
                   <div class="formule-card__head-text">
                     <p class="formule-card__price" hidden></p>
                     <p class="formule-card__tagline">3, 6 ou 12 mois · présentiel + distanciel</p>
-                    <h3 class="formule-card__duration" id="formule-complet-title">
-                      Suivi complet premium
+                    <h3 class="formule-card__duration" id="formule-complet-title" aria-describedby="formules-fn-asterisk">
+                      Suivi complet premium<span class="formule-card__fn-mark" aria-hidden="true">*</span>
                     </h3>
                   </div>
                 </header>
@@ -462,7 +471,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot">
             <article class="formule-card formule-card--split formule-card--gold-head">
               <figure class="formule-card__visual">
                 <img
@@ -494,7 +505,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot">
             <article class="formule-card formule-card--split formule-card--gold-head">
               <figure class="formule-card__visual">
                 <img
@@ -513,8 +526,8 @@
                   <div class="formule-card__head-text">
                     <p class="formule-card__price">50&nbsp;€</p>
                     <p class="formule-card__tagline">Présentiel · ~1 h · Vannes Ouest</p>
-                    <h3 class="formule-card__duration" id="formule-bilan-title" aria-describedby="formule-bilan-note">
-                      Bilan
+                    <h3 class="formule-card__duration" id="formule-bilan-title" aria-describedby="formules-fn-asterisk formule-bilan-note">
+                      Bilan<span class="formule-card__fn-mark" aria-hidden="true">*</span>
                     </h3>
                   </div>
                 </header>
@@ -528,14 +541,22 @@
                 </div>
               </div>
             </article>
-        </div>
+          </div>
 
-        <div class="formules-services-cta">
+          </div>
+
+          <div class="formules-services-cta">
             <a class="formule-card__cta" href="contact.html">
               <span class="formule-card__cta-label">Me contacter</span>
               <span class="formule-card__cta-icon" aria-hidden="true"></span>
             </a>
           </div>
+          <p class="formules__footnote" id="formules-fn-asterisk">
+            <span class="formule-card__fn-mark" aria-hidden="true">*</span>
+            Analyse posturale en début de parcours pour les suivis en présentiel.
+          </p>
+          </div>
+        </div>
 
         <div
           class="formules-presentiel"

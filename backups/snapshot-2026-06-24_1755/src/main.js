@@ -1,6 +1,5 @@
 import { loadAndRenderAvis } from "./avis-data.js";
 import { initAvisCarousel, initAvisToggles } from "./avis-carousel.js";
-import { sendContactEmail } from "./contact-email.js";
 
 (function () {
   "use strict";
@@ -177,7 +176,7 @@ import { sendContactEmail } from "./contact-email.js";
     });
   }
 
-  /* Contact : champ « Précise si Autre » + envoi EmailJS */
+  /* Contact : champ « Précise si Autre » + envoi (démo navigateur) */
   var contactForm = document.getElementById("contact-form");
   if (contactForm) {
     var sourceAutreRow = contactForm.querySelector(".contact-dark__field-source-autre");
@@ -202,44 +201,8 @@ import { sendContactEmail } from "./contact-email.js";
     var submitDefaultHtml = submitBtn ? submitBtn.innerHTML.trim() : "Envoyer ma fiche →";
     var reduceMotion =
       typeof window.matchMedia === "function" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var demoSendMs = reduceMotion ? 400 : 900;
     var successHoldMs = reduceMotion ? 2200 : 3800;
-
-    function resetSubmitButton() {
-      if (!submitBtn) return;
-      submitBtn.classList.remove("is-sending", "is-success");
-      submitBtn.disabled = false;
-      submitBtn.removeAttribute("aria-busy");
-      submitBtn.innerHTML = submitDefaultHtml;
-    }
-
-    function showSubmitSuccess() {
-      if (!submitBtn) return;
-      submitBtn.classList.remove("is-sending");
-      submitBtn.classList.add("is-success");
-      submitBtn.removeAttribute("aria-busy");
-      submitBtn.innerHTML =
-        '<span class="contact-dark__submit-check" aria-hidden="true">✓</span>' +
-        '<span class="contact-dark__submit-label">Fiche envoyée</span>';
-
-      if (feedbackEl) {
-        feedbackEl.textContent =
-          "Merci ! Ta fiche a bien été envoyée. Je te réponds sous 24–48h.";
-        feedbackEl.removeAttribute("hidden");
-      }
-
-      window.setTimeout(function () {
-        resetSubmitButton();
-        if (feedbackEl) {
-          feedbackEl.setAttribute("hidden", "");
-          feedbackEl.textContent = "";
-        }
-        contactForm.reset();
-        syncSourceAutreField();
-        if (window.contactWizard && typeof window.contactWizard.setStep === "function") {
-          window.contactWizard.setStep(1);
-        }
-      }, successHoldMs);
-    }
 
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -258,19 +221,32 @@ import { sendContactEmail } from "./contact-email.js";
         feedbackEl.textContent = "";
       }
 
-      sendContactEmail(contactForm)
-        .then(function () {
-          showSubmitSuccess();
-        })
-        .catch(function (error) {
-          console.error("Erreur EmailJS:", error);
-          resetSubmitButton();
+      window.setTimeout(function () {
+        submitBtn.classList.remove("is-sending");
+        submitBtn.classList.add("is-success");
+        submitBtn.removeAttribute("aria-busy");
+        submitBtn.innerHTML =
+          '<span class="contact-dark__submit-check" aria-hidden="true">✓</span>' +
+          '<span class="contact-dark__submit-label">Fiche envoyée</span>';
+
+        if (feedbackEl) {
+          feedbackEl.textContent =
+            "Merci ! Ta fiche a bien été prise en compte. (Version démo : relie ce formulaire à ton backend ou à un outil pour recevoir les demandes.)";
+          feedbackEl.removeAttribute("hidden");
+        }
+
+        window.setTimeout(function () {
+          submitBtn.classList.remove("is-success");
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = submitDefaultHtml;
           if (feedbackEl) {
-            feedbackEl.textContent =
-              "L'envoi a échoué. Réessaie dans un instant ou écris à contact@nefelie.fr.";
-            feedbackEl.removeAttribute("hidden");
+            feedbackEl.setAttribute("hidden", "");
+            feedbackEl.textContent = "";
           }
-        });
+          contactForm.reset();
+          syncSourceAutreField();
+        }, successHoldMs);
+      }, demoSendMs);
     });
   }
 
@@ -285,4 +261,67 @@ import { sendContactEmail } from "./contact-email.js";
   }
 
   bootAvisSection();
+
+  /*
+   * Accueil — formules : variables CSS pour le sticky des cartes (nav + hauteur du bandeau).
+   * Le titre « Mes services » reste visible via position: sticky sur .formules__head-anchor
+   * (parent .formules__stack-main dans index.html) — pas d’écoute scroll / fixed.
+   */
+  (function initFormulesLayoutMetrics() {
+    if (typeof window === "undefined" || !document.body.classList.contains("page-home")) {
+      return;
+    }
+
+    var grid = document.getElementById("formules-grid");
+    if (!grid) return;
+    var head = grid.querySelector(".formules__head-anchor .formules__text-block");
+    if (!head) return;
+
+    var GAP = 16;
+    var resizeTimer = 0;
+
+    function getNavBottom() {
+      var nav = document.querySelector(".hero-im__nav.hero-im__nav--above-stage");
+      if (nav) {
+        return Math.round(nav.getBoundingClientRect().bottom);
+      }
+      return 96;
+    }
+
+    function applyMetrics() {
+      grid.style.setProperty("--formules-nav-under-live", getNavBottom() + GAP + "px");
+      var nh = Math.round(head.offsetHeight);
+      if (nh > 0) {
+        grid.style.setProperty("--formules-pin-head-h", nh + "px");
+      }
+    }
+
+    function onResize() {
+      if (resizeTimer) {
+        window.clearTimeout(resizeTimer);
+      }
+      resizeTimer = window.setTimeout(function () {
+        resizeTimer = 0;
+        applyMetrics();
+      }, 120);
+    }
+
+    function kick() {
+      applyMetrics();
+      window.requestAnimationFrame(function () {
+        window.requestAnimationFrame(applyMetrics);
+      });
+    }
+
+    kick();
+    window.addEventListener("resize", onResize, { passive: true });
+    window.addEventListener("load", kick);
+    /* Mobile : barre d’URL / visual viewport — recalcul bandeau + pin pour les cartes sticky #formules */
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", onResize, { passive: true });
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(kick);
+    }
+  })();
 })();
