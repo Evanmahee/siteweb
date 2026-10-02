@@ -358,15 +358,21 @@
 
       <section class="formules" id="formules" aria-labelledby="formules-title">
         <div class="formules__inner">
-        <div class="formules__text-block" aria-live="polite">
-          <h2 id="formules-title" class="formules__title">Mes services</h2>
-          <p id="formules-intro" class="formules__intro">
-            Suivi à distance, suivi sportif en salle (plan sur appli), formule complète présentiel + distanciel,
-            programme autonome (12 semaines min.) ou bilan d’environ 1 h à l’Appart Fitness Vannes Ouest.
-          </p>
-        </div>
+        <div id="formules-grid" class="formules__stack formules__stack--stack">
+          <div class="formules-track" data-formules-track>
+          <div class="formules__stack-main formules-sticky-unit" data-formules-sticky>
+          <div class="formules__head-anchor">
+            <div class="formules__text-block" aria-live="polite">
+              <h2 id="formules-title" class="formules__title">Mes services</h2>
+              <p id="formules-intro" class="formules__intro">
+                Suivi à distance, suivi sportif en salle (plan sur appli), formule complète présentiel + distanciel,
+                programme autonome (12 semaines min.) ou bilan d’environ 1 h à l’Appart Fitness Vannes Ouest.
+              </p>
+            </div>
+          </div>
 
-        <div id="formules-grid" class="formules__cards">
+          <div class="formules-stage" data-formules-stage>
+          <div class="formules-stack__slot formules-stack__slot--base">
             <article class="formule-card formule-card--split">
               <figure class="formule-card__visual">
                 <img
@@ -401,7 +407,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot formules-stack__slot--slide">
             <article class="formule-card formule-card--split">
               <figure class="formule-card__visual">
                 <img
@@ -436,7 +444,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot formules-stack__slot--slide">
             <article class="formule-card formule-card--split">
               <figure class="formule-card__visual">
                 <img
@@ -473,7 +483,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot formules-stack__slot--slide">
             <article class="formule-card formule-card--split formule-card--gold-head">
               <figure class="formule-card__visual">
                 <img
@@ -505,7 +517,9 @@
                 </div>
               </div>
             </article>
+          </div>
 
+          <div class="formules-stack__slot formules-stack__slot--slide">
             <article class="formule-card formule-card--split formule-card--gold-head">
               <figure class="formule-card__visual">
                 <img
@@ -539,14 +553,18 @@
                 </div>
               </div>
             </article>
-        </div>
+          </div>
+          </div>
+          </div>
+          </div>
 
-        <div class="formules-services-cta">
+          <div class="formules-services-cta">
             <a class="formule-card__cta" href="contact.html">
               <span class="formule-card__cta-label">Me contacter</span>
               <span class="formule-card__cta-icon" aria-hidden="true"></span>
             </a>
           </div>
+        </div>
 
         <div
           class="formules-presentiel"

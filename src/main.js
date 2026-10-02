@@ -285,4 +285,133 @@ import { sendContactEmail } from "./contact-email.js";
   }
 
   bootAvisSection();
+
+  /*
+   * Accueil — formules (modèle Relay) :
+   * une unité sticky (titre + scène) ; les cartes 2→5 glissent par-dessus ;
+   * en fin de piste, titre + pile remontent ensemble.
+   */
+  (function initFormulesStack() {
+    if (typeof window === "undefined" || !document.body.classList.contains("page-home")) {
+      return;
+    }
+
+    var grid = document.getElementById("formules-grid");
+    if (!grid) return;
+    var track = grid.querySelector("[data-formules-track]");
+    var stage = grid.querySelector("[data-formules-stage]");
+    var slides = grid.querySelectorAll(".formules-stack__slot--slide");
+    if (!track || !stage || !slides.length) return;
+
+    var GAP = 16;
+    var raf = 0;
+
+    function getNavBottom() {
+      var nav = document.querySelector(".hero-im__nav.hero-im__nav--above-stage");
+      if (nav) {
+        return Math.round(nav.getBoundingClientRect().bottom);
+      }
+      return 96;
+    }
+
+    function slideProgress(p, start, end) {
+      if (p <= start) return 0;
+      if (p >= end) return 1;
+      return (p - start) / (end - start);
+    }
+
+    function clearDesktopStyles() {
+      grid.style.removeProperty("--formules-nav-under-live");
+      for (var i = 0; i < slides.length; i++) {
+        slides[i].style.removeProperty("transform");
+      }
+      var slots = stage.querySelectorAll(".formules-stack__slot");
+      for (var s = 0; s < slots.length; s++) {
+        var card = slots[s].querySelector(".formule-card--split");
+        if (card) card.style.removeProperty("min-height");
+      }
+    }
+
+    function sync() {
+      var mobile =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(max-width: 900px)").matches;
+      var reduceMotion =
+        typeof window.matchMedia === "function" &&
+        window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (mobile || reduceMotion) {
+        clearDesktopStyles();
+        return;
+      }
+
+      var navBottom = getNavBottom() + GAP;
+      grid.style.setProperty("--formules-nav-under-live", navBottom + "px");
+
+      var slots = stage.querySelectorAll(".formules-stack__slot");
+      var cards = [];
+      for (var c = 0; c < slots.length; c++) {
+        var card = slots[c].querySelector(".formule-card--split");
+        if (card) cards.push(card);
+      }
+      for (var h = 0; h < cards.length; h++) {
+        cards[h].style.minHeight = "0px";
+      }
+      var maxH = 0;
+      for (var m = 0; m < cards.length; m++) {
+        maxH = Math.max(maxH, cards[m].offsetHeight);
+      }
+      if (maxH > 0) {
+        grid.style.setProperty("--formule-card-stack-h", maxH + "px");
+        for (var n = 0; n < cards.length; n++) {
+          cards[n].style.minHeight = maxH + "px";
+        }
+      }
+
+      var trackRect = track.getBoundingClientRect();
+      var trackTop = window.scrollY + trackRect.top;
+      var stickStart = trackTop - navBottom;
+      var stickEnd = trackTop + track.offsetHeight - window.innerHeight;
+      var range = Math.max(1, stickEnd - stickStart);
+      var p = Math.min(1, Math.max(0, (window.scrollY - stickStart) / range));
+
+      /* 4 slides successifs, hold final pour libérer l’unité sticky d’un bloc */
+      var windows = [
+        [0, 0.18],
+        [0.2, 0.38],
+        [0.4, 0.58],
+        [0.6, 0.78],
+      ];
+      for (var i = 0; i < slides.length; i++) {
+        var win = windows[i] || [0.8, 0.95];
+        var t = slideProgress(p, win[0], win[1]);
+        slides[i].style.transform = "translateY(" + ((1 - t) * 108).toFixed(2) + "%)";
+      }
+    }
+
+    function onScrollOrResize() {
+      if (raf) return;
+      raf = window.requestAnimationFrame(function () {
+        raf = 0;
+        sync();
+      });
+    }
+
+    sync();
+    window.addEventListener("scroll", onScrollOrResize, { passive: true });
+    window.addEventListener("resize", onScrollOrResize, { passive: true });
+    window.addEventListener("load", sync);
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", onScrollOrResize, { passive: true });
+    }
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(sync);
+    }
+    if (typeof ResizeObserver === "function") {
+      var ro = new ResizeObserver(onScrollOrResize);
+      ro.observe(track);
+      var head = grid.querySelector(".formules__text-block");
+      if (head) ro.observe(head);
+    }
+  })();
 })();
