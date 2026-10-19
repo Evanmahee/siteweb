@@ -49,6 +49,7 @@ function mapGoogleReview(review) {
 export async function fetchGooglePlaceReviews(apiKey, placeId) {
   const url = `https://places.googleapis.com/v1/places/${encodeURIComponent(placeId)}`;
   const res = await fetch(url, {
+    signal: AbortSignal.timeout(5000),
     headers: {
       "Content-Type": "application/json",
       "X-Goog-Api-Key": apiKey,

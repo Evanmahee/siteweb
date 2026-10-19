@@ -1,4 +1,3 @@
-import seedAvis from "../public/avis.json";
 
 const GOOGLE_ICON_SVG =
   '<svg viewBox="0 0 24 24" width="18" height="18" focusable="false">' +
@@ -164,7 +163,7 @@ export async function fetchAvisData() {
     }
   }
 
-  return normalizeAvisPayload(seedAvis);
+  return null;
 }
 
 export async function loadAndRenderAvis() {

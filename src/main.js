@@ -177,7 +177,7 @@ import { sendContactEmail } from "./contact-email.js";
     });
   }
 
-  /* Contact : champ « Précise si Autre » + envoi EmailJS */
+  /* Contact : champ « Précise si Autre » + envoi via l’API de contact */
   var contactForm = document.getElementById("contact-form");
   if (contactForm) {
     var sourceAutreRow = contactForm.querySelector(".contact-dark__field-source-autre");
@@ -243,7 +243,7 @@ import { sendContactEmail } from "./contact-email.js";
 
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
-      if (!submitBtn || submitBtn.classList.contains("is-sending")) return;
+      if (!submitBtn || submitBtn.disabled) return;
 
       submitBtn.classList.remove("is-success");
       submitBtn.classList.add("is-sending");
@@ -263,11 +263,11 @@ import { sendContactEmail } from "./contact-email.js";
           showSubmitSuccess();
         })
         .catch(function (error) {
-          console.error("Erreur EmailJS:", error);
+          console.error("Échec de l’envoi du formulaire.");
           resetSubmitButton();
           if (feedbackEl) {
             feedbackEl.textContent =
-              "L'envoi a échoué. Réessaie dans un instant ou écris à contact@nefelie.fr.";
+              error.message || "L’envoi a échoué. Réessaie dans un instant.";
             feedbackEl.removeAttribute("hidden");
           }
         });

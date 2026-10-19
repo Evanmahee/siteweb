@@ -7,6 +7,7 @@
     <title>Contact | Nefelie</title>
     <link rel="stylesheet" href="src/style.css" />
     <link rel="stylesheet" href="src/contact-dark.css" />
+    <link rel="stylesheet" href="/src/contact-refresh.css" />
     <meta name="color-scheme" content="light" />
   </head>
   <body class="page-contact">
@@ -28,7 +29,7 @@
         <div class="hero-im__nav-end">
           <div class="hero-im__pill">
             <ul class="hero-im__pill-links">
-              <li><a href="a-propos.html">À propos</a></li>
+              <li><a href="index.html#apropos">À propos</a></li>
               <li><a href="index.html#formules">Services</a></li>
               <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
             </ul>
@@ -59,7 +60,7 @@
 
         <div id="nav-menu" class="nav__menu hero-im__drawer">
           <ul class="nav__links">
-            <li><a href="a-propos.html">À propos</a></li>
+            <li><a href="index.html#apropos">À propos</a></li>
             <li><a href="index.html#formules">Services</a></li>
             <li><span class="nav-link--soon">Marketplace (bientôt)</span></li>
           </ul>
@@ -122,6 +123,7 @@
             <div class="contact-dark__form-wrap reveal">
               <div class="contact-dark__card">
                 <form id="contact-form" class="contact-form contact-form--dark form-wizard" action="#" method="post" novalidate data-current-step="1">
+                  <div class="contact-honeypot" aria-hidden="true"><label for="website">Site web</label><input type="text" id="website" name="website" tabindex="-1" autocomplete="off" /></div>
                   <div class="form-wizard__progress" aria-label="Progression du formulaire">
                     <div class="form-wizard__track" aria-hidden="true">
                       <span class="form-wizard__dot is-active">1</span>
@@ -229,18 +231,16 @@
                         placeholder="Ex : 62"
                       />
                     </div>
-                  </div>
-
-                  <div class="field field--full">
-                    <label for="metier">Métier <span class="contact-dark__optional">(optionnel)</span></label>
-                    <span class="contact-dark__hint">Général suffit : étudiant, manager, travail physique…</span>
-                    <input
-                      id="metier"
-                      name="metier"
-                      type="text"
-                      autocomplete="organization-title"
-                      placeholder="Ex : infirmière, commercial, étudiante…"
-                    />
+                    <div class="field">
+                      <label for="metier">Métier <span class="contact-dark__optional">(optionnel)</span></label>
+                      <input
+                        id="metier"
+                        name="metier"
+                        type="text"
+                        autocomplete="organization-title"
+                        placeholder="Ex : infirmière, commercial, étudiante…"
+                      />
+                    </div>
                   </div>
 
                   <div class="contact-dark__pill-block" role="group" aria-labelledby="label-jours-travail">
@@ -286,6 +286,7 @@
                   <div class="contact-dark__pill-block" role="group" aria-labelledby="label-source">
                     <p id="label-source" class="contact-dark__block-title">Où m’as-tu trouvée&nbsp;?</p>
                     <p class="contact-dark__block-desc">Pour mieux comprendre comment tu es arrivée ici</p>
+                    <div class="contact-dark__pills-with-cta">
                     <div class="contact-pills" role="radiogroup" aria-labelledby="label-source">
                       <div class="contact-pill">
                         <input class="contact-pill__input" type="radio" name="source" id="source-instagram" value="instagram" />
@@ -315,6 +316,8 @@
                         <input class="contact-pill__input" type="radio" name="source" id="source-autre" value="autre" />
                         <label class="contact-pill__label" for="source-autre">Autre</label>
                       </div>
+                    </div>
+                    <div class="contact-dark__wizard-next-slot" data-wizard-next-slot></div>
                     </div>
                     <div class="field field--full contact-dark__field-source-autre" hidden>
                       <label for="source_autre_detail">Précise si «&nbsp;Autre&nbsp;» <span class="contact-dark__optional">(optionnel)</span></label>
@@ -672,7 +675,7 @@
                     </div>
 
                     <p class="form-wizard__footnote">
-                      Prochaine étape : si tu as indiqué ton numéro et que tu souhaites un appel, je te recontacte sous 24–48h pour un appel découverte. Sinon, je te réponds par e-mail. Tu recevras une confirmation dans tous les cas.
+                      Prochaine étape : si tu as indiqué ton numéro et que tu souhaites un appel, je te recontacte sous 24–48h pour un appel découverte. Sinon, je te réponds par e-mail. Une confirmation s’affichera après l’envoi de ta fiche.
                     </p>
                   </div>
 

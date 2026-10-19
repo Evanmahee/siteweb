@@ -160,6 +160,23 @@
     });
   }
 
+  function syncNextButtonPlacement(form, step) {
+    var nextBtn = form.querySelector(".form-wizard__next");
+    var nav = form.querySelector(".form-wizard__nav");
+    var slot = form.querySelector("[data-wizard-next-slot]");
+    if (!nextBtn || !nav) return;
+
+    if (step === 1 && slot) {
+      slot.appendChild(nextBtn);
+      nav.classList.add("form-wizard__nav--step1");
+    } else {
+      var submitBtn = form.querySelector(".form-wizard__submit");
+      if (submitBtn) nav.insertBefore(nextBtn, submitBtn);
+      else nav.appendChild(nextBtn);
+      nav.classList.remove("form-wizard__nav--step1");
+    }
+  }
+
   function showStep(form, step) {
     form.querySelectorAll(".form-wizard__step").forEach(function (panel) {
       var panelStep = Number(panel.getAttribute("data-step"));
@@ -176,6 +193,7 @@
     if (nextBtn) nextBtn.hidden = step >= TOTAL_STEPS;
     if (submitBtn) submitBtn.hidden = step < TOTAL_STEPS;
 
+    syncNextButtonPlacement(form, step);
     updateProgress(form, step);
     form.dataset.currentStep = String(step);
 
@@ -219,11 +237,11 @@
     }
   }
 
-  function validateCheckboxGroups(panel) {
+  function validateCheckboxGroups(panel, report) {
     var groups = panel.querySelectorAll("[data-required-group]");
     for (var g = 0; g < groups.length; g++) {
       var group = groups[g];
-      if (group.closest("[hidden]")) continue;
+      if (group.closest("[hidden]") && group.closest("[hidden]") !== panel) continue;
 
       var name = group.getAttribute("data-required-group");
       if (!name) continue;
@@ -242,8 +260,7 @@
       if (!checked) {
         var first = boxes[0];
         first.setCustomValidity("Sélectionne au moins une option.");
-        first.reportValidity();
-        first.focus();
+        if (report) { first.reportValidity(); first.focus(); }
         return false;
       }
     }
@@ -257,7 +274,7 @@
     });
   }
 
-  function validateStep(form, step) {
+  function validateStep(form, step, report = true) {
     var panel = form.querySelector('.form-wizard__step[data-step="' + step + '"]');
     if (!panel) return true;
 
@@ -266,21 +283,21 @@
     var fields = panel.querySelectorAll("input, select, textarea");
     for (var i = 0; i < fields.length; i++) {
       var field = fields[i];
-      if (field.closest("[hidden]")) continue;
+      if (field.closest("[hidden]") && field.closest("[hidden]") !== panel) continue;
       if (!field.willValidate) continue;
       if (!field.checkValidity()) {
-        field.reportValidity();
-        field.focus();
+        if (report) { field.reportValidity(); field.focus(); }
         return false;
       }
     }
 
-    return validateCheckboxGroups(panel);
+    return validateCheckboxGroups(panel, report);
   }
 
   function initContactWizard() {
     var form = document.getElementById("contact-form");
-    if (!form || !form.classList.contains("form-wizard")) return;
+    if (!form || !form.classList.contains("form-wizard") || form.dataset.wizardBound) return;
+    form.dataset.wizardBound = "true";
 
     mountScales(form);
     syncCyclesVisibility(form);
@@ -326,9 +343,25 @@
     form.addEventListener(
       "submit",
       function (e) {
-        if (!validateStep(form, currentStep)) {
+        if (currentStep < TOTAL_STEPS) {
           e.preventDefault();
           e.stopImmediatePropagation();
+          if (validateStep(form, currentStep)) {
+            currentStep += 1;
+            showStep(form, currentStep);
+          }
+          return;
+        }
+        // Recheck earlier panels too, including values changed by autofill.
+        for (var step = 1; step <= TOTAL_STEPS; step++) {
+          if (!validateStep(form, step, false)) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            currentStep = step;
+            showStep(form, currentStep);
+            validateStep(form, currentStep);
+            return;
+          }
         }
       },
       true
@@ -347,7 +380,7 @@
         return currentStep;
       },
       setStep: function (s) {
-        currentStep = s;
+        currentStep = Math.min(TOTAL_STEPS, Math.max(1, Math.floor(Number(s)) || 1));
         showStep(form, currentStep);
       },
     };

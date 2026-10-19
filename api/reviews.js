@@ -7,6 +7,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const avisPath = path.join(root, "public", "avis.json");
 
 let memoryCache = null;
+let pendingPayload = null;
 let memoryCacheAt = 0;
 const CACHE_MS = 6 * 60 * 60 * 1000;
 
@@ -29,7 +30,7 @@ async function buildPayload() {
       const place = await fetchGooglePlaceReviews(apiKey, placeId);
       data = mergeGoogleReviews(data, place);
     } catch (err) {
-      console.error("Google Places sync failed:", err);
+      console.error("Google Places sync failed");
     }
   }
 
@@ -55,11 +56,13 @@ export default async function handler(req, res) {
   }
 
   try {
-    const data = await buildPayload();
+    // Share a single cold-cache refresh instead of multiplying upstream API calls.
+    if (!pendingPayload) pendingPayload = buildPayload().finally(() => { pendingPayload = null; });
+    const data = await pendingPayload;
     res.setHeader("Cache-Control", "public, s-maxage=3600, stale-while-revalidate=86400");
     sendJson(res, 200, data);
   } catch (err) {
-    console.error(err);
+    console.error("Reviews unavailable");
     sendJson(res, 500, { error: "Impossible de charger les avis." });
   }
 }

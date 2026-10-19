@@ -1,7 +1,7 @@
 import { Resend } from "resend";
+import { createHash } from "node:crypto";
+import { contactRateLimited } from "../server/contact-rate-limit.js";
 
-const FROM = process.env.RESEND_FROM || "contact@nefeliecoaching.com";
-const TO = process.env.RESEND_TO || "contact@nefeliecoaching.com";
 
 const FIELD_LABELS = {
   prenom: "Prénom",
@@ -59,6 +59,8 @@ const FIELD_LABELS = {
 };
 
 function sendJson(res, status, data) {
+  res.setHeader("Cache-Control", "no-store");
+  res.setHeader("X-Content-Type-Options", "nosniff");
   if (typeof res.status === "function" && typeof res.json === "function") {
     res.status(status).json(data);
     return;
@@ -109,24 +111,24 @@ function buildEmailHtml(data) {
   );
 }
 
+const MAX_BODY_BYTES = 64 * 1024;
 async function parseBody(req) {
-  if (req.body && typeof req.body === "object") return req.body;
-  if (req.method !== "POST") return null;
-
-  return new Promise(function (resolve, reject) {
-    var raw = "";
-    req.on("data", function (chunk) {
-      raw += chunk;
-    });
-    req.on("end", function () {
-      try {
-        resolve(raw ? JSON.parse(raw) : {});
-      } catch (_err) {
-        reject(new Error("JSON invalide"));
-      }
-    });
-    req.on("error", reject);
-  });
+  if (Number(req.headers["content-length"]) > MAX_BODY_BYTES) {
+    throw Object.assign(new Error("Payload too large"), { status: 413 });
+  }
+  if (req.body !== undefined) {
+    const raw = typeof req.body === "string" ? req.body : JSON.stringify(req.body);
+    if (Buffer.byteLength(raw) > MAX_BODY_BYTES) throw Object.assign(new Error("Payload too large"), { status: 413 });
+    return typeof req.body === "string" ? JSON.parse(raw) : req.body;
+  }
+  const chunks = [];
+  let bytes = 0;
+  for await (const chunk of req) {
+    bytes += Buffer.byteLength(chunk);
+    if (bytes > MAX_BODY_BYTES) throw Object.assign(new Error("Payload too large"), { status: 413 });
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk));
+  }
+  return JSON.parse(Buffer.concat(chunks).toString("utf8") || "{}");
 }
 
 function isValidEmail(value) {
@@ -134,29 +136,67 @@ function isValidEmail(value) {
 }
 
 export default async function handler(req, res) {
+  res.setHeader("Allow", "POST");
   if (req.method !== "POST") {
     sendJson(res, 405, { error: "Method not allowed" });
     return;
   }
 
-  if (!process.env.RESEND_API_KEY) {
-    sendJson(res, 500, { error: "Configuration serveur manquante (RESEND_API_KEY)." });
-    return;
+  const contentType = req.headers["content-type"] || "";
+  if (contentType.split(";")[0].trim().toLowerCase() !== "application/json") {
+    return sendJson(res, 415, { error: "Le format JSON est requis." });
+  }
+  // Browsers cannot submit JSON cross-origin without a preflight (OPTIONS is rejected).
+  const origin = req.headers.origin;
+  if (req.headers["sec-fetch-site"] === "cross-site") {
+    return sendJson(res, 403, { error: "Origine non autorisée." });
+  }
+  if (origin) {
+    try {
+      if (new URL(origin).host !== req.headers.host) {
+        return sendJson(res, 403, { error: "Origine non autorisée." });
+      }
+    } catch { return sendJson(res, 403, { error: "Origine non autorisée." }); }
+  }
+  try {
+    if (await contactRateLimited(req)) {
+      res.setHeader("Retry-After", "900");
+      return sendJson(res, 429, { error: "Trop de tentatives. Réessaie dans 15 minutes." });
+    }
+  } catch {
+    return sendJson(res, 503, { error: "L’envoi est momentanément indisponible. Merci de réessayer plus tard." });
   }
 
   let data;
   try {
     data = await parseBody(req);
   } catch (_err) {
-    sendJson(res, 400, { error: "Corps de requête invalide." });
+    sendJson(res, _err.status === 413 ? 413 : 400, { error: "Corps de requête invalide ou trop volumineux." });
     return;
   }
 
-  if (!data || typeof data !== "object") {
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
     sendJson(res, 400, { error: "Données manquantes." });
     return;
   }
 
+  if (typeof data.website !== "undefined" && typeof data.website !== "string") {
+    return sendJson(res, 400, { error: "Données invalides." });
+  }
+  if (data.website) return sendJson(res, 200, { success: true }); // Honeypot: no email is sent.
+  const requestId = data.requestId;
+  if (requestId !== undefined && (typeof requestId !== "string" || !/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/i.test(requestId))) {
+    return sendJson(res, 400, { error: "Identifiant de demande invalide." });
+  }
+  const clean = {};
+  for (const key of Object.keys(FIELD_LABELS)) {
+    const value = data[key] ?? "";
+    if (typeof value !== "string" || value.length > 5000 || /[\u0000-\u0008\u000b\u000c\u000e-\u001f]/.test(value)) {
+      return sendJson(res, 400, { error: "Un champ contient une valeur invalide ou trop longue." });
+    }
+    clean[key] = value.trim();
+  }
+  data = clean;
   const prenom = String(data.prenom || "").trim();
   const nom = String(data.nom || "").trim();
   const email = String(data.email || "").trim();
@@ -166,24 +206,43 @@ export default async function handler(req, res) {
     return;
   }
 
-  if (!isValidEmail(email)) {
-    sendJson(res, 400, { error: "Adresse e-mail invalide." });
+  if (prenom.length > 100 || nom.length > 100 || /[\r\n]/.test(prenom + nom) || email.length > 254 || !isValidEmail(email)) {
+    sendJson(res, 400, { error: "Prénom, nom ou adresse e-mail invalide." });
     return;
   }
 
+  const choices = data.type_accompagnement.split(",").map(value => value.trim()).filter(Boolean);
+  if (!choices.length || choices.some(value => !["distanciel", "presentiel", "complet", "carte"].includes(value)) ||
+      !["moins-150", "150-350", "350+"].includes(data.budget_mensuel)) {
+    return sendJson(res, 400, { error: "Sélectionne un accompagnement et un budget." });
+  }
+  for (const [field, min, max] of [["age",12,120],["taille_cm",120,230],["poids_kg",30,250]]) {
+    if (data[field] && (!Number.isFinite(Number(data[field])) || Number(data[field]) < min || Number(data[field]) > max)) {
+      return sendJson(res, 400, { error: "Une valeur numérique est hors limites." });
+    }
+  }
+  const FROM = process.env.RESEND_FROM || "contact@nefeliecoaching.com";
+  const TO = process.env.RESEND_TO || "contact@nefeliecoaching.com";
+  if (!process.env.RESEND_API_KEY) {
+    return sendJson(res, 503, { error: "L’envoi est momentanément indisponible. Merci de réessayer plus tard." });
+  }
   try {
     const resend = new Resend(process.env.RESEND_API_KEY);
-    await resend.emails.send({
+    const result = await resend.emails.send({
       from: FROM,
       to: TO,
       replyTo: email,
       subject: "Nouveau contact — " + prenom + " " + nom,
       html: buildEmailHtml(data),
+    }, {
+      signal: AbortSignal.timeout(15000),
+      ...(requestId ? { idempotencyKey: "contact/" + createHash("sha256").update(requestId + JSON.stringify(data) + FROM + TO).digest("hex") } : {}),
     });
 
+    if (result.error || !result.data?.id) throw new Error("Provider rejected email");
     sendJson(res, 200, { success: true });
   } catch (err) {
-    console.error("Resend send failed:", err);
+    console.error("Resend send failed"); // Do not log contact or health data.
     sendJson(res, 500, { error: "Impossible d'envoyer l'e-mail." });
   }
 }

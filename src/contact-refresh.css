@@ -1,0 +1,8 @@
+/* Keep the existing wizard and field layout; align the surrounding page with the monochrome homepage. */
+body.page-contact{--bg:#fff;--text:#111;--text-muted:#666;--line:#ddd;--font-display:var(--font-sans);--grain-opacity:0}
+body.page-contact .grain{display:none}
+body.page-contact .site-header,body.page-contact .site-header.is-scrolled{background:#fff;backdrop-filter:none;box-shadow:none;border-bottom:1px solid #ddd}
+body.page-contact .hero-im__logo-img{filter:grayscale(1)}
+body.page-contact .contact-dark__title{letter-spacing:-.05em}
+body.page-contact .footer__legal-link--gold{color:#111}
+.contact-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}

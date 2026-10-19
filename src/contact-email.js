@@ -25,6 +25,7 @@ function checkboxValues(form, name) {
 /** Collecte tous les champs du formulaire pour l'API. */
 export function collectContactFormData(form) {
   return {
+    website: fieldValue(form, "website"),
     prenom: fieldValue(form, "prenom"),
     nom: fieldValue(form, "nom"),
     email: fieldValue(form, "email"),
@@ -80,19 +81,39 @@ export function collectContactFormData(form) {
   };
 }
 
-export function sendContactEmail(form) {
-  return fetch("/api/send-email", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(collectContactFormData(form)),
-  }).then(function (res) {
-    return res.json().then(function (body) {
-      if (!res.ok) {
-        throw new Error(body && body.error ? body.error : "Erreur lors de l'envoi.");
-      }
-      return body;
+const submissions = new WeakMap();
+
+export async function sendContactEmail(form) {
+  const data = collectContactFormData(form);
+  const payload = JSON.stringify(data);
+  let submission = submissions.get(form);
+  if (!submission || submission.payload !== payload) {
+    submission = { payload, requestId: crypto.randomUUID() };
+    submissions.set(form, submission);
+  }
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 25000);
+  try {
+    const res = await fetch("/api/send-email", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ...data, requestId: submission.requestId }),
+      signal: controller.signal,
     });
-  });
+    let body;
+    try { body = await res.json(); } catch {
+      throw new Error("Le serveur ne répond pas correctement. Réessaie dans un instant.");
+    }
+    if (!res.ok || body?.success !== true) {
+      throw new Error(body?.error || "Erreur lors de l’envoi. Réessaie dans un instant.");
+    }
+    submissions.delete(form);
+    return body;
+  } catch (error) {
+    if (error.name === "AbortError") {
+      throw new Error("Le serveur met trop de temps à répondre. Réessaie : ta demande ne sera pas envoyée deux fois.");
+    }
+    if (error instanceof TypeError) throw new Error("Connexion interrompue. Vérifie ta connexion puis réessaie.");
+    throw error;
+  } finally { clearTimeout(timeout); }
 }
