@@ -765,3 +765,17 @@
     min-height: 44px;
   }
 }
+
+/* Retours de lecture : informations et actions plus explicites. */
+.studio-offer { scroll-margin-top: 110px; }
+.service-details-link { display: inline-flex; align-items: center; min-height: 44px; margin-top: 8px; font-size: 14px; text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 1100px) {
+  .studio-offer-name small { font-size: 14px; line-height: 1.5; }
+  .studio-offer-body > p, .studio-offer-body ul { font-size: 16px; line-height: 1.65; }
+  .studio-offer-body .studio-text-link { font-size: 15px; }
+  .studio-offer-price { font-size: 14px; }
+  .studio-tabs__tab { font-size: 15px; min-height: 48px; }
+  .studio-tabs__nav { gap: 6px 12px; }
+  .studio-photo-widget { width: 180px; }
+  .studio-photo-widget > span, .studio-photo-widget p { font-size: 13px; }
+}

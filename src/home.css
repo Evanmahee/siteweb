@@ -144,3 +144,21 @@
   .site-loader__boot,
   .site-loader__welcome { transition-duration: .15s; }
 }
+
+.mobile-menu { display: none; }
+@media (max-width: 1100px) {
+  .mobile-menu { display: block; margin-left: auto; }
+  .mobile-menu summary { display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 44px; min-height: 44px; cursor: pointer; list-style: none; border-radius: 50px; }
+  .mobile-menu summary::-webkit-details-marker { display: none; }
+  .mobile-menu summary > span:first-child { font-size: 22px; }
+  .mobile-menu-label { font-size: 12px; }
+  .mobile-menu-panel { position: absolute; top: calc(100% + 8px); left: 0; right: 0; padding: 12px; background: #f7f7f5; color: #171819; border: 1px solid #dededb; border-radius: 22px; box-shadow: 0 16px 32px #0002; max-height: calc(100dvh - 120px); overflow-y: auto; }
+  .header nav .mobile-menu-panel a { display: flex; align-items: center; min-height: 48px; padding: 8px 14px; font-size: 16px; color: #171819; opacity: 1; max-width: none; white-space: normal; }
+  .header nav .mobile-menu-panel a:hover { background: #eaeae6; color: #000; border-radius: 12px; }
+  .header nav a.nav-contact { margin-left: 0; }
+}
+@media (max-width: 360px) { .mobile-menu-label { display: none; } }
+@media (max-width: 1100px) {
+  .header.is-compact nav .mobile-menu-panel a,
+  .header.is-compact nav:hover .mobile-menu-panel a { max-width: none; opacity: 1; pointer-events: auto; }
+}

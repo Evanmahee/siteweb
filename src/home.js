@@ -6,7 +6,7 @@ import programPhoto from '../assets/nefelie-method.png';
 import './contact-wizard.js';
 import { sendContactEmail } from './contact-email.js';
 
-const servicePhotos = [onlinePhoto, roomPhoto, completePhoto, programPhoto, roomPhoto];
+const servicePhotos = [onlinePhoto, roomPhoto, completePhoto, programPhoto, roomPhoto, roomPhoto, completePhoto];
 
 (function initSiteLoader() {
   try {
@@ -246,6 +246,8 @@ function updateService(offer) {
   const title = offer.querySelector('.studio-offer-name').childNodes[0].textContent.trim();
   photo.src = servicePhotos[Number(offer.dataset.index) - 1];
   photo.alt = `${title} avec Néfélie`;
+  const detailLink = document.querySelector('.service-details-link');
+  if (detailLink) detailLink.href = `#${offer.id}`;
   document.getElementById('service-widget-title').textContent = title;
   document.getElementById('service-widget-price').textContent = offer.querySelector('.studio-offer-price').textContent;
   document.querySelectorAll('.studio-photo-progress i').forEach((item, index) => {
@@ -253,6 +255,7 @@ function updateService(offer) {
   });
 }
 for (const offer of offers) {
+  offer.id = `offer-${offer.dataset.index}`;
   offer.addEventListener('toggle', () => {
     if (!offer.open) return;
     for (const other of offers) if (other !== offer) other.open = false;
@@ -755,3 +758,12 @@ initHomeContactForm();
   }, { once: true });
   syncPlayback();
 })();
+
+const mobileMenu = document.querySelector('.mobile-menu');
+mobileMenu?.querySelectorAll('a').forEach(link => link.addEventListener('click', () => { mobileMenu.open = false; }));
+document.addEventListener('click', event => { if (mobileMenu && !mobileMenu.contains(event.target)) mobileMenu.open = false; });
+document.addEventListener('keydown', event => { if (event.key === 'Escape' && mobileMenu?.open) { mobileMenu.open = false; mobileMenu.querySelector('summary').focus(); } });
+document.querySelector('.service-details-link')?.addEventListener('click', event => {
+  const target = document.querySelector(event.currentTarget.getAttribute('href'));
+  if (target) target.open = true;
+});

@@ -212,7 +212,7 @@ export default async function handler(req, res) {
   }
 
   const choices = data.type_accompagnement.split(",").map(value => value.trim()).filter(Boolean);
-  if (!choices.length || choices.some(value => !["distanciel", "presentiel", "complet", "carte"].includes(value)) ||
+  if (!choices.length || choices.some(value => !["distanciel", "presentiel", "complet", "carte", "become"].includes(value)) ||
       !["moins-150", "150-350", "350+"].includes(data.budget_mensuel)) {
     return sendJson(res, 400, { error: "Sélectionne un accompagnement et un budget." });
   }
