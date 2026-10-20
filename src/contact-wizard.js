@@ -177,7 +177,11 @@
     }
   }
 
-  function showStep(form, step) {
+  function showStep(form, step, options) {
+    options = options || {};
+    var shouldScroll = options.scroll !== false;
+    var shouldFocus = options.focus !== false;
+
     form.querySelectorAll(".form-wizard__step").forEach(function (panel) {
       var panelStep = Number(panel.getAttribute("data-step"));
       var active = panelStep === step;
@@ -201,17 +205,19 @@
       syncCyclesVisibility(form);
     }
 
-    var firstFocus = form.querySelector('.form-wizard__step[data-step="' + step + '"] input, .form-wizard__step[data-step="' + step + '"] select, .form-wizard__step[data-step="' + step + '"] textarea');
-    if (firstFocus && typeof firstFocus.focus === "function") {
-      try {
-        firstFocus.focus({ preventScroll: true });
-      } catch (err) {
-        firstFocus.focus();
+    if (shouldFocus) {
+      var firstFocus = form.querySelector('.form-wizard__step[data-step="' + step + '"] input, .form-wizard__step[data-step="' + step + '"] select, .form-wizard__step[data-step="' + step + '"] textarea');
+      if (firstFocus && typeof firstFocus.focus === "function") {
+        try {
+          firstFocus.focus({ preventScroll: true });
+        } catch (err) {
+          firstFocus.focus();
+        }
       }
     }
 
     var card = form.closest(".contact-dark__card");
-    if (card) {
+    if (shouldScroll && card) {
       window.requestAnimationFrame(function () {
         scrollFormToTop(form);
       });
@@ -310,7 +316,7 @@
     }
 
     var currentStep = 1;
-    showStep(form, currentStep);
+    showStep(form, currentStep, { scroll: false, focus: false });
 
     var backBtn = form.querySelector(".form-wizard__back");
     var nextBtn = form.querySelector(".form-wizard__next");
@@ -371,7 +377,7 @@
       window.setTimeout(function () {
         currentStep = 1;
         syncCyclesVisibility(form);
-        showStep(form, currentStep);
+        showStep(form, currentStep, { scroll: false, focus: false });
       }, 0);
     });
 
