@@ -45,6 +45,7 @@ const servicePhotos = [onlinePhoto, roomPhoto, completePhoto, programPhoto, room
     loader.classList.add('is-done');
     loader.setAttribute('aria-busy', 'false');
     document.body.classList.remove('is-loading');
+    document.dispatchEvent(new CustomEvent('site-curtain-open'));
     window.setTimeout(() => {
       loader.hidden = true;
       if (!keepHash) window.scrollTo(0, 0);
@@ -113,6 +114,10 @@ const servicePhotos = [onlinePhoto, roomPhoto, completePhoto, programPhoto, room
   }, reduceMotion ? 900 : 3200);
 })();
 
+if (!document.getElementById('site-loader')) {
+  document.dispatchEvent(new CustomEvent('site-curtain-open'));
+}
+
 document.querySelectorAll('[data-year]').forEach(el => {
   el.textContent = new Date().getFullYear();
 });
@@ -166,6 +171,10 @@ document.querySelectorAll('[data-year]').forEach(el => {
 
   if (!stats.length) return;
 
+  let curtainOpen = !document.getElementById('site-loader');
+  let started = false;
+  let observer = null;
+
   function formatValue(n, suffix) {
     return `${Math.round(n).toLocaleString('fr-FR')}${suffix}`;
   }
@@ -177,6 +186,10 @@ document.querySelectorAll('[data-year]').forEach(el => {
   }
 
   function animate() {
+    if (started || !curtainOpen) return;
+    started = true;
+    if (observer) observer.disconnect();
+
     if (reduceMotion) {
       stats.forEach(({ el, raw }) => {
         el.textContent = raw;
@@ -199,23 +212,31 @@ document.querySelectorAll('[data-year]').forEach(el => {
     requestAnimationFrame(frame);
   }
 
-  setStart();
-
-  if (typeof IntersectionObserver !== 'function') {
-    animate();
-    return;
+  function tryStartIfVisible() {
+    if (!curtainOpen || started) return;
+    const rect = section.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) animate();
   }
 
-  const observer = new IntersectionObserver(
-    (entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return;
-      observer.disconnect();
-      animate();
-    },
-    { threshold: 0.35 }
-  );
+  setStart();
 
-  observer.observe(section);
+  if (typeof IntersectionObserver === 'function') {
+    observer = new IntersectionObserver(
+      (entries) => {
+        if (!curtainOpen || !entries.some((entry) => entry.isIntersecting)) return;
+        animate();
+      },
+      { threshold: 0.35 }
+    );
+    observer.observe(section);
+  }
+
+  document.addEventListener('site-curtain-open', () => {
+    curtainOpen = true;
+    tryStartIfVisible();
+  }, { once: true });
+
+  if (curtainOpen) tryStartIfVisible();
 })();
 
 // Native details remain fully usable without JavaScript.
@@ -688,28 +709,39 @@ function initHomeContactForm() {
 
 initHomeContactForm();
 
-// Keep autoplay decorative, user-controllable, and respectful of reduced motion.
+// Decorative hero video: starts when the loading curtain lifts.
 (function initHeroVideo() {
   const video = document.getElementById('hero-video');
   const button = document.querySelector('.hero-video-toggle');
   if (!video || !button) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let userPaused = false;
+  let curtainOpen = !document.getElementById('site-loader');
+
   function syncButton() {
     button.setAttribute('aria-label', video.paused ? 'Lire la vidéo' : 'Mettre la vidéo en pause');
     button.querySelector('span').textContent = video.paused ? '▷' : 'Ⅱ';
   }
   function syncPlayback() {
     button.hidden = motion.matches || Boolean(video.error);
-    if (motion.matches || userPaused || document.hidden) video.pause();
-    else video.play().catch(syncButton);
+    if (!curtainOpen || motion.matches || userPaused || document.hidden) {
+      video.pause();
+    } else {
+      video.play().catch(syncButton);
+    }
     syncButton();
   }
+
+  video.pause();
   button.hidden = false;
   button.addEventListener('click', () => {
     userPaused = !video.paused;
-    if (video.paused) video.play().catch(syncButton);
-    else video.pause();
+    if (video.paused) {
+      curtainOpen = true;
+      video.play().catch(syncButton);
+    } else {
+      video.pause();
+    }
     syncButton();
   });
   video.addEventListener('play', syncButton);
@@ -717,5 +749,9 @@ initHomeContactForm();
   video.addEventListener('error', () => { video.hidden = true; button.hidden = true; });
   motion.addEventListener('change', syncPlayback);
   document.addEventListener('visibilitychange', syncPlayback);
+  document.addEventListener('site-curtain-open', () => {
+    curtainOpen = true;
+    syncPlayback();
+  }, { once: true });
   syncPlayback();
 })();
