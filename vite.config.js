@@ -6,11 +6,9 @@ import sendEmailHandler from "./api/send-email.js";
 
 const root = fileURLToPath(new URL(".", import.meta.url));
 
-/** Entrées HTML : sans cela, `vite build` ne sort que index.html → 404 sur Vercel pour contact, à propos, etc. */
+/** Pages actuelles uniquement ; les anciennes URL redirigent vers la one page. */
 const htmlEntries = {
   index: resolve(root, "index.html"),
-  contact: resolve(root, "contact.html"),
-  apropos: resolve(root, "a-propos.html"),
   mentions: resolve(root, "mentions-legales.html"),
   marketplace: resolve(root, "marketplace.html"),
 };
@@ -19,6 +17,18 @@ function avisApiDevPlugin() {
   return {
     name: "avis-api-dev",
     configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const path = (req.url || "").split("?")[0];
+        const destination = {
+          "/contact": "/#contact",
+          "/contact.html": "/#contact",
+          "/a-propos": "/#apropos",
+          "/a-propos.html": "/#apropos",
+        }[path];
+        if (!destination) return next();
+        res.writeHead(308, { Location: destination });
+        res.end();
+      });
       server.middlewares.use("/api/reviews", async (req, res) => {
         await reviewsHandler(req, res);
       });

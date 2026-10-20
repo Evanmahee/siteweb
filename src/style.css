@@ -1,86 +1,7 @@
 @charset "UTF-8";
+@import "./typography.css";
 
 /* ——— Nefelie — premium landing (clair) ——— */
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-Light.otf") format("opentype");
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-LightItalic.otf") format("opentype");
-  font-weight: 300;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-Regular.otf") format("opentype");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-Italic.otf") format("opentype");
-  font-weight: 400;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-Medium.otf") format("opentype");
-  font-weight: 500 600;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-MediumItalic.otf") format("opentype");
-  font-weight: 500 600;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-Bold.otf") format("opentype");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-BoldItalic.otf") format("opentype");
-  font-weight: 700;
-  font-style: italic;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-Black.otf") format("opentype");
-  font-weight: 800 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Satoshi";
-  src: url("../fonts/Satoshi-BlackItalic.otf") format("opentype");
-  font-weight: 800 900;
-  font-style: italic;
-  font-display: swap;
-}
 
 :root {
   color-scheme: light;
@@ -4884,7 +4805,7 @@ body.page-home .formules__inner > .formules-presentiel {
     backdrop-filter: blur(18px) saturate(1.2);
     -webkit-backdrop-filter: blur(18px) saturate(1.2);
     border-top: 1px solid var(--glass-edge);
-    transform: translateX(100%);
+    transform: translateY(-100%);
     opacity: 0;
     visibility: hidden;
     transition:

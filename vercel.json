@@ -31,5 +31,27 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/contact",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/#contact",
+      "permanent": true
+    },
+    {
+      "source": "/a-propos",
+      "destination": "/#apropos",
+      "permanent": true
+    },
+    {
+      "source": "/a-propos.html",
+      "destination": "/#apropos",
+      "permanent": true
+    }
   ]
 }

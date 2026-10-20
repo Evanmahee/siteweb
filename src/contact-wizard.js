@@ -147,8 +147,8 @@
 
   function scrollFormToTop(form) {
     var target = form.querySelector(".form-wizard__progress") || form;
-    var header = document.querySelector(".site-header");
-    var offset = (header ? header.getBoundingClientRect().height : 0) + 16;
+    var header = document.querySelector(".site-header") || document.querySelector(".header");
+    var offset = (header ? Math.max(0, header.getBoundingClientRect().bottom) : 0) + 16;
     var top = window.scrollY + target.getBoundingClientRect().top - offset;
     var reduceMotion =
       typeof window.matchMedia === "function" &&

@@ -629,7 +629,7 @@
   .studio-intro-card { grid-template-columns: 1fr; gap: 10px; }.studio-intro-card > p { font-size: 22px; padding-top: 0; }.studio-intro-card > span:last-child { max-width: 350px; }.studio-intro-card .studio-mini-icon { top: 12px; right: 12px; width: 24px; height: 24px; font-size: 14px; }.studio-metric { padding: 20px; }.studio-metric > strong { font-size: 54px; }.studio-bars { opacity: .3; bottom: 17px; right: 10px; }.studio-offers { padding: 8px 18px; }.studio-services-grid { grid-template-columns: 1fr 1.15fr; }.studio-offer-name { font-size: 17px; }.studio-reviews-grid { grid-template-columns: 1fr; }
   .studio-tabs__panel { --studio-tabs-card-h: 320px; grid-template-columns: 1fr 1fr; gap: 16px; }
   .studio-tabs__tab { margin-right: 18px; font-size: 13px; }
-  .studio-tabs__copy { padding: 28px 24px; }
+  .studio-tabs__copy { padding: 28px 24px; height: auto; max-height: none; }
   .studio-reviews-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); min-height: 260px; }
   .studio-reviews-next { right: 10px; transform: translateY(-50%); }
   .studio-reviews-next:hover { transform: translateY(calc(-50% - 2px)); }
@@ -656,4 +656,72 @@
   .studio-contact.studio-contact--embed { grid-template-columns: 1fr; padding: 26px 18px; }
   .studio-contact__head h2, .studio-contact h2 { margin-top: 18px; }
   .studio-footer { grid-template-columns: 1fr; gap: 8px; border-radius: 24px; }.studio-footer-brand { flex-direction: row; align-items: flex-start; gap: 18px; padding: 22px; }.studio-footer-brand p { font-size: 16px; }.studio-footer-content { padding: 18px 12px 12px; gap: 26px; }.studio-footer-links { gap: 18px 24px; }.studio-footer-legal { flex-wrap: wrap; gap: 14px; }.studio-footer-legal > span { width: 100%; }
+}
+
+/* Feedback: readable offer details on phones, without changing the hero. */
+@media (max-width: 650px) {
+  .studio-offer-body > p { font-size: 14px; line-height: 1.65; }
+  .studio-offer-body ul { font-size: 13px; line-height: 1.75; }
+  .studio-offer-name small, .studio-offer-price { font-size: 11px; }
+  .studio-offer-body .studio-text-link { font-size: 12px; }
+  .studio-tabs__copy { height: auto; min-height: var(--studio-tabs-card-h); }
+}
+
+.studio-footer-brand .footer-brand-logo { width: 150px; height: auto; display: block; border-radius: 4px; }
+
+/* Restrained coffee accents on secondary markers only. */
+.studio {
+  --accent-brown: #865b43;
+  --accent-brown-light: #c29a80;
+}
+.studio .studio-tabs__tab.is-active::after,
+.studio .studio-tabs__progress > span {
+  background: var(--accent-brown);
+}
+.studio .studio-text-link {
+  border-bottom-color: var(--accent-brown);
+}
+.studio .studio-offer-body .studio-text-link,
+.studio .studio-review-summary .studio-text-link {
+  border-bottom-color: var(--accent-brown-light);
+}
+.studio .studio-status {
+  background: rgba(64, 42, 30, .55);
+  border-color: rgba(194, 154, 128, .65);
+}
+.studio .studio-status::before {
+  background: var(--accent-brown-light);
+}
+.studio .studio-status--light {
+  color: #69452f;
+  background: rgba(244, 236, 230, .92);
+  border-color: rgba(134, 91, 67, .25);
+}
+
+/* Mobile QA: content-driven cards and comfortable touch controls. */
+@media (max-width: 650px) {
+  .studio-tabs__copy {
+    height: auto;
+    max-height: none;
+    min-height: 240px;
+    padding: 26px 22px;
+  }
+  .studio-tabs__tab { min-height: 44px; }
+  .studio-text-link, .studio-review-toggle { min-height: 44px; }
+  .studio-reviews-next { width: 44px; height: 44px; }
+  .studio-review { padding-bottom: 64px; }
+  .studio .studio-contact.studio-contact--embed.contact-dark {
+    padding: 26px 16px;
+  }
+  .studio-contact--embed .contact-form.contact-form--dark {
+    padding: 24px 18px;
+  }
+  .studio-offer summary { min-height: 72px; }
+  .studio-offer-name { min-width: 0; overflow-wrap: break-word; }
+  .studio-offer-name small { line-height: 1.6; }
+  .studio-footer-links a, .studio-footer-legal a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
 }

@@ -148,11 +148,11 @@ function normalizeAvisPayload(data) {
 }
 
 export async function fetchAvisData() {
-  const sources = ["/avis.json", "/api/reviews"];
+  const sources = ["/api/reviews", "/avis.json"];
 
   for (const url of sources) {
     try {
-      const res = await fetch(url, { cache: "no-store" });
+      const res = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(7000) });
       if (!res.ok) continue;
       const contentType = res.headers.get("content-type") || "";
       if (!contentType.includes("application/json")) continue;

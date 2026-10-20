@@ -1,8 +1,5 @@
-@font-face{font-family:Satoshi;src:url('../fonts/Satoshi-Light.otf') format('opentype');font-weight:300;font-display:swap}
-@font-face{font-family:Satoshi;src:url('../fonts/Satoshi-Regular.otf') format('opentype');font-weight:400;font-display:swap}
-@font-face{font-family:Satoshi;src:url('../fonts/Satoshi-Medium.otf') format('opentype');font-weight:500;font-display:swap}
-@font-face{font-family:Satoshi;src:url('../fonts/Satoshi-Bold.otf') format('opentype');font-weight:700;font-display:swap}
-@font-face{font-family:Satoshi;src:url('../fonts/Satoshi-Black.otf') format('opentype');font-weight:900;font-display:swap}
+@import "./typography.css";
+
 :root{font-family:Satoshi,Arial,sans-serif;color:#101010;background:#f7f7f5;font-synthesis:none;scroll-behavior:smooth;scroll-padding-top:24px;--pad:clamp(24px,5vw,88px);--frame:20px;--bg:#f7f7f5;--bg-cream:#f7f7f5}
 *{box-sizing:border-box}html{background:var(--bg-cream)}body{margin:0;min-height:100%;background-color:var(--bg-cream);background-image:none}a{color:inherit;text-decoration:none}button,summary,a{-webkit-tap-highlight-color:transparent}a:focus-visible,summary:focus-visible{outline:2px solid currentColor;outline-offset:6px}img{max-width:100%;display:block}p,h1,h2,h3,figure,blockquote{margin:0}::selection{background:#bdbdbd;color:#000}.skip-link{position:fixed;left:20px;top:-80px;background:#fff;color:#000;padding:15px;z-index:100}.skip-link:focus{top:12px}
 /* Nav flottante dans le hero (logo / pilule glass / CTA) */
@@ -17,3 +14,49 @@
 @media(max-width:900px){.header{top:14px;left:12px;right:12px}.wordmark{font-size:18px}.header nav{gap:8px;padding:8px 10px 8px 14px;font-size:10px}.header nav a:not(.wordmark):not(.nav-contact){white-space:nowrap}.hero-copy{left:28px;bottom:28px}.impact-stats__grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:1.75rem 1.5rem}.about-grid{gap:30px}.stats li{display:block}.stats span{display:block;margin-top:8px}.services-intro{display:block}.services-intro>p{margin-top:20px;max-width:500px}.offer summary{grid-template-columns:36px 1fr 80px 20px}.offer-body{padding-left:52px}.reviews{gap:20px}.closing{gap:22px}.closing .button{font-size:11px;gap:20px}}
 @media(max-width:600px){:root{--pad:24px;--frame:10px}.header{top:12px;left:10px;right:10px;min-height:48px}.wordmark{font-size:18px;margin-right:0}.wordmark span{font-size:6px;letter-spacing:2.4px;margin-top:4px}.header nav{gap:10px;padding:8px 8px 8px 14px;width:100%;justify-content:space-between}.header nav>a:not(.wordmark):not(.nav-contact),.header nav .soon{display:none}.nav-contact{padding:10px 14px;font-size:11px;gap:8px;margin-left:auto}.nav-contact span{font-size:14px}.hero{margin:8px var(--frame) 0;min-height:570px;height:calc(92svh - 16px);max-height:730px;border-radius:14px}.hero-copy{left:18px;bottom:22px;right:18px;max-width:none;gap:16px}.hero h1{font-size:clamp(2.35rem,9vw,3rem);max-width:11ch}.hero-subtitle{max-width:32ch;font-size:15px}.hero-photo{object-position:62% center}.hero:after{background:linear-gradient(0deg,rgba(0,0,0,.78),transparent 55%),linear-gradient(90deg,rgba(0,0,0,.55),transparent 70%)}.impact-stats{padding:1.35rem var(--pad)}.impact-stats__grid{grid-template-columns:1fr 1fr;gap:1.25rem 1.5rem;max-width:none}.impact-stats__value{font-size:1.55rem}.impact-stats__label{font-size:12px}.statement{margin-top:10px;padding:17px 12px;gap:10px;font-size:9px;flex-wrap:wrap}.statement span{font-size:10px}.section{padding:44px var(--pad)}.section-label{font-size:9px;margin-bottom:26px}.section-label span:last-child{max-width:125px;text-align:right}.about-grid{grid-template-columns:1fr}.about-photo{justify-self:stretch;max-width:none}.about-photo img{height:260px;object-position:center 35%}.stats{margin-top:25px;padding-top:24px;gap:12px}.stats li{padding:0 10px}.stats strong{font-size:36px}.stats span{font-size:9px;line-height:1.5}.offer summary{grid-template-columns:24px 1fr 58px 16px;gap:9px;padding:21px 0}.offer-name{font-size:23px}.offer-name small{font-size:9px;line-height:1.5}.offer-price{font-size:12px}.offer-body{display:block;padding:0 0 25px 33px}.offer-body ul{margin-top:16px}.offer-body .text-link{margin-top:16px}.services-end{align-items:flex-start;flex-direction:column}.reviews{grid-template-columns:1fr;gap:25px}.review blockquote{font-size:13px}.review-author{margin-top:15px}.closing{margin:0 10px;grid-template-columns:1fr}.closing h2{font-size:64px}.closing .button{justify-self:start}.footer-top{flex-wrap:wrap;gap:20px;font-size:11px}.footer-top .wordmark{flex-basis:100%}.footer-legal{font-size:9px;flex-wrap:wrap}.footer-legal span{flex-basis:100%}}
 @media(prefers-reduced-motion:reduce){:root{scroll-behavior:auto}*,*:before,*:after{transition:none!important;animation:none!important}}
+
+/* Three verified figures; unconfirmed coaching-hours total is omitted. */
+.impact-stats__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@media (max-width: 600px) {
+  .impact-stats__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .impact-stats__value { font-size: clamp(28px, 8vw, 40px); }
+  .impact-stats__label { font-size: 11px; overflow-wrap: anywhere; }
+}
+
+/* Official brand assets; the existing header layout and hero copy stay in place. */
+.header nav a.brand-logo { flex-shrink: 0; width: 40px; min-width: 40px; margin-right: 6px; }
+.brand-logo img { display: block; width: 40px; height: 28px; object-fit: contain; border-radius: 4px; }
+.brand-logo .brand-logo-dark { display: none; }
+.header.is-scrolled .brand-logo .brand-logo-light { display: none; }
+.header.is-scrolled .brand-logo .brand-logo-dark { display: block; }
+.hero-video { object-position: center; }
+.hero-video-toggle { position: absolute; right: 20px; bottom: 20px; z-index: 3; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #ffffff80; border-radius: 50%; color: #fff; background: #0006; cursor: pointer; font-size: 15px; }
+.hero-video-toggle[hidden] { display: none; }
+.hero-video-toggle:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+@media (max-width: 600px) {
+  .header nav a.brand-logo { width: 36px; min-width: 36px; }
+  .brand-logo img { width: 36px; height: 26px; }
+  .hero-video-toggle { right: 16px; bottom: 22px; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-video { display: none; } }
+
+/* Mobile et tablette : navigation réduite au logo et au contact. */
+@media (max-width: 1100px) {
+  .header nav > a:not(.wordmark):not(.nav-contact) { display: none; }
+  .header nav,
+  .header.is-compact nav,
+  .header.is-compact nav:hover {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 8px 8px 8px 14px;
+  }
+  .header nav a.nav-contact { margin-left: auto; min-height: 44px; }
+}
+
+@media (max-width: 650px) {
+  :root { scroll-padding-top: 86px; }
+  .hero-video-toggle { width: 44px; height: 44px; }
+  .header nav a.brand-logo { position: relative; }
+  .header nav a.brand-logo::before { content: ''; position: absolute; inset: -9px 0; }
+}

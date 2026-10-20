@@ -1,3 +1,4 @@
+import { fetchAvisData } from './avis-data.js';
 import onlinePhoto from '../assets/nefelie-online.png';
 import roomPhoto from '../assets/coaching-presentiel.png';
 import completePhoto from '../assets/nefelie-editorial.png';
@@ -62,7 +63,7 @@ for (const offer of offers) {
   });
 }
 
-const STUDIO_REVIEWS = [
+let STUDIO_REVIEWS = [
   {
     name: 'Steph Lecourt',
     text: 'Une coach exceptionnelle ! En très peu de temps, elle m’a permis de progresser et d’atteindre des performances que je n’aurais jamais imaginées pour mon âge.',
@@ -328,7 +329,16 @@ function initStudioReviewsRelay() {
   syncTimer();
 }
 
-initStudioReviewsRelay();
+async function bootStudioReviews() {
+  const data = await fetchAvisData();
+  const reviews = data?.reviews?.filter(review => typeof review.name === 'string' && typeof review.text === 'string' && review.text.trim());
+  if (reviews?.length) STUDIO_REVIEWS = reviews;
+  if (Number.isSafeInteger(data?.googleTotal) && data.googleTotal >= 0) {
+    document.querySelectorAll('[data-review-total]').forEach(el => { el.textContent = data.googleTotal; });
+  }
+  initStudioReviewsRelay();
+}
+bootStudioReviews();
 
 function initStudioMethodTabs() {
   const root = document.querySelector('[data-studio-tabs]');
@@ -501,3 +511,35 @@ function initHomeContactForm() {
 }
 
 initHomeContactForm();
+
+// Keep autoplay decorative, user-controllable, and respectful of reduced motion.
+(function initHeroVideo() {
+  const video = document.getElementById('hero-video');
+  const button = document.querySelector('.hero-video-toggle');
+  if (!video || !button) return;
+  const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let userPaused = false;
+  function syncButton() {
+    button.setAttribute('aria-label', video.paused ? 'Lire la vidéo' : 'Mettre la vidéo en pause');
+    button.querySelector('span').textContent = video.paused ? '▷' : 'Ⅱ';
+  }
+  function syncPlayback() {
+    button.hidden = motion.matches || Boolean(video.error);
+    if (motion.matches || userPaused || document.hidden) video.pause();
+    else video.play().catch(syncButton);
+    syncButton();
+  }
+  button.hidden = false;
+  button.addEventListener('click', () => {
+    userPaused = !video.paused;
+    if (video.paused) video.play().catch(syncButton);
+    else video.pause();
+    syncButton();
+  });
+  video.addEventListener('play', syncButton);
+  video.addEventListener('pause', syncButton);
+  video.addEventListener('error', () => { video.hidden = true; button.hidden = true; });
+  motion.addEventListener('change', syncPlayback);
+  document.addEventListener('visibilitychange', syncPlayback);
+  syncPlayback();
+})();

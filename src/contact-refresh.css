@@ -2,7 +2,33 @@
 body.page-contact{--bg:#fff;--text:#111;--text-muted:#666;--line:#ddd;--font-display:var(--font-sans);--grain-opacity:0}
 body.page-contact .grain{display:none}
 body.page-contact .site-header,body.page-contact .site-header.is-scrolled{background:#fff;backdrop-filter:none;box-shadow:none;border-bottom:1px solid #ddd}
-body.page-contact .hero-im__logo-img{filter:grayscale(1)}
+body.page-contact .hero-im__logo-img{filter:none}
 body.page-contact .contact-dark__title{letter-spacing:-.05em}
 body.page-contact .footer__legal-link--gold{color:#111}
 .contact-honeypot{position:absolute;left:-10000px;width:1px;height:1px;overflow:hidden}
+
+/* Small offer badges use the same coffee accent as the homepage. */
+.contact-option-card__badge {
+  color: #784f38;
+  background: rgba(134, 91, 67, .1);
+}
+
+/* Readable mobile controls also avoid automatic input zoom in iOS Safari. */
+@media (max-width: 900px) {
+  .contact-form input:not([type="radio"]):not([type="checkbox"]),
+  .contact-form select,
+  .contact-form textarea {
+    font-size: 16px;
+    max-width: 100%;
+    min-width: 0;
+  }
+  .contact-pill__label, .contact-scale__label {
+    min-height: 44px;
+  }
+  .contact-scale__label {
+    min-width: 36px;
+  }
+  .contact-dark__submit, .form-wizard__back {
+    min-height: 48px;
+  }
+}
