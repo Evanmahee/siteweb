@@ -49,7 +49,11 @@ export default defineConfig(({ mode }) => {
   return {
   plugins: [avisApiDevPlugin()],
   server: {
-    open: true,
+    // Cursor Simple Browser et certains outils n’atteignent que 127.0.0.1 (IPv4).
+    host: "127.0.0.1",
+    port: 5173,
+    strictPort: true,
+    open: "/",
   },
   build: {
     rollupOptions: {

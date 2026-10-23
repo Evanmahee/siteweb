@@ -24,7 +24,7 @@ while ((m = cardRe.exec(html))) {
 }
 
 const out = {
-  googleTotal: 29,
+  googleTotal: 31,
   updatedAt: new Date().toISOString(),
   reviews,
 };
