@@ -43,10 +43,29 @@ export function cardsPerSlide() {
   return cardsPerRow() * AVIS_ROWS;
 }
 
-function renderCard(review, quoteId) {
+function reviewAvatarMarkup(review, quoteId) {
+  const photoUrl = typeof review.photoUrl === "string" ? review.photoUrl.trim() : "";
+  if (photoUrl) {
+    return (
+      '<img class="avis__avatar avis__avatar--photo" src="' +
+      escapeHtml(photoUrl) +
+      '" alt="" width="44" height="44" loading="lazy" decoding="async" referrerpolicy="no-referrer">'
+    );
+  }
   const tone = reviewTone(review, quoteId - 1);
   const initial = reviewInitial(review);
   const lowerClass = review.initialLower ? " avis__avatar--lower" : "";
+  return (
+    '<span class="avis__avatar avis__avatar--initial avis__avatar--tone-' +
+    escapeHtml(tone) +
+    lowerClass +
+    '" aria-hidden="true">' +
+    escapeHtml(initial) +
+    "</span>"
+  );
+}
+
+function renderCard(review, quoteId) {
   const stars =
     '<span class="avis__star avis__star--sm"></span>'.repeat(5) +
     '<span class="avis__verified" title="Avis Google vérifié"></span>';
@@ -54,12 +73,7 @@ function renderCard(review, quoteId) {
   return (
     '<article class="avis__card">' +
     '<header class="avis__card-head">' +
-    '<span class="avis__avatar avis__avatar--initial avis__avatar--tone-' +
-    escapeHtml(tone) +
-    lowerClass +
-    '" aria-hidden="true">' +
-    escapeHtml(initial) +
-    "</span>" +
+    reviewAvatarMarkup(review, quoteId) +
     '<div class="avis__card-meta">' +
     '<p class="avis__name">' +
     escapeHtml(review.name) +

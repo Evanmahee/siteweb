@@ -223,7 +223,7 @@ import { sendContactEmail } from "./contact-email.js";
 
       if (feedbackEl) {
         feedbackEl.textContent =
-          "Merci ! Ta fiche a bien été envoyée. Je te réponds sous 24–48h.";
+          "Merci ! Ta fiche a bien été envoyée. Je te réponds sous 24 à 48 h.";
         feedbackEl.removeAttribute("hidden");
       }
 

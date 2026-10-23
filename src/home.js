@@ -1,12 +1,6 @@
 import { fetchAvisData } from './avis-data.js';
-import onlinePhoto from '../assets/nefelie-online.png';
-import roomPhoto from '../assets/coaching-presentiel.png';
-import completePhoto from '../assets/nefelie-editorial.png';
-import programPhoto from '../assets/nefelie-method.png';
 import './contact-wizard.js';
 import { sendContactEmail } from './contact-email.js';
-
-const servicePhotos = [onlinePhoto, roomPhoto, completePhoto, programPhoto, roomPhoto, roomPhoto, completePhoto];
 
 (function initSiteLoader() {
   try {
@@ -241,25 +235,11 @@ document.querySelectorAll('[data-year]').forEach(el => {
 
 // Native details remain fully usable without JavaScript.
 const offers = [...document.querySelectorAll('.studio-offer')];
-const photo = document.getElementById('service-photo');
-function updateService(offer) {
-  const title = offer.querySelector('.studio-offer-name').childNodes[0].textContent.trim();
-  photo.src = servicePhotos[Number(offer.dataset.index) - 1];
-  photo.alt = `${title} avec Néfélie`;
-  const detailLink = document.querySelector('.service-details-link');
-  if (detailLink) detailLink.href = `#${offer.id}`;
-  document.getElementById('service-widget-title').textContent = title;
-  document.getElementById('service-widget-price').textContent = offer.querySelector('.studio-offer-price').textContent;
-  document.querySelectorAll('.studio-photo-progress i').forEach((item, index) => {
-    item.classList.toggle('is-active', index + 1 === Number(offer.dataset.index));
-  });
-}
 for (const offer of offers) {
   offer.id = `offer-${offer.dataset.index}`;
   offer.addEventListener('toggle', () => {
     if (!offer.open) return;
     for (const other of offers) if (other !== offer) other.open = false;
-    updateService(offer);
   });
 }
 
@@ -349,6 +329,47 @@ function initStudioReviewsRelay() {
       .replace(/"/g, '&quot;');
   }
 
+  const REVIEW_TONE_CYCLE = ['chestnut', 'forest', 'brown', 'dark', 'violet', 'teal'];
+
+  function reviewInitial(review) {
+    const ch = (review.name || '').trim().charAt(0);
+    if (!ch) return '?';
+    return review.initialLower ? ch.toLowerCase() : ch.toUpperCase();
+  }
+
+  function reviewTone(review, index) {
+    if (review.tone) return review.tone;
+    return REVIEW_TONE_CYCLE[index % REVIEW_TONE_CYCLE.length];
+  }
+
+  function reviewAvatarHtml(review, reviewIndex) {
+    const photoUrl = typeof review.photoUrl === 'string' ? review.photoUrl.trim() : '';
+    if (photoUrl) {
+      return (
+        `<img class="studio-review-avatar studio-review-avatar--photo" src="${escapeHtml(photoUrl)}" alt="" width="40" height="40" loading="lazy" decoding="async" referrerpolicy="no-referrer">`
+      );
+    }
+    const tone = reviewTone(review, reviewIndex);
+    const lower = review.initialLower ? ' studio-review-avatar--lower' : '';
+    return (
+      `<span class="studio-review-avatar studio-review-avatar--initial studio-review-avatar--tone-${escapeHtml(tone)}${lower}" aria-hidden="true">${escapeHtml(reviewInitial(review))}</span>`
+    );
+  }
+
+  function bindAvatarFallback(article, review, reviewIndex) {
+    const img = article.querySelector('.studio-review-avatar--photo');
+    if (!img) return;
+    img.addEventListener('error', () => {
+      const tone = reviewTone(review, reviewIndex);
+      const lower = review.initialLower ? ' studio-review-avatar--lower' : '';
+      const span = document.createElement('span');
+      span.className = `studio-review-avatar studio-review-avatar--initial studio-review-avatar--tone-${tone}${lower}`;
+      span.setAttribute('aria-hidden', 'true');
+      span.textContent = reviewInitial(review);
+      img.replaceWith(span);
+    }, { once: true });
+  }
+
   function createCard(review, reviewIndex) {
     const id = `studio-review-text-${++uid}`;
     const article = document.createElement('article');
@@ -358,7 +379,13 @@ function initStudioReviewsRelay() {
       '<span class="studio-quote-mark" aria-hidden="true">“</span>' +
       `<blockquote class="studio-review-text" id="${id}">${escapeHtml(review.text)}</blockquote>` +
       `<button type="button" class="studio-review-toggle" hidden aria-expanded="false" aria-controls="${id}">Voir plus</button>` +
-      `<p class="studio-review-author">${escapeHtml(review.name)}<span>Avis Google</span></p>`;
+      '<div class="studio-review-author">' +
+      reviewAvatarHtml(review, reviewIndex) +
+      '<div class="studio-review-author-meta">' +
+      `<p class="studio-review-author-name">${escapeHtml(review.name)}</p>` +
+      '<span class="studio-review-author-badge">Avis Google</span>' +
+      '</div></div>';
+    bindAvatarFallback(article, review, reviewIndex);
     return article;
   }
 
@@ -558,6 +585,8 @@ function initStudioMethodTabs() {
     return String(n).padStart(2, '0');
   }
 
+  const choiceCards = [...document.querySelectorAll('[data-method-choice]')];
+
   function setIndex(next) {
     index = ((next % total) + total) % total;
 
@@ -572,6 +601,13 @@ function initStudioMethodTabs() {
       const on = i === index;
       panel.classList.toggle('is-active', on);
       panel.toggleAttribute('hidden', !on);
+    });
+
+    choiceCards.forEach((card, i) => {
+      const on = i === index;
+      card.classList.toggle('is-active', on);
+      if (on) card.setAttribute('aria-current', 'true');
+      else card.removeAttribute('aria-current');
     });
 
     if (progress) progress.style.width = `${((index + 1) / total) * 100}%`;
@@ -601,6 +637,12 @@ function initStudioMethodTabs() {
 
   prevBtn?.addEventListener('click', () => setIndex(index - 1));
   nextBtn?.addEventListener('click', () => setIndex(index + 1));
+
+  choiceCards.forEach((card) => {
+    card.addEventListener('click', () => {
+      setIndex(Number(card.dataset.methodChoice) || 0);
+    });
+  });
 
   const totalEl = root.querySelector('[data-tabs-total]');
   if (totalEl) totalEl.textContent = pad(total);
@@ -659,7 +701,7 @@ function initHomeContactForm() {
 
     if (feedbackEl) {
       feedbackEl.textContent =
-        'Merci ! Ta fiche a bien été envoyée. Je te réponds sous 24–48h.';
+        'Merci ! Ta fiche a bien été envoyée. Je te réponds sous 24 à 48 h.';
       feedbackEl.removeAttribute('hidden');
     }
 

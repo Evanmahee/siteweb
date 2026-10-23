@@ -14,7 +14,13 @@ export function mergeGoogleReviews(cache, place) {
     const mapped = mapGoogleReview(g);
     if (!mapped) continue;
     const key = reviewKey(mapped);
-    if (keys.has(key)) continue;
+    if (keys.has(key)) {
+      const idx = reviews.findIndex((r) => reviewKey(r) === key);
+      if (idx >= 0 && mapped.photoUrl && !reviews[idx].photoUrl) {
+        reviews[idx].photoUrl = mapped.photoUrl;
+      }
+      continue;
+    }
     keys.add(key);
     reviews.unshift(mapped);
   }
@@ -36,12 +42,15 @@ function mapGoogleReview(review) {
   const text = (review.text?.text || review.originalText?.text || "").trim();
   if (!name || !text) return null;
 
+  const photoUrl = review.authorAttribution?.photoUri?.trim();
+
   return {
     name,
     date: review.relativePublishTimeDescription || review.publishTime || "",
     text,
     rating: review.rating,
     publishTime: review.publishTime,
+    photoUrl: photoUrl || undefined,
     source: "google",
   };
 }
